@@ -6,7 +6,6 @@ import Step4 from "./Step4";
 import Styles from "styled-components";
 import Error from "../../../../Utils/ErrorMessage";
 import Spinner from "components/Utils/Spinner/Spinner";
-//@ts-ignore
 import StepWizard from "react-step-wizard";
 
 const MultiStepFormStyles = Styles.div`

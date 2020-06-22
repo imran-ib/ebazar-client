@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import Logo from "../Logo";
 import MobileMenus from "./MobileMenus";
 import Cart from "../../../Cart/Cart";
-import Styled from "styled-components";
-
-const HeaderMobileStyles = Styled.div``;
 
 const HeaderMobile = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <HeaderMobileStyles>
-      <div className={`header-small-mobile `}>
+    <>
+      <div className="header-small-mobile">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-6">
@@ -37,13 +34,15 @@ const HeaderMobile = () => {
           </div>
         </div>
       </div>
+
       <div className={`mobile-off-canvas-active  ${isOpen ? "inside" : ""}`}>
         <a onClick={() => setIsOpen(!isOpen)} className="mobile-aside-close">
           <i className="sli sli-close" />
         </a>
+
         <MobileMenus />
       </div>
-    </HeaderMobileStyles>
+    </>
   );
 };
 

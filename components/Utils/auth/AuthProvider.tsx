@@ -7,12 +7,15 @@ import LoginForm from "components/Account/UserAccount/LoginForm";
 
 type AuthContextParams = [{ data: any }, typeof logout];
 
-const AuthContext = createContext<AuthContextParams>([{ data: null }, logout]);
+export const AuthContext = createContext<AuthContextParams>([
+  { data: null },
+  logout,
+]);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const { loading, data, error } = useMeQuery();
+  const { data, loading, error } = useMeQuery();
 
-  // Usally you dont see this, because we have no "loading" state on SSR
+  // Usually you don't see this, because we have no "loading" state on SSR
   if (loading) {
     return <Spinner />;
   }
@@ -25,6 +28,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }
 
   if (!data?.CurrentUser) {
+    console.log(data);
     return (
       <>
         <h2 style={{ textAlign: "center", marginTop: "50px" }}>

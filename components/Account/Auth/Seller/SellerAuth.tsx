@@ -6,7 +6,7 @@ interface Props {
   children?: any;
 }
 
-const PleaseLogin: React.FC<Props> = (props) => {
+const SellerAuth: React.FC<Props> = (props) => {
   const Seller = useSeller();
 
   if (!Seller) {
@@ -22,4 +22,4 @@ const PleaseLogin: React.FC<Props> = (props) => {
   return props.children;
 };
 
-export default PleaseLogin;
+export default SellerAuth;

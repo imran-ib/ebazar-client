@@ -1,16 +1,16 @@
 import React, { ReactElement } from "react";
 import MyAccount from "components/Account/UserAccount/MyAccount/MyAccount";
 import Layout from "components/Layout/Layout";
-import PleaseLogin from "components/Account/Auth/User/PleaseSingin";
+import UserAuth from "components/Account/Auth/User/UserAuth";
 
 interface Props {}
 
 function accountPage({}: Props): ReactElement {
   return (
     <Layout>
-      <PleaseLogin>
+      <UserAuth>
         <MyAccount />
-      </PleaseLogin>
+      </UserAuth>
     </Layout>
   );
 }

@@ -44,9 +44,11 @@ const Header: React.FC<Props> = ({ user, seller }) => {
           </Container>
         </div>
 
-        <HeaderMobile />
         {/* <Search /> */}
       </header>
+      <div>
+        <HeaderMobile />
+      </div>
     </>
   );
 };

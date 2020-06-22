@@ -6,8 +6,12 @@ export default function (amount: number) {
   };
   // if its a whole, dollar amount, leave off the .00
   if (amount % 100 === 0) options.minimumFractionDigits = 0;
-  const formatter = new Intl.NumberFormat("en-USD", options);
-  return formatter.format(amount / 100);
+  // const formatter = new Intl.NumberFormat("en-USD", options);
+
+  const Formatter = new Intl.NumberFormat("dollar", options);
+
+  return Formatter.format(amount / 100);
+  // return formatter.format(amount / 100);
 }
 
 //! ur-PK - Urdu (Islamic Republic of Pakistan)

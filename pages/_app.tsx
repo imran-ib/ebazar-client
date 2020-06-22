@@ -41,7 +41,6 @@ function MyApp({ Component, pageProps, apollo }: MyProps) {
           draggable
           pauseOnHover
         />
-
         <Component {...pageProps} />
       </ApolloProvider>
     </>

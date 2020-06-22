@@ -16,6 +16,10 @@ export const Me = gql`
         id
         itemId
       }
+      likes {
+        id
+        itemId
+      }
 
       address {
         id
@@ -101,6 +105,9 @@ export const CurrentSeller = gql`
       }
       Brand
       permissions
+      items {
+        id
+      }
     }
   }
 `;
@@ -158,9 +165,7 @@ export const CreateSeller = gql`
       Brand
       items {
         title
-        images {
-          url
-        }
+        images
       }
       PickupLocations {
         name

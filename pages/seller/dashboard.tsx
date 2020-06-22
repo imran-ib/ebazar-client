@@ -4,9 +4,5 @@ import Layout from "components/Layout/Layout";
 interface Props {}
 
 export default function SellerDashboardPage({}: Props): ReactElement {
-  return (
-    <Layout>
-      <SellerDashboardPage />
-    </Layout>
-  );
+  return <Layout>SellerDashboardPage</Layout>;
 }

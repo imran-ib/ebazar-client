@@ -27,7 +27,7 @@ function MobileMenus() {
 
   return (
     <>
-      <div className="header-mobile-aside-wrap ">
+      <div className="header-mobile-aside-wrap">
         <MyAccount user={user} seller={seller} />
         <SideNavSearch />
 
@@ -110,6 +110,7 @@ function MobileMenus() {
             </nav>
           </div>
         </div>
+
         <SocialLinks />
       </div>
     </>

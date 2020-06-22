@@ -31,6 +31,8 @@ export const GlobalStyles: GlobalStyleComponent<
     color: grey;
     pointer-events: none;
   }
+
+  
   ;`;
 
 export const customMedia = generateMedia({

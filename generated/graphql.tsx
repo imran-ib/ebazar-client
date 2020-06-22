@@ -28,7 +28,7 @@ export type Query = {
   /** Currently Logged in User */
   CurrentUser?: Maybe<User>;
   /** Currently Logged in Seller */
-  CurrentSeller: Seller;
+  CurrentSeller?: Maybe<Seller>;
   /** Users Orders */
   UserOrder?: Maybe<Array<Order>>;
   /** Get One Orders */
@@ -44,6 +44,8 @@ export type QueryItemArgs = {
 
 
 export type QueryItemsArgs = {
+  where?: Maybe<ItemWhereInput>;
+  orderBy?: Maybe<ItemOrderByInput>;
   skip?: Maybe<Scalars['Int']>;
   after?: Maybe<ItemWhereUniqueInput>;
   before?: Maybe<ItemWhereUniqueInput>;
@@ -109,8 +111,12 @@ export type Item = {
   likesCount?: Maybe<Scalars['Int']>;
   itemReview: Array<Review>;
   reviewCount?: Maybe<Scalars['Int']>;
-  images: Array<ItemImage>;
+  images: Array<Scalars['String']>;
+  eagerImages: Array<Scalars['String']>;
+  OtherFeatures: Array<Scalars['String']>;
   catagory: Array<Catagory>;
+  tags: Array<Tag>;
+  colors: Array<Color>;
   title: Scalars['String'];
   description: Scalars['String'];
   overview?: Maybe<Scalars['String']>;
@@ -144,19 +150,28 @@ export type ItemItemReviewArgs = {
 };
 
 
-export type ItemImagesArgs = {
+export type ItemCatagoryArgs = {
   skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ItemImageWhereUniqueInput>;
-  before?: Maybe<ItemImageWhereUniqueInput>;
+  after?: Maybe<CatagoryWhereUniqueInput>;
+  before?: Maybe<CatagoryWhereUniqueInput>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
 
 
-export type ItemCatagoryArgs = {
+export type ItemTagsArgs = {
   skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<CatagoryWhereUniqueInput>;
-  before?: Maybe<CatagoryWhereUniqueInput>;
+  after?: Maybe<TagWhereUniqueInput>;
+  before?: Maybe<TagWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemColorsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ColorWhereUniqueInput>;
+  before?: Maybe<ColorWhereUniqueInput>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -276,6 +291,7 @@ export type Order = {
   __typename?: 'Order';
   id: Scalars['String'];
   items: Array<OrderItem>;
+  Item?: Maybe<Item>;
   itemId?: Maybe<Scalars['String']>;
   total: Scalars['Int'];
   user: User;
@@ -302,7 +318,9 @@ export type OrderItem = {
   id: Scalars['String'];
   likes: Array<Like>;
   itemReview: Array<Review>;
-  images: Array<ItemImage>;
+  images: Array<Scalars['String']>;
+  eagerImages: Array<Scalars['String']>;
+  OtherFeatures: Array<Scalars['String']>;
   catagory: Array<Catagory>;
   title: Scalars['String'];
   description: Scalars['String'];
@@ -337,15 +355,6 @@ export type OrderItemItemReviewArgs = {
 };
 
 
-export type OrderItemImagesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ItemImageWhereUniqueInput>;
-  before?: Maybe<ItemImageWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
 export type OrderItemCatagoryArgs = {
   skip?: Maybe<Scalars['Int']>;
   after?: Maybe<CatagoryWhereUniqueInput>;
@@ -367,19 +376,6 @@ export type Review = {
   authorId: Scalars['String'];
   rating: Scalars['Float'];
   text: Scalars['String'];
-};
-
-export type ItemImageWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type ItemImage = {
-  __typename?: 'ItemImage';
-  id: Scalars['String'];
-  url: Scalars['String'];
-  largeUrl?: Maybe<Scalars['String']>;
-  item: Item;
-  itemId: Scalars['String'];
 };
 
 export type CatagoryWhereUniqueInput = {
@@ -423,6 +419,446 @@ export type CartItem = {
   user: User;
   userId: Scalars['String'];
 };
+
+export type TagWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type ColorWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Color = {
+  __typename?: 'Color';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type ItemWhereInput = {
+  id?: Maybe<StringFilter>;
+  title?: Maybe<StringFilter>;
+  description?: Maybe<StringFilter>;
+  overview?: Maybe<NullableStringFilter>;
+  brand?: Maybe<NullableStringFilter>;
+  weight?: Maybe<NullableStringFilter>;
+  dimensions?: Maybe<NullableStringFilter>;
+  materials?: Maybe<NullableStringFilter>;
+  otherInfo?: Maybe<NullableStringFilter>;
+  videoLink?: Maybe<NullableStringFilter>;
+  sellerId?: Maybe<NullableStringFilter>;
+  price?: Maybe<FloatFilter>;
+  beforeDiscountPrice?: Maybe<FloatFilter>;
+  stock?: Maybe<NullableIntFilter>;
+  likesCount?: Maybe<NullableIntFilter>;
+  reviewCount?: Maybe<NullableIntFilter>;
+  itemReview?: Maybe<ReviewFilter>;
+  catagory?: Maybe<CatagoryFilter>;
+  tags?: Maybe<TagFilter>;
+  colors?: Maybe<ColorFilter>;
+  likes?: Maybe<LikeFilter>;
+  Order?: Maybe<OrderFilter>;
+  CartItem?: Maybe<CartItemFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<ItemWhereInput>>;
+  OR?: Maybe<Array<ItemWhereInput>>;
+  NOT?: Maybe<Array<ItemWhereInput>>;
+  Seller?: Maybe<SellerWhereInput>;
+};
+
+export type StringFilter = {
+  equals?: Maybe<Scalars['String']>;
+  not?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  contains?: Maybe<Scalars['String']>;
+  startsWith?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+};
+
+export type NullableStringFilter = {
+  equals?: Maybe<Scalars['String']>;
+  not?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  contains?: Maybe<Scalars['String']>;
+  startsWith?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+};
+
+export type FloatFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  not?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+};
+
+export type NullableIntFilter = {
+  equals?: Maybe<Scalars['Int']>;
+  not?: Maybe<Scalars['Int']>;
+  in?: Maybe<Array<Scalars['Int']>>;
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  lt?: Maybe<Scalars['Int']>;
+  lte?: Maybe<Scalars['Int']>;
+  gt?: Maybe<Scalars['Int']>;
+  gte?: Maybe<Scalars['Int']>;
+};
+
+export type ReviewFilter = {
+  every?: Maybe<ReviewWhereInput>;
+  some?: Maybe<ReviewWhereInput>;
+  none?: Maybe<ReviewWhereInput>;
+};
+
+export type ReviewWhereInput = {
+  id?: Maybe<StringFilter>;
+  itemId?: Maybe<StringFilter>;
+  authorId?: Maybe<StringFilter>;
+  rating?: Maybe<FloatFilter>;
+  text?: Maybe<StringFilter>;
+  orderItemId?: Maybe<NullableStringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<ReviewWhereInput>>;
+  OR?: Maybe<Array<ReviewWhereInput>>;
+  NOT?: Maybe<Array<ReviewWhereInput>>;
+  item?: Maybe<ItemWhereInput>;
+  author?: Maybe<UserWhereInput>;
+  OrderItem?: Maybe<OrderItemWhereInput>;
+};
+
+export type DateTimeFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Scalars['DateTime']>>;
+  notIn?: Maybe<Array<Scalars['DateTime']>>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type UserWhereInput = {
+  id?: Maybe<StringFilter>;
+  email?: Maybe<StringFilter>;
+  name?: Maybe<StringFilter>;
+  password?: Maybe<StringFilter>;
+  role?: Maybe<Role>;
+  address?: Maybe<AddressFilter>;
+  permissions?: Maybe<Permission>;
+  cart?: Maybe<CartItemFilter>;
+  likes?: Maybe<LikeFilter>;
+  itemReview?: Maybe<ReviewFilter>;
+  PasswordResetTokenExpiry?: Maybe<NullableFloatFilter>;
+  reviewCount?: Maybe<NullableIntFilter>;
+  likesCount?: Maybe<NullableIntFilter>;
+  PasswordResetToken?: Maybe<NullableStringFilter>;
+  Order?: Maybe<OrderFilter>;
+  avatar?: Maybe<NullableStringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<UserWhereInput>>;
+  OR?: Maybe<Array<UserWhereInput>>;
+  NOT?: Maybe<Array<UserWhereInput>>;
+};
+
+export type AddressFilter = {
+  every?: Maybe<AddressWhereInput>;
+  some?: Maybe<AddressWhereInput>;
+  none?: Maybe<AddressWhereInput>;
+};
+
+export type AddressWhereInput = {
+  id?: Maybe<StringFilter>;
+  name?: Maybe<StringFilter>;
+  address?: Maybe<StringFilter>;
+  country?: Maybe<StringFilter>;
+  state?: Maybe<StringFilter>;
+  city?: Maybe<StringFilter>;
+  zipCode?: Maybe<StringFilter>;
+  MaincontactNubmer?: Maybe<StringFilter>;
+  streetAddress1?: Maybe<NullableStringFilter>;
+  streetAddress2?: Maybe<NullableStringFilter>;
+  company?: Maybe<NullableStringFilter>;
+  message?: Maybe<NullableStringFilter>;
+  additionalInfo?: Maybe<NullableStringFilter>;
+  isPrimary?: Maybe<NullableBooleanFilter>;
+  Lat?: Maybe<NullableFloatFilter>;
+  Lng?: Maybe<NullableFloatFilter>;
+  sellerId?: Maybe<NullableStringFilter>;
+  userId?: Maybe<NullableStringFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<AddressWhereInput>>;
+  OR?: Maybe<Array<AddressWhereInput>>;
+  NOT?: Maybe<Array<AddressWhereInput>>;
+  Seller?: Maybe<SellerWhereInput>;
+  User?: Maybe<UserWhereInput>;
+};
+
+export type NullableBooleanFilter = {
+  equals?: Maybe<Scalars['Boolean']>;
+  not?: Maybe<Scalars['Boolean']>;
+};
+
+export type NullableFloatFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  not?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+};
+
+export type SellerWhereInput = {
+  id?: Maybe<StringFilter>;
+  name?: Maybe<StringFilter>;
+  email?: Maybe<StringFilter>;
+  password?: Maybe<StringFilter>;
+  storeName?: Maybe<StringFilter>;
+  sellerNationality?: Maybe<StringFilter>;
+  sellerIdentification?: Maybe<StringFilter>;
+  confirmPassword?: Maybe<NullableStringFilter>;
+  EmailIsVerified?: Maybe<NullableBooleanFilter>;
+  EmailVarificationHash?: Maybe<NullableStringFilter>;
+  PasswordResetToken?: Maybe<NullableStringFilter>;
+  PasswordResetTokenExpiry?: Maybe<NullableFloatFilter>;
+  SellerItemsCout?: Maybe<NullableIntFilter>;
+  role?: Maybe<Role>;
+  PickupLocations?: Maybe<AddressFilter>;
+  items?: Maybe<ItemFilter>;
+  permissions?: Maybe<Permission>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<SellerWhereInput>>;
+  OR?: Maybe<Array<SellerWhereInput>>;
+  NOT?: Maybe<Array<SellerWhereInput>>;
+};
+
+export type ItemFilter = {
+  every?: Maybe<ItemWhereInput>;
+  some?: Maybe<ItemWhereInput>;
+  none?: Maybe<ItemWhereInput>;
+};
+
+export type CartItemFilter = {
+  every?: Maybe<CartItemWhereInput>;
+  some?: Maybe<CartItemWhereInput>;
+  none?: Maybe<CartItemWhereInput>;
+};
+
+export type CartItemWhereInput = {
+  id?: Maybe<StringFilter>;
+  quantity?: Maybe<IntFilter>;
+  itemId?: Maybe<StringFilter>;
+  userId?: Maybe<StringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<CartItemWhereInput>>;
+  OR?: Maybe<Array<CartItemWhereInput>>;
+  NOT?: Maybe<Array<CartItemWhereInput>>;
+  item?: Maybe<ItemWhereInput>;
+  user?: Maybe<UserWhereInput>;
+};
+
+export type IntFilter = {
+  equals?: Maybe<Scalars['Int']>;
+  not?: Maybe<Scalars['Int']>;
+  in?: Maybe<Array<Scalars['Int']>>;
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  lt?: Maybe<Scalars['Int']>;
+  lte?: Maybe<Scalars['Int']>;
+  gt?: Maybe<Scalars['Int']>;
+  gte?: Maybe<Scalars['Int']>;
+};
+
+export type LikeFilter = {
+  every?: Maybe<LikeWhereInput>;
+  some?: Maybe<LikeWhereInput>;
+  none?: Maybe<LikeWhereInput>;
+};
+
+export type LikeWhereInput = {
+  id?: Maybe<StringFilter>;
+  userId?: Maybe<StringFilter>;
+  itemId?: Maybe<StringFilter>;
+  orderItemId?: Maybe<NullableStringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<LikeWhereInput>>;
+  OR?: Maybe<Array<LikeWhereInput>>;
+  NOT?: Maybe<Array<LikeWhereInput>>;
+  user?: Maybe<UserWhereInput>;
+  item?: Maybe<ItemWhereInput>;
+  OrderItem?: Maybe<OrderItemWhereInput>;
+};
+
+export type OrderItemWhereInput = {
+  id?: Maybe<StringFilter>;
+  title?: Maybe<StringFilter>;
+  description?: Maybe<StringFilter>;
+  price?: Maybe<FloatFilter>;
+  beforeDiscountPrice?: Maybe<FloatFilter>;
+  overview?: Maybe<NullableStringFilter>;
+  otherInfo?: Maybe<NullableStringFilter>;
+  videoLink?: Maybe<NullableStringFilter>;
+  brand?: Maybe<NullableStringFilter>;
+  weight?: Maybe<NullableStringFilter>;
+  dimensions?: Maybe<NullableStringFilter>;
+  materials?: Maybe<NullableStringFilter>;
+  stock?: Maybe<NullableIntFilter>;
+  likes?: Maybe<LikeFilter>;
+  itemReview?: Maybe<ReviewFilter>;
+  catagory?: Maybe<CatagoryFilter>;
+  tags?: Maybe<TagFilter>;
+  colors?: Maybe<ColorFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  Order?: Maybe<OrderFilter>;
+  AND?: Maybe<Array<OrderItemWhereInput>>;
+  OR?: Maybe<Array<OrderItemWhereInput>>;
+  NOT?: Maybe<Array<OrderItemWhereInput>>;
+};
+
+export type CatagoryFilter = {
+  every?: Maybe<CatagoryWhereInput>;
+  some?: Maybe<CatagoryWhereInput>;
+  none?: Maybe<CatagoryWhereInput>;
+};
+
+export type CatagoryWhereInput = {
+  id?: Maybe<StringFilter>;
+  text?: Maybe<StringFilter>;
+  itemId?: Maybe<StringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  orderItemId?: Maybe<NullableStringFilter>;
+  AND?: Maybe<Array<CatagoryWhereInput>>;
+  OR?: Maybe<Array<CatagoryWhereInput>>;
+  NOT?: Maybe<Array<CatagoryWhereInput>>;
+  item?: Maybe<ItemWhereInput>;
+  OrderItem?: Maybe<OrderItemWhereInput>;
+};
+
+export type TagFilter = {
+  every?: Maybe<TagWhereInput>;
+  some?: Maybe<TagWhereInput>;
+  none?: Maybe<TagWhereInput>;
+};
+
+export type TagWhereInput = {
+  id?: Maybe<StringFilter>;
+  text?: Maybe<StringFilter>;
+  itemId?: Maybe<StringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  orderItemId?: Maybe<NullableStringFilter>;
+  AND?: Maybe<Array<TagWhereInput>>;
+  OR?: Maybe<Array<TagWhereInput>>;
+  NOT?: Maybe<Array<TagWhereInput>>;
+  item?: Maybe<ItemWhereInput>;
+  OrderItem?: Maybe<OrderItemWhereInput>;
+};
+
+export type ColorFilter = {
+  every?: Maybe<ColorWhereInput>;
+  some?: Maybe<ColorWhereInput>;
+  none?: Maybe<ColorWhereInput>;
+};
+
+export type ColorWhereInput = {
+  id?: Maybe<StringFilter>;
+  text?: Maybe<StringFilter>;
+  itemId?: Maybe<StringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  orderItemId?: Maybe<NullableStringFilter>;
+  AND?: Maybe<Array<ColorWhereInput>>;
+  OR?: Maybe<Array<ColorWhereInput>>;
+  NOT?: Maybe<Array<ColorWhereInput>>;
+  item?: Maybe<ItemWhereInput>;
+  OrderItem?: Maybe<OrderItemWhereInput>;
+};
+
+export type OrderFilter = {
+  every?: Maybe<OrderWhereInput>;
+  some?: Maybe<OrderWhereInput>;
+  none?: Maybe<OrderWhereInput>;
+};
+
+export type OrderWhereInput = {
+  id?: Maybe<StringFilter>;
+  items?: Maybe<OrderItemFilter>;
+  total?: Maybe<IntFilter>;
+  userId?: Maybe<StringFilter>;
+  charge?: Maybe<StringFilter>;
+  status?: Maybe<OrderStatus>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  itemId?: Maybe<NullableStringFilter>;
+  AND?: Maybe<Array<OrderWhereInput>>;
+  OR?: Maybe<Array<OrderWhereInput>>;
+  NOT?: Maybe<Array<OrderWhereInput>>;
+  user?: Maybe<UserWhereInput>;
+  Item?: Maybe<ItemWhereInput>;
+};
+
+export type OrderItemFilter = {
+  every?: Maybe<OrderItemWhereInput>;
+  some?: Maybe<OrderItemWhereInput>;
+  none?: Maybe<OrderItemWhereInput>;
+};
+
+export type ItemOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  title?: Maybe<OrderByArg>;
+  description?: Maybe<OrderByArg>;
+  overview?: Maybe<OrderByArg>;
+  brand?: Maybe<OrderByArg>;
+  weight?: Maybe<OrderByArg>;
+  dimensions?: Maybe<OrderByArg>;
+  materials?: Maybe<OrderByArg>;
+  otherInfo?: Maybe<OrderByArg>;
+  videoLink?: Maybe<OrderByArg>;
+  sellerId?: Maybe<OrderByArg>;
+  price?: Maybe<OrderByArg>;
+  beforeDiscountPrice?: Maybe<OrderByArg>;
+  stock?: Maybe<OrderByArg>;
+  likesCount?: Maybe<OrderByArg>;
+  reviewCount?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export enum OrderByArg {
+  Asc = 'asc',
+  Desc = 'desc'
+}
 
 export type SellerWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
@@ -664,9 +1100,8 @@ export type MutationCreateItemArgs = {
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
   stock?: Maybe<Scalars['Int']>;
-  likesCount?: Maybe<Scalars['Int']>;
-  reviewCount?: Maybe<Scalars['Int']>;
   images?: Maybe<Array<Scalars['String']>>;
+  eagerImages?: Maybe<Array<Scalars['String']>>;
   catagory?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
   colors?: Maybe<Array<Scalars['String']>>;
@@ -688,9 +1123,8 @@ export type MutationUpdateItemArgs = {
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
   stock?: Maybe<Scalars['Int']>;
-  likesCount?: Maybe<Scalars['Int']>;
-  reviewCount?: Maybe<Scalars['Int']>;
   images?: Maybe<Array<Scalars['String']>>;
+  eagerImages?: Maybe<Array<Scalars['String']>>;
   catagory?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
   colors?: Maybe<Array<Scalars['String']>>;
@@ -759,7 +1193,6 @@ export type AddressUpdateInput = {
   User?: Maybe<UserUpdateOneWithoutAddressInput>;
 };
 
-
 export type AddressUpdateOthercontactNubmersInput = {
   set?: Maybe<Array<Scalars['String']>>;
 };
@@ -827,15 +1260,28 @@ export type ItemCreateWithoutSellerInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
   tags?: Maybe<TagCreateManyWithoutItemInput>;
   colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
   likes?: Maybe<LikeCreateManyWithoutItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
+};
+
+export type ItemCreateimagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ItemCreateeagerImagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ItemCreateOtherFeaturesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
 };
 
 export type ReviewCreateManyWithoutItemInput = {
@@ -951,13 +1397,14 @@ export type ItemCreateWithoutCartItemInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
   tags?: Maybe<TagCreateManyWithoutItemInput>;
   colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
   likes?: Maybe<LikeCreateManyWithoutItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemInput>;
 };
@@ -1079,37 +1526,37 @@ export type ItemCreateWithoutLikesInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
   tags?: Maybe<TagCreateManyWithoutItemInput>;
   colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
 };
 
-export type ItemImageCreateManyWithoutItemInput = {
-  create?: Maybe<Array<ItemImageCreateWithoutItemInput>>;
-  connect?: Maybe<Array<ItemImageWhereUniqueInput>>;
+export type CatagoryCreateManyWithoutItemInput = {
+  create?: Maybe<Array<CatagoryCreateWithoutItemInput>>;
+  connect?: Maybe<Array<CatagoryWhereUniqueInput>>;
 };
 
-export type ItemImageCreateWithoutItemInput = {
+export type CatagoryCreateWithoutItemInput = {
   id?: Maybe<Scalars['String']>;
-  url: Scalars['String'];
-  largeUrl?: Maybe<Scalars['String']>;
+  text: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  OrderItem?: Maybe<OrderItemCreateOneWithoutImagesInput>;
+  OrderItem?: Maybe<OrderItemCreateOneWithoutCatagoryInput>;
 };
 
-export type OrderItemCreateOneWithoutImagesInput = {
-  create?: Maybe<OrderItemCreateWithoutImagesInput>;
+export type OrderItemCreateOneWithoutCatagoryInput = {
+  create?: Maybe<OrderItemCreateWithoutCatagoryInput>;
   connect?: Maybe<OrderItemWhereUniqueInput>;
 };
 
-export type OrderItemCreateWithoutImagesInput = {
+export type OrderItemCreateWithoutCatagoryInput = {
   id?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -1125,13 +1572,26 @@ export type OrderItemCreateWithoutImagesInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemCreateimagesInput>;
+  eagerImages?: Maybe<OrderItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemCreateOtherFeaturesInput>;
   likes?: Maybe<LikeCreateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutOrderItemInput>;
-  catagory?: Maybe<CatagoryCreateManyWithoutOrderItemInput>;
   tags?: Maybe<TagCreateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorCreateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemsInput>;
+};
+
+export type OrderItemCreateimagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type OrderItemCreateeagerImagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type OrderItemCreateOtherFeaturesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
 };
 
 export type LikeCreateManyWithoutOrderItemInput = {
@@ -1210,118 +1670,13 @@ export type ItemCreateWithoutItemReviewInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
   tags?: Maybe<TagCreateManyWithoutItemInput>;
   colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
-  likes?: Maybe<LikeCreateManyWithoutItemInput>;
-  Order?: Maybe<OrderCreateManyWithoutItemInput>;
-  CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
-};
-
-export type CatagoryCreateManyWithoutItemInput = {
-  create?: Maybe<Array<CatagoryCreateWithoutItemInput>>;
-  connect?: Maybe<Array<CatagoryWhereUniqueInput>>;
-};
-
-export type CatagoryCreateWithoutItemInput = {
-  id?: Maybe<Scalars['String']>;
-  text: Scalars['String'];
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  OrderItem?: Maybe<OrderItemCreateOneWithoutCatagoryInput>;
-};
-
-export type OrderItemCreateOneWithoutCatagoryInput = {
-  create?: Maybe<OrderItemCreateWithoutCatagoryInput>;
-  connect?: Maybe<OrderItemWhereUniqueInput>;
-};
-
-export type OrderItemCreateWithoutCatagoryInput = {
-  id?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  beforeDiscountPrice: Scalars['Float'];
-  overview?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  stock?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  likes?: Maybe<LikeCreateManyWithoutOrderItemInput>;
-  itemReview?: Maybe<ReviewCreateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutOrderItemInput>;
-  tags?: Maybe<TagCreateManyWithoutOrderItemInput>;
-  colors?: Maybe<ColorCreateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutOrderItemInput>;
-  Order?: Maybe<OrderCreateManyWithoutItemsInput>;
-};
-
-export type ReviewCreateManyWithoutOrderItemInput = {
-  create?: Maybe<Array<ReviewCreateWithoutOrderItemInput>>;
-  connect?: Maybe<Array<ReviewWhereUniqueInput>>;
-};
-
-export type ReviewCreateWithoutOrderItemInput = {
-  id?: Maybe<Scalars['String']>;
-  rating?: Maybe<Scalars['Float']>;
-  text: Scalars['String'];
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  item: ItemCreateOneWithoutItemReviewInput;
-  author: UserCreateOneWithoutItemReviewInput;
-};
-
-export type ItemImageCreateManyWithoutOrderItemInput = {
-  create?: Maybe<Array<ItemImageCreateWithoutOrderItemInput>>;
-  connect?: Maybe<Array<ItemImageWhereUniqueInput>>;
-};
-
-export type ItemImageCreateWithoutOrderItemInput = {
-  id?: Maybe<Scalars['String']>;
-  url: Scalars['String'];
-  largeUrl?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  item: ItemCreateOneWithoutImagesInput;
-};
-
-export type ItemCreateOneWithoutImagesInput = {
-  create?: Maybe<ItemCreateWithoutImagesInput>;
-  connect?: Maybe<ItemWhereUniqueInput>;
-};
-
-export type ItemCreateWithoutImagesInput = {
-  id?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  overview?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  beforeDiscountPrice: Scalars['Float'];
-  stock?: Maybe<Scalars['Int']>;
-  likesCount?: Maybe<Scalars['Int']>;
-  reviewCount?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
-  itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
-  tags?: Maybe<TagCreateManyWithoutItemInput>;
-  colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
   likes?: Maybe<LikeCreateManyWithoutItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
@@ -1361,13 +1716,29 @@ export type OrderItemCreateWithoutTagsInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemCreateimagesInput>;
+  eagerImages?: Maybe<OrderItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemCreateOtherFeaturesInput>;
   likes?: Maybe<LikeCreateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorCreateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemsInput>;
+};
+
+export type ReviewCreateManyWithoutOrderItemInput = {
+  create?: Maybe<Array<ReviewCreateWithoutOrderItemInput>>;
+  connect?: Maybe<Array<ReviewWhereUniqueInput>>;
+};
+
+export type ReviewCreateWithoutOrderItemInput = {
+  id?: Maybe<Scalars['String']>;
+  rating?: Maybe<Scalars['Float']>;
+  text: Scalars['String'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  item: ItemCreateOneWithoutItemReviewInput;
+  author: UserCreateOneWithoutItemReviewInput;
 };
 
 export type CatagoryCreateManyWithoutOrderItemInput = {
@@ -1406,12 +1777,13 @@ export type ItemCreateWithoutCatagoryInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   tags?: Maybe<TagCreateManyWithoutItemInput>;
   colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
   likes?: Maybe<LikeCreateManyWithoutItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
@@ -1451,12 +1823,13 @@ export type OrderItemCreateWithoutColorsInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemCreateimagesInput>;
+  eagerImages?: Maybe<OrderItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemCreateOtherFeaturesInput>;
   likes?: Maybe<LikeCreateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutOrderItemInput>;
   tags?: Maybe<TagCreateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemsInput>;
 };
 
@@ -1496,36 +1869,37 @@ export type ItemCreateWithoutTagsInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
   colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
   likes?: Maybe<LikeCreateManyWithoutItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
 };
 
-export type OtherFeatureCreateManyWithoutItemInput = {
-  create?: Maybe<Array<OtherFeatureCreateWithoutItemInput>>;
-  connect?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
+export type LikeCreateManyWithoutItemInput = {
+  create?: Maybe<Array<LikeCreateWithoutItemInput>>;
+  connect?: Maybe<Array<LikeWhereUniqueInput>>;
 };
 
-export type OtherFeatureCreateWithoutItemInput = {
+export type LikeCreateWithoutItemInput = {
   id?: Maybe<Scalars['String']>;
-  text: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  OrderItem?: Maybe<OrderItemCreateOneWithoutOtherFeaturesInput>;
+  user: UserCreateOneWithoutLikesInput;
+  OrderItem?: Maybe<OrderItemCreateOneWithoutLikesInput>;
 };
 
-export type OrderItemCreateOneWithoutOtherFeaturesInput = {
-  create?: Maybe<OrderItemCreateWithoutOtherFeaturesInput>;
+export type OrderItemCreateOneWithoutLikesInput = {
+  create?: Maybe<OrderItemCreateWithoutLikesInput>;
   connect?: Maybe<OrderItemWhereUniqueInput>;
 };
 
-export type OrderItemCreateWithoutOtherFeaturesInput = {
+export type OrderItemCreateWithoutLikesInput = {
   id?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -1541,9 +1915,10 @@ export type OrderItemCreateWithoutOtherFeaturesInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  likes?: Maybe<LikeCreateManyWithoutOrderItemInput>;
+  images?: Maybe<OrderItemCreateimagesInput>;
+  eagerImages?: Maybe<OrderItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemCreateOtherFeaturesInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutOrderItemInput>;
   tags?: Maybe<TagCreateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorCreateManyWithoutOrderItemInput>;
@@ -1586,102 +1961,13 @@ export type ItemCreateWithoutColorsInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
   tags?: Maybe<TagCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
-  likes?: Maybe<LikeCreateManyWithoutItemInput>;
-  Order?: Maybe<OrderCreateManyWithoutItemInput>;
-  CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
-};
-
-export type LikeCreateManyWithoutItemInput = {
-  create?: Maybe<Array<LikeCreateWithoutItemInput>>;
-  connect?: Maybe<Array<LikeWhereUniqueInput>>;
-};
-
-export type LikeCreateWithoutItemInput = {
-  id?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  user: UserCreateOneWithoutLikesInput;
-  OrderItem?: Maybe<OrderItemCreateOneWithoutLikesInput>;
-};
-
-export type OrderItemCreateOneWithoutLikesInput = {
-  create?: Maybe<OrderItemCreateWithoutLikesInput>;
-  connect?: Maybe<OrderItemWhereUniqueInput>;
-};
-
-export type OrderItemCreateWithoutLikesInput = {
-  id?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  beforeDiscountPrice: Scalars['Float'];
-  overview?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  stock?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  itemReview?: Maybe<ReviewCreateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutOrderItemInput>;
-  catagory?: Maybe<CatagoryCreateManyWithoutOrderItemInput>;
-  tags?: Maybe<TagCreateManyWithoutOrderItemInput>;
-  colors?: Maybe<ColorCreateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutOrderItemInput>;
-  Order?: Maybe<OrderCreateManyWithoutItemsInput>;
-};
-
-export type OtherFeatureCreateManyWithoutOrderItemInput = {
-  create?: Maybe<Array<OtherFeatureCreateWithoutOrderItemInput>>;
-  connect?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-};
-
-export type OtherFeatureCreateWithoutOrderItemInput = {
-  id?: Maybe<Scalars['String']>;
-  text: Scalars['String'];
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  item: ItemCreateOneWithoutOtherFeaturesInput;
-};
-
-export type ItemCreateOneWithoutOtherFeaturesInput = {
-  create?: Maybe<ItemCreateWithoutOtherFeaturesInput>;
-  connect?: Maybe<ItemWhereUniqueInput>;
-};
-
-export type ItemCreateWithoutOtherFeaturesInput = {
-  id?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  overview?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  beforeDiscountPrice: Scalars['Float'];
-  stock?: Maybe<Scalars['Int']>;
-  likesCount?: Maybe<Scalars['Int']>;
-  reviewCount?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
-  itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
-  catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
-  tags?: Maybe<TagCreateManyWithoutItemInput>;
-  colors?: Maybe<ColorCreateManyWithoutItemInput>;
   likes?: Maybe<LikeCreateManyWithoutItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
@@ -1724,13 +2010,14 @@ export type OrderItemCreateWithoutOrderInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemCreateimagesInput>;
+  eagerImages?: Maybe<OrderItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemCreateOtherFeaturesInput>;
   likes?: Maybe<LikeCreateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutOrderItemInput>;
   tags?: Maybe<TagCreateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorCreateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutOrderItemInput>;
 };
 
 export type UserCreateOneWithoutOrderInput = {
@@ -1835,19 +2122,16 @@ export type ItemCreateWithoutOrderInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemCreateimagesInput>;
+  eagerImages?: Maybe<ItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemCreateOtherFeaturesInput>;
   Seller?: Maybe<SellerCreateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewCreateManyWithoutItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutItemInput>;
   tags?: Maybe<TagCreateManyWithoutItemInput>;
   colors?: Maybe<ColorCreateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutItemInput>;
   likes?: Maybe<LikeCreateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemCreateManyWithoutItemInput>;
-};
-
-export type OtherFeatureWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
 };
 
 export type OrderCreateManyWithoutItemsInput = {
@@ -1864,14 +2148,6 @@ export type OrderCreateWithoutItemsInput = {
   updatedAt?: Maybe<Scalars['DateTime']>;
   user: UserCreateOneWithoutOrderInput;
   Item?: Maybe<ItemCreateOneWithoutOrderInput>;
-};
-
-export type ColorWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type TagWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
 };
 
 export type OrderItemCreateOneWithoutItemReviewInput = {
@@ -1895,12 +2171,13 @@ export type OrderItemCreateWithoutItemReviewInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemCreateimagesInput>;
+  eagerImages?: Maybe<OrderItemCreateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemCreateOtherFeaturesInput>;
   likes?: Maybe<LikeCreateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageCreateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryCreateManyWithoutOrderItemInput>;
   tags?: Maybe<TagCreateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorCreateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureCreateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderCreateManyWithoutItemsInput>;
 };
 
@@ -1970,15 +2247,28 @@ export type ItemUpdateWithoutSellerDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
   tags?: Maybe<TagUpdateManyWithoutItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
   likes?: Maybe<LikeUpdateManyWithoutItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
+};
+
+export type ItemUpdateimagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ItemUpdateeagerImagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ItemUpdateOtherFeaturesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
 };
 
 export type ReviewUpdateManyWithoutItemInput = {
@@ -2106,61 +2396,6 @@ export type AddressScalarWhereInput = {
   NOT?: Maybe<Array<AddressScalarWhereInput>>;
 };
 
-export type StringFilter = {
-  equals?: Maybe<Scalars['String']>;
-  not?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Scalars['String']>>;
-  notIn?: Maybe<Array<Scalars['String']>>;
-  lt?: Maybe<Scalars['String']>;
-  lte?: Maybe<Scalars['String']>;
-  gt?: Maybe<Scalars['String']>;
-  gte?: Maybe<Scalars['String']>;
-  contains?: Maybe<Scalars['String']>;
-  startsWith?: Maybe<Scalars['String']>;
-  endsWith?: Maybe<Scalars['String']>;
-};
-
-export type NullableStringFilter = {
-  equals?: Maybe<Scalars['String']>;
-  not?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Scalars['String']>>;
-  notIn?: Maybe<Array<Scalars['String']>>;
-  lt?: Maybe<Scalars['String']>;
-  lte?: Maybe<Scalars['String']>;
-  gt?: Maybe<Scalars['String']>;
-  gte?: Maybe<Scalars['String']>;
-  contains?: Maybe<Scalars['String']>;
-  startsWith?: Maybe<Scalars['String']>;
-  endsWith?: Maybe<Scalars['String']>;
-};
-
-export type NullableBooleanFilter = {
-  equals?: Maybe<Scalars['Boolean']>;
-  not?: Maybe<Scalars['Boolean']>;
-};
-
-export type NullableFloatFilter = {
-  equals?: Maybe<Scalars['Float']>;
-  not?: Maybe<Scalars['Float']>;
-  in?: Maybe<Array<Scalars['Float']>>;
-  notIn?: Maybe<Array<Scalars['Float']>>;
-  lt?: Maybe<Scalars['Float']>;
-  lte?: Maybe<Scalars['Float']>;
-  gt?: Maybe<Scalars['Float']>;
-  gte?: Maybe<Scalars['Float']>;
-};
-
-export type DateTimeFilter = {
-  equals?: Maybe<Scalars['DateTime']>;
-  not?: Maybe<Scalars['DateTime']>;
-  in?: Maybe<Array<Scalars['DateTime']>>;
-  notIn?: Maybe<Array<Scalars['DateTime']>>;
-  lt?: Maybe<Scalars['DateTime']>;
-  lte?: Maybe<Scalars['DateTime']>;
-  gt?: Maybe<Scalars['DateTime']>;
-  gte?: Maybe<Scalars['DateTime']>;
-};
-
 export type AddressUpdateManyDataInput = {
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -2239,13 +2474,14 @@ export type ItemUpdateWithoutCartItemDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
   tags?: Maybe<TagUpdateManyWithoutItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
   likes?: Maybe<LikeUpdateManyWithoutItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemInput>;
 };
@@ -2401,53 +2637,53 @@ export type ItemUpdateWithoutLikesDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
   tags?: Maybe<TagUpdateManyWithoutItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
 };
 
-export type ItemImageUpdateManyWithoutItemInput = {
-  create?: Maybe<Array<ItemImageCreateWithoutItemInput>>;
-  connect?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  set?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  disconnect?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  delete?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  update?: Maybe<Array<ItemImageUpdateWithWhereUniqueWithoutItemInput>>;
-  updateMany?: Maybe<Array<ItemImageUpdateManyWithWhereNestedInput>>;
-  deleteMany?: Maybe<Array<ItemImageScalarWhereInput>>;
-  upsert?: Maybe<Array<ItemImageUpsertWithWhereUniqueWithoutItemInput>>;
+export type CatagoryUpdateManyWithoutItemInput = {
+  create?: Maybe<Array<CatagoryCreateWithoutItemInput>>;
+  connect?: Maybe<Array<CatagoryWhereUniqueInput>>;
+  set?: Maybe<Array<CatagoryWhereUniqueInput>>;
+  disconnect?: Maybe<Array<CatagoryWhereUniqueInput>>;
+  delete?: Maybe<Array<CatagoryWhereUniqueInput>>;
+  update?: Maybe<Array<CatagoryUpdateWithWhereUniqueWithoutItemInput>>;
+  updateMany?: Maybe<Array<CatagoryUpdateManyWithWhereNestedInput>>;
+  deleteMany?: Maybe<Array<CatagoryScalarWhereInput>>;
+  upsert?: Maybe<Array<CatagoryUpsertWithWhereUniqueWithoutItemInput>>;
 };
 
-export type ItemImageUpdateWithWhereUniqueWithoutItemInput = {
-  where: ItemImageWhereUniqueInput;
-  data: ItemImageUpdateWithoutItemDataInput;
+export type CatagoryUpdateWithWhereUniqueWithoutItemInput = {
+  where: CatagoryWhereUniqueInput;
+  data: CatagoryUpdateWithoutItemDataInput;
 };
 
-export type ItemImageUpdateWithoutItemDataInput = {
+export type CatagoryUpdateWithoutItemDataInput = {
   id?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  largeUrl?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  OrderItem?: Maybe<OrderItemUpdateOneWithoutImagesInput>;
+  OrderItem?: Maybe<OrderItemUpdateOneWithoutCatagoryInput>;
 };
 
-export type OrderItemUpdateOneWithoutImagesInput = {
-  create?: Maybe<OrderItemCreateWithoutImagesInput>;
+export type OrderItemUpdateOneWithoutCatagoryInput = {
+  create?: Maybe<OrderItemCreateWithoutCatagoryInput>;
   connect?: Maybe<OrderItemWhereUniqueInput>;
   disconnect?: Maybe<Scalars['Boolean']>;
   delete?: Maybe<Scalars['Boolean']>;
-  update?: Maybe<OrderItemUpdateWithoutImagesDataInput>;
-  upsert?: Maybe<OrderItemUpsertWithoutImagesInput>;
+  update?: Maybe<OrderItemUpdateWithoutCatagoryDataInput>;
+  upsert?: Maybe<OrderItemUpsertWithoutCatagoryInput>;
 };
 
-export type OrderItemUpdateWithoutImagesDataInput = {
+export type OrderItemUpdateWithoutCatagoryDataInput = {
   id?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -2463,13 +2699,26 @@ export type OrderItemUpdateWithoutImagesDataInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemUpdateimagesInput>;
+  eagerImages?: Maybe<OrderItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemUpdateOtherFeaturesInput>;
   likes?: Maybe<LikeUpdateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutOrderItemInput>;
-  catagory?: Maybe<CatagoryUpdateManyWithoutOrderItemInput>;
   tags?: Maybe<TagUpdateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemsInput>;
+};
+
+export type OrderItemUpdateimagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type OrderItemUpdateeagerImagesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
+};
+
+export type OrderItemUpdateOtherFeaturesInput = {
+  set?: Maybe<Array<Scalars['String']>>;
 };
 
 export type LikeUpdateManyWithoutOrderItemInput = {
@@ -2576,204 +2825,13 @@ export type ItemUpdateWithoutItemReviewDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
   tags?: Maybe<TagUpdateManyWithoutItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
-  likes?: Maybe<LikeUpdateManyWithoutItemInput>;
-  Order?: Maybe<OrderUpdateManyWithoutItemInput>;
-  CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
-};
-
-export type CatagoryUpdateManyWithoutItemInput = {
-  create?: Maybe<Array<CatagoryCreateWithoutItemInput>>;
-  connect?: Maybe<Array<CatagoryWhereUniqueInput>>;
-  set?: Maybe<Array<CatagoryWhereUniqueInput>>;
-  disconnect?: Maybe<Array<CatagoryWhereUniqueInput>>;
-  delete?: Maybe<Array<CatagoryWhereUniqueInput>>;
-  update?: Maybe<Array<CatagoryUpdateWithWhereUniqueWithoutItemInput>>;
-  updateMany?: Maybe<Array<CatagoryUpdateManyWithWhereNestedInput>>;
-  deleteMany?: Maybe<Array<CatagoryScalarWhereInput>>;
-  upsert?: Maybe<Array<CatagoryUpsertWithWhereUniqueWithoutItemInput>>;
-};
-
-export type CatagoryUpdateWithWhereUniqueWithoutItemInput = {
-  where: CatagoryWhereUniqueInput;
-  data: CatagoryUpdateWithoutItemDataInput;
-};
-
-export type CatagoryUpdateWithoutItemDataInput = {
-  id?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  OrderItem?: Maybe<OrderItemUpdateOneWithoutCatagoryInput>;
-};
-
-export type OrderItemUpdateOneWithoutCatagoryInput = {
-  create?: Maybe<OrderItemCreateWithoutCatagoryInput>;
-  connect?: Maybe<OrderItemWhereUniqueInput>;
-  disconnect?: Maybe<Scalars['Boolean']>;
-  delete?: Maybe<Scalars['Boolean']>;
-  update?: Maybe<OrderItemUpdateWithoutCatagoryDataInput>;
-  upsert?: Maybe<OrderItemUpsertWithoutCatagoryInput>;
-};
-
-export type OrderItemUpdateWithoutCatagoryDataInput = {
-  id?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  beforeDiscountPrice?: Maybe<Scalars['Float']>;
-  overview?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  stock?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  likes?: Maybe<LikeUpdateManyWithoutOrderItemInput>;
-  itemReview?: Maybe<ReviewUpdateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutOrderItemInput>;
-  tags?: Maybe<TagUpdateManyWithoutOrderItemInput>;
-  colors?: Maybe<ColorUpdateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutOrderItemInput>;
-  Order?: Maybe<OrderUpdateManyWithoutItemsInput>;
-};
-
-export type ReviewUpdateManyWithoutOrderItemInput = {
-  create?: Maybe<Array<ReviewCreateWithoutOrderItemInput>>;
-  connect?: Maybe<Array<ReviewWhereUniqueInput>>;
-  set?: Maybe<Array<ReviewWhereUniqueInput>>;
-  disconnect?: Maybe<Array<ReviewWhereUniqueInput>>;
-  delete?: Maybe<Array<ReviewWhereUniqueInput>>;
-  update?: Maybe<Array<ReviewUpdateWithWhereUniqueWithoutOrderItemInput>>;
-  updateMany?: Maybe<Array<ReviewUpdateManyWithWhereNestedInput>>;
-  deleteMany?: Maybe<Array<ReviewScalarWhereInput>>;
-  upsert?: Maybe<Array<ReviewUpsertWithWhereUniqueWithoutOrderItemInput>>;
-};
-
-export type ReviewUpdateWithWhereUniqueWithoutOrderItemInput = {
-  where: ReviewWhereUniqueInput;
-  data: ReviewUpdateWithoutOrderItemDataInput;
-};
-
-export type ReviewUpdateWithoutOrderItemDataInput = {
-  id?: Maybe<Scalars['String']>;
-  rating?: Maybe<Scalars['Float']>;
-  text?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  item?: Maybe<ItemUpdateOneRequiredWithoutItemReviewInput>;
-  author?: Maybe<UserUpdateOneRequiredWithoutItemReviewInput>;
-};
-
-export type ReviewUpdateManyWithWhereNestedInput = {
-  where: ReviewScalarWhereInput;
-  data: ReviewUpdateManyDataInput;
-};
-
-export type ReviewScalarWhereInput = {
-  id?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  authorId?: Maybe<StringFilter>;
-  rating?: Maybe<FloatFilter>;
-  text?: Maybe<StringFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<ReviewScalarWhereInput>>;
-  OR?: Maybe<Array<ReviewScalarWhereInput>>;
-  NOT?: Maybe<Array<ReviewScalarWhereInput>>;
-};
-
-export type FloatFilter = {
-  equals?: Maybe<Scalars['Float']>;
-  not?: Maybe<Scalars['Float']>;
-  in?: Maybe<Array<Scalars['Float']>>;
-  notIn?: Maybe<Array<Scalars['Float']>>;
-  lt?: Maybe<Scalars['Float']>;
-  lte?: Maybe<Scalars['Float']>;
-  gt?: Maybe<Scalars['Float']>;
-  gte?: Maybe<Scalars['Float']>;
-};
-
-export type ReviewUpdateManyDataInput = {
-  id?: Maybe<Scalars['String']>;
-  rating?: Maybe<Scalars['Float']>;
-  text?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type ReviewUpsertWithWhereUniqueWithoutOrderItemInput = {
-  where: ReviewWhereUniqueInput;
-  update: ReviewUpdateWithoutOrderItemDataInput;
-  create: ReviewCreateWithoutOrderItemInput;
-};
-
-export type ItemImageUpdateManyWithoutOrderItemInput = {
-  create?: Maybe<Array<ItemImageCreateWithoutOrderItemInput>>;
-  connect?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  set?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  disconnect?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  delete?: Maybe<Array<ItemImageWhereUniqueInput>>;
-  update?: Maybe<Array<ItemImageUpdateWithWhereUniqueWithoutOrderItemInput>>;
-  updateMany?: Maybe<Array<ItemImageUpdateManyWithWhereNestedInput>>;
-  deleteMany?: Maybe<Array<ItemImageScalarWhereInput>>;
-  upsert?: Maybe<Array<ItemImageUpsertWithWhereUniqueWithoutOrderItemInput>>;
-};
-
-export type ItemImageUpdateWithWhereUniqueWithoutOrderItemInput = {
-  where: ItemImageWhereUniqueInput;
-  data: ItemImageUpdateWithoutOrderItemDataInput;
-};
-
-export type ItemImageUpdateWithoutOrderItemDataInput = {
-  id?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  largeUrl?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  item?: Maybe<ItemUpdateOneRequiredWithoutImagesInput>;
-};
-
-export type ItemUpdateOneRequiredWithoutImagesInput = {
-  create?: Maybe<ItemCreateWithoutImagesInput>;
-  connect?: Maybe<ItemWhereUniqueInput>;
-  update?: Maybe<ItemUpdateWithoutImagesDataInput>;
-  upsert?: Maybe<ItemUpsertWithoutImagesInput>;
-};
-
-export type ItemUpdateWithoutImagesDataInput = {
-  id?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  overview?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  beforeDiscountPrice?: Maybe<Scalars['Float']>;
-  stock?: Maybe<Scalars['Int']>;
-  likesCount?: Maybe<Scalars['Int']>;
-  reviewCount?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
-  itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
-  tags?: Maybe<TagUpdateManyWithoutItemInput>;
-  colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
   likes?: Maybe<LikeUpdateManyWithoutItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
@@ -2829,13 +2887,74 @@ export type OrderItemUpdateWithoutTagsDataInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemUpdateimagesInput>;
+  eagerImages?: Maybe<OrderItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemUpdateOtherFeaturesInput>;
   likes?: Maybe<LikeUpdateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemsInput>;
+};
+
+export type ReviewUpdateManyWithoutOrderItemInput = {
+  create?: Maybe<Array<ReviewCreateWithoutOrderItemInput>>;
+  connect?: Maybe<Array<ReviewWhereUniqueInput>>;
+  set?: Maybe<Array<ReviewWhereUniqueInput>>;
+  disconnect?: Maybe<Array<ReviewWhereUniqueInput>>;
+  delete?: Maybe<Array<ReviewWhereUniqueInput>>;
+  update?: Maybe<Array<ReviewUpdateWithWhereUniqueWithoutOrderItemInput>>;
+  updateMany?: Maybe<Array<ReviewUpdateManyWithWhereNestedInput>>;
+  deleteMany?: Maybe<Array<ReviewScalarWhereInput>>;
+  upsert?: Maybe<Array<ReviewUpsertWithWhereUniqueWithoutOrderItemInput>>;
+};
+
+export type ReviewUpdateWithWhereUniqueWithoutOrderItemInput = {
+  where: ReviewWhereUniqueInput;
+  data: ReviewUpdateWithoutOrderItemDataInput;
+};
+
+export type ReviewUpdateWithoutOrderItemDataInput = {
+  id?: Maybe<Scalars['String']>;
+  rating?: Maybe<Scalars['Float']>;
+  text?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  item?: Maybe<ItemUpdateOneRequiredWithoutItemReviewInput>;
+  author?: Maybe<UserUpdateOneRequiredWithoutItemReviewInput>;
+};
+
+export type ReviewUpdateManyWithWhereNestedInput = {
+  where: ReviewScalarWhereInput;
+  data: ReviewUpdateManyDataInput;
+};
+
+export type ReviewScalarWhereInput = {
+  id?: Maybe<StringFilter>;
+  itemId?: Maybe<StringFilter>;
+  authorId?: Maybe<StringFilter>;
+  rating?: Maybe<FloatFilter>;
+  text?: Maybe<StringFilter>;
+  orderItemId?: Maybe<NullableStringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<ReviewScalarWhereInput>>;
+  OR?: Maybe<Array<ReviewScalarWhereInput>>;
+  NOT?: Maybe<Array<ReviewScalarWhereInput>>;
+};
+
+export type ReviewUpdateManyDataInput = {
+  id?: Maybe<Scalars['String']>;
+  rating?: Maybe<Scalars['Float']>;
+  text?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ReviewUpsertWithWhereUniqueWithoutOrderItemInput = {
+  where: ReviewWhereUniqueInput;
+  update: ReviewUpdateWithoutOrderItemDataInput;
+  create: ReviewCreateWithoutOrderItemInput;
 };
 
 export type CatagoryUpdateManyWithoutOrderItemInput = {
@@ -2888,12 +3007,13 @@ export type ItemUpdateWithoutCatagoryDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   tags?: Maybe<TagUpdateManyWithoutItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
   likes?: Maybe<LikeUpdateManyWithoutItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
@@ -2949,12 +3069,13 @@ export type OrderItemUpdateWithoutColorsDataInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemUpdateimagesInput>;
+  eagerImages?: Maybe<OrderItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemUpdateOtherFeaturesInput>;
   likes?: Maybe<LikeUpdateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutOrderItemInput>;
   tags?: Maybe<TagUpdateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemsInput>;
 };
 
@@ -3008,52 +3129,53 @@ export type ItemUpdateWithoutTagsDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
   likes?: Maybe<LikeUpdateManyWithoutItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
 };
 
-export type OtherFeatureUpdateManyWithoutItemInput = {
-  create?: Maybe<Array<OtherFeatureCreateWithoutItemInput>>;
-  connect?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  set?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  disconnect?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  delete?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  update?: Maybe<Array<OtherFeatureUpdateWithWhereUniqueWithoutItemInput>>;
-  updateMany?: Maybe<Array<OtherFeatureUpdateManyWithWhereNestedInput>>;
-  deleteMany?: Maybe<Array<OtherFeatureScalarWhereInput>>;
-  upsert?: Maybe<Array<OtherFeatureUpsertWithWhereUniqueWithoutItemInput>>;
+export type LikeUpdateManyWithoutItemInput = {
+  create?: Maybe<Array<LikeCreateWithoutItemInput>>;
+  connect?: Maybe<Array<LikeWhereUniqueInput>>;
+  set?: Maybe<Array<LikeWhereUniqueInput>>;
+  disconnect?: Maybe<Array<LikeWhereUniqueInput>>;
+  delete?: Maybe<Array<LikeWhereUniqueInput>>;
+  update?: Maybe<Array<LikeUpdateWithWhereUniqueWithoutItemInput>>;
+  updateMany?: Maybe<Array<LikeUpdateManyWithWhereNestedInput>>;
+  deleteMany?: Maybe<Array<LikeScalarWhereInput>>;
+  upsert?: Maybe<Array<LikeUpsertWithWhereUniqueWithoutItemInput>>;
 };
 
-export type OtherFeatureUpdateWithWhereUniqueWithoutItemInput = {
-  where: OtherFeatureWhereUniqueInput;
-  data: OtherFeatureUpdateWithoutItemDataInput;
+export type LikeUpdateWithWhereUniqueWithoutItemInput = {
+  where: LikeWhereUniqueInput;
+  data: LikeUpdateWithoutItemDataInput;
 };
 
-export type OtherFeatureUpdateWithoutItemDataInput = {
+export type LikeUpdateWithoutItemDataInput = {
   id?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  OrderItem?: Maybe<OrderItemUpdateOneWithoutOtherFeaturesInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
+  OrderItem?: Maybe<OrderItemUpdateOneWithoutLikesInput>;
 };
 
-export type OrderItemUpdateOneWithoutOtherFeaturesInput = {
-  create?: Maybe<OrderItemCreateWithoutOtherFeaturesInput>;
+export type OrderItemUpdateOneWithoutLikesInput = {
+  create?: Maybe<OrderItemCreateWithoutLikesInput>;
   connect?: Maybe<OrderItemWhereUniqueInput>;
   disconnect?: Maybe<Scalars['Boolean']>;
   delete?: Maybe<Scalars['Boolean']>;
-  update?: Maybe<OrderItemUpdateWithoutOtherFeaturesDataInput>;
-  upsert?: Maybe<OrderItemUpsertWithoutOtherFeaturesInput>;
+  update?: Maybe<OrderItemUpdateWithoutLikesDataInput>;
+  upsert?: Maybe<OrderItemUpsertWithoutLikesInput>;
 };
 
-export type OrderItemUpdateWithoutOtherFeaturesDataInput = {
+export type OrderItemUpdateWithoutLikesDataInput = {
   id?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -3069,9 +3191,10 @@ export type OrderItemUpdateWithoutOtherFeaturesDataInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  likes?: Maybe<LikeUpdateManyWithoutOrderItemInput>;
+  images?: Maybe<OrderItemUpdateimagesInput>;
+  eagerImages?: Maybe<OrderItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemUpdateOtherFeaturesInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutOrderItemInput>;
   tags?: Maybe<TagUpdateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutOrderItemInput>;
@@ -3128,132 +3251,13 @@ export type ItemUpdateWithoutColorsDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
   tags?: Maybe<TagUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
-  likes?: Maybe<LikeUpdateManyWithoutItemInput>;
-  Order?: Maybe<OrderUpdateManyWithoutItemInput>;
-  CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
-};
-
-export type LikeUpdateManyWithoutItemInput = {
-  create?: Maybe<Array<LikeCreateWithoutItemInput>>;
-  connect?: Maybe<Array<LikeWhereUniqueInput>>;
-  set?: Maybe<Array<LikeWhereUniqueInput>>;
-  disconnect?: Maybe<Array<LikeWhereUniqueInput>>;
-  delete?: Maybe<Array<LikeWhereUniqueInput>>;
-  update?: Maybe<Array<LikeUpdateWithWhereUniqueWithoutItemInput>>;
-  updateMany?: Maybe<Array<LikeUpdateManyWithWhereNestedInput>>;
-  deleteMany?: Maybe<Array<LikeScalarWhereInput>>;
-  upsert?: Maybe<Array<LikeUpsertWithWhereUniqueWithoutItemInput>>;
-};
-
-export type LikeUpdateWithWhereUniqueWithoutItemInput = {
-  where: LikeWhereUniqueInput;
-  data: LikeUpdateWithoutItemDataInput;
-};
-
-export type LikeUpdateWithoutItemDataInput = {
-  id?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  user?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
-  OrderItem?: Maybe<OrderItemUpdateOneWithoutLikesInput>;
-};
-
-export type OrderItemUpdateOneWithoutLikesInput = {
-  create?: Maybe<OrderItemCreateWithoutLikesInput>;
-  connect?: Maybe<OrderItemWhereUniqueInput>;
-  disconnect?: Maybe<Scalars['Boolean']>;
-  delete?: Maybe<Scalars['Boolean']>;
-  update?: Maybe<OrderItemUpdateWithoutLikesDataInput>;
-  upsert?: Maybe<OrderItemUpsertWithoutLikesInput>;
-};
-
-export type OrderItemUpdateWithoutLikesDataInput = {
-  id?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  beforeDiscountPrice?: Maybe<Scalars['Float']>;
-  overview?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  stock?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  itemReview?: Maybe<ReviewUpdateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutOrderItemInput>;
-  catagory?: Maybe<CatagoryUpdateManyWithoutOrderItemInput>;
-  tags?: Maybe<TagUpdateManyWithoutOrderItemInput>;
-  colors?: Maybe<ColorUpdateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutOrderItemInput>;
-  Order?: Maybe<OrderUpdateManyWithoutItemsInput>;
-};
-
-export type OtherFeatureUpdateManyWithoutOrderItemInput = {
-  create?: Maybe<Array<OtherFeatureCreateWithoutOrderItemInput>>;
-  connect?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  set?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  disconnect?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  delete?: Maybe<Array<OtherFeatureWhereUniqueInput>>;
-  update?: Maybe<Array<OtherFeatureUpdateWithWhereUniqueWithoutOrderItemInput>>;
-  updateMany?: Maybe<Array<OtherFeatureUpdateManyWithWhereNestedInput>>;
-  deleteMany?: Maybe<Array<OtherFeatureScalarWhereInput>>;
-  upsert?: Maybe<Array<OtherFeatureUpsertWithWhereUniqueWithoutOrderItemInput>>;
-};
-
-export type OtherFeatureUpdateWithWhereUniqueWithoutOrderItemInput = {
-  where: OtherFeatureWhereUniqueInput;
-  data: OtherFeatureUpdateWithoutOrderItemDataInput;
-};
-
-export type OtherFeatureUpdateWithoutOrderItemDataInput = {
-  id?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  item?: Maybe<ItemUpdateOneRequiredWithoutOtherFeaturesInput>;
-};
-
-export type ItemUpdateOneRequiredWithoutOtherFeaturesInput = {
-  create?: Maybe<ItemCreateWithoutOtherFeaturesInput>;
-  connect?: Maybe<ItemWhereUniqueInput>;
-  update?: Maybe<ItemUpdateWithoutOtherFeaturesDataInput>;
-  upsert?: Maybe<ItemUpsertWithoutOtherFeaturesInput>;
-};
-
-export type ItemUpdateWithoutOtherFeaturesDataInput = {
-  id?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  overview?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  beforeDiscountPrice?: Maybe<Scalars['Float']>;
-  stock?: Maybe<Scalars['Int']>;
-  likesCount?: Maybe<Scalars['Int']>;
-  reviewCount?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
-  itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
-  catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
-  tags?: Maybe<TagUpdateManyWithoutItemInput>;
-  colors?: Maybe<ColorUpdateManyWithoutItemInput>;
   likes?: Maybe<LikeUpdateManyWithoutItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
@@ -3320,13 +3324,14 @@ export type OrderItemUpdateWithoutOrderDataInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemUpdateimagesInput>;
+  eagerImages?: Maybe<OrderItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemUpdateOtherFeaturesInput>;
   likes?: Maybe<LikeUpdateManyWithoutOrderItemInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutOrderItemInput>;
   tags?: Maybe<TagUpdateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutOrderItemInput>;
 };
 
 export type OrderItemUpdateManyWithWhereNestedInput = {
@@ -3350,385 +3355,15 @@ export type OrderItemScalarWhereInput = {
   stock?: Maybe<NullableIntFilter>;
   likes?: Maybe<LikeFilter>;
   itemReview?: Maybe<ReviewFilter>;
-  images?: Maybe<ItemImageFilter>;
   catagory?: Maybe<CatagoryFilter>;
   tags?: Maybe<TagFilter>;
   colors?: Maybe<ColorFilter>;
-  OtherFeatures?: Maybe<OtherFeatureFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
   Order?: Maybe<OrderFilter>;
   AND?: Maybe<Array<OrderItemScalarWhereInput>>;
   OR?: Maybe<Array<OrderItemScalarWhereInput>>;
   NOT?: Maybe<Array<OrderItemScalarWhereInput>>;
-};
-
-export type NullableIntFilter = {
-  equals?: Maybe<Scalars['Int']>;
-  not?: Maybe<Scalars['Int']>;
-  in?: Maybe<Array<Scalars['Int']>>;
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  lt?: Maybe<Scalars['Int']>;
-  lte?: Maybe<Scalars['Int']>;
-  gt?: Maybe<Scalars['Int']>;
-  gte?: Maybe<Scalars['Int']>;
-};
-
-export type LikeFilter = {
-  every?: Maybe<LikeWhereInput>;
-  some?: Maybe<LikeWhereInput>;
-  none?: Maybe<LikeWhereInput>;
-};
-
-export type LikeWhereInput = {
-  id?: Maybe<StringFilter>;
-  userId?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<LikeWhereInput>>;
-  OR?: Maybe<Array<LikeWhereInput>>;
-  NOT?: Maybe<Array<LikeWhereInput>>;
-  user?: Maybe<UserWhereInput>;
-  item?: Maybe<ItemWhereInput>;
-  OrderItem?: Maybe<OrderItemWhereInput>;
-};
-
-export type UserWhereInput = {
-  id?: Maybe<StringFilter>;
-  email?: Maybe<StringFilter>;
-  name?: Maybe<StringFilter>;
-  password?: Maybe<StringFilter>;
-  role?: Maybe<Role>;
-  address?: Maybe<AddressFilter>;
-  permissions?: Maybe<Permission>;
-  cart?: Maybe<CartItemFilter>;
-  likes?: Maybe<LikeFilter>;
-  itemReview?: Maybe<ReviewFilter>;
-  PasswordResetTokenExpiry?: Maybe<NullableFloatFilter>;
-  reviewCount?: Maybe<NullableIntFilter>;
-  likesCount?: Maybe<NullableIntFilter>;
-  PasswordResetToken?: Maybe<NullableStringFilter>;
-  Order?: Maybe<OrderFilter>;
-  avatar?: Maybe<NullableStringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<UserWhereInput>>;
-  OR?: Maybe<Array<UserWhereInput>>;
-  NOT?: Maybe<Array<UserWhereInput>>;
-};
-
-export type AddressFilter = {
-  every?: Maybe<AddressWhereInput>;
-  some?: Maybe<AddressWhereInput>;
-  none?: Maybe<AddressWhereInput>;
-};
-
-export type AddressWhereInput = {
-  id?: Maybe<StringFilter>;
-  name?: Maybe<StringFilter>;
-  address?: Maybe<StringFilter>;
-  country?: Maybe<StringFilter>;
-  state?: Maybe<StringFilter>;
-  city?: Maybe<StringFilter>;
-  zipCode?: Maybe<StringFilter>;
-  MaincontactNubmer?: Maybe<StringFilter>;
-  streetAddress1?: Maybe<NullableStringFilter>;
-  streetAddress2?: Maybe<NullableStringFilter>;
-  company?: Maybe<NullableStringFilter>;
-  message?: Maybe<NullableStringFilter>;
-  additionalInfo?: Maybe<NullableStringFilter>;
-  isPrimary?: Maybe<NullableBooleanFilter>;
-  Lat?: Maybe<NullableFloatFilter>;
-  Lng?: Maybe<NullableFloatFilter>;
-  sellerId?: Maybe<NullableStringFilter>;
-  userId?: Maybe<NullableStringFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<AddressWhereInput>>;
-  OR?: Maybe<Array<AddressWhereInput>>;
-  NOT?: Maybe<Array<AddressWhereInput>>;
-  Seller?: Maybe<SellerWhereInput>;
-  User?: Maybe<UserWhereInput>;
-};
-
-export type SellerWhereInput = {
-  id?: Maybe<StringFilter>;
-  name?: Maybe<StringFilter>;
-  email?: Maybe<StringFilter>;
-  password?: Maybe<StringFilter>;
-  storeName?: Maybe<StringFilter>;
-  sellerNationality?: Maybe<StringFilter>;
-  sellerIdentification?: Maybe<StringFilter>;
-  confirmPassword?: Maybe<NullableStringFilter>;
-  EmailIsVerified?: Maybe<NullableBooleanFilter>;
-  EmailVarificationHash?: Maybe<NullableStringFilter>;
-  PasswordResetToken?: Maybe<NullableStringFilter>;
-  PasswordResetTokenExpiry?: Maybe<NullableFloatFilter>;
-  SellerItemsCout?: Maybe<NullableIntFilter>;
-  role?: Maybe<Role>;
-  PickupLocations?: Maybe<AddressFilter>;
-  items?: Maybe<ItemFilter>;
-  permissions?: Maybe<Permission>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<SellerWhereInput>>;
-  OR?: Maybe<Array<SellerWhereInput>>;
-  NOT?: Maybe<Array<SellerWhereInput>>;
-};
-
-export type ItemFilter = {
-  every?: Maybe<ItemWhereInput>;
-  some?: Maybe<ItemWhereInput>;
-  none?: Maybe<ItemWhereInput>;
-};
-
-export type ItemWhereInput = {
-  id?: Maybe<StringFilter>;
-  title?: Maybe<StringFilter>;
-  description?: Maybe<StringFilter>;
-  overview?: Maybe<NullableStringFilter>;
-  brand?: Maybe<NullableStringFilter>;
-  weight?: Maybe<NullableStringFilter>;
-  dimensions?: Maybe<NullableStringFilter>;
-  materials?: Maybe<NullableStringFilter>;
-  otherInfo?: Maybe<NullableStringFilter>;
-  videoLink?: Maybe<NullableStringFilter>;
-  sellerId?: Maybe<NullableStringFilter>;
-  price?: Maybe<FloatFilter>;
-  beforeDiscountPrice?: Maybe<FloatFilter>;
-  stock?: Maybe<NullableIntFilter>;
-  likesCount?: Maybe<NullableIntFilter>;
-  reviewCount?: Maybe<NullableIntFilter>;
-  itemReview?: Maybe<ReviewFilter>;
-  images?: Maybe<ItemImageFilter>;
-  catagory?: Maybe<CatagoryFilter>;
-  tags?: Maybe<TagFilter>;
-  colors?: Maybe<ColorFilter>;
-  OtherFeatures?: Maybe<OtherFeatureFilter>;
-  likes?: Maybe<LikeFilter>;
-  Order?: Maybe<OrderFilter>;
-  CartItem?: Maybe<CartItemFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<ItemWhereInput>>;
-  OR?: Maybe<Array<ItemWhereInput>>;
-  NOT?: Maybe<Array<ItemWhereInput>>;
-  Seller?: Maybe<SellerWhereInput>;
-};
-
-export type ReviewFilter = {
-  every?: Maybe<ReviewWhereInput>;
-  some?: Maybe<ReviewWhereInput>;
-  none?: Maybe<ReviewWhereInput>;
-};
-
-export type ReviewWhereInput = {
-  id?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  authorId?: Maybe<StringFilter>;
-  rating?: Maybe<FloatFilter>;
-  text?: Maybe<StringFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<ReviewWhereInput>>;
-  OR?: Maybe<Array<ReviewWhereInput>>;
-  NOT?: Maybe<Array<ReviewWhereInput>>;
-  item?: Maybe<ItemWhereInput>;
-  author?: Maybe<UserWhereInput>;
-  OrderItem?: Maybe<OrderItemWhereInput>;
-};
-
-export type OrderItemWhereInput = {
-  id?: Maybe<StringFilter>;
-  title?: Maybe<StringFilter>;
-  description?: Maybe<StringFilter>;
-  price?: Maybe<FloatFilter>;
-  beforeDiscountPrice?: Maybe<FloatFilter>;
-  overview?: Maybe<NullableStringFilter>;
-  otherInfo?: Maybe<NullableStringFilter>;
-  videoLink?: Maybe<NullableStringFilter>;
-  brand?: Maybe<NullableStringFilter>;
-  weight?: Maybe<NullableStringFilter>;
-  dimensions?: Maybe<NullableStringFilter>;
-  materials?: Maybe<NullableStringFilter>;
-  stock?: Maybe<NullableIntFilter>;
-  likes?: Maybe<LikeFilter>;
-  itemReview?: Maybe<ReviewFilter>;
-  images?: Maybe<ItemImageFilter>;
-  catagory?: Maybe<CatagoryFilter>;
-  tags?: Maybe<TagFilter>;
-  colors?: Maybe<ColorFilter>;
-  OtherFeatures?: Maybe<OtherFeatureFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  Order?: Maybe<OrderFilter>;
-  AND?: Maybe<Array<OrderItemWhereInput>>;
-  OR?: Maybe<Array<OrderItemWhereInput>>;
-  NOT?: Maybe<Array<OrderItemWhereInput>>;
-};
-
-export type ItemImageFilter = {
-  every?: Maybe<ItemImageWhereInput>;
-  some?: Maybe<ItemImageWhereInput>;
-  none?: Maybe<ItemImageWhereInput>;
-};
-
-export type ItemImageWhereInput = {
-  id?: Maybe<StringFilter>;
-  url?: Maybe<StringFilter>;
-  largeUrl?: Maybe<NullableStringFilter>;
-  itemId?: Maybe<StringFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<ItemImageWhereInput>>;
-  OR?: Maybe<Array<ItemImageWhereInput>>;
-  NOT?: Maybe<Array<ItemImageWhereInput>>;
-  item?: Maybe<ItemWhereInput>;
-  OrderItem?: Maybe<OrderItemWhereInput>;
-};
-
-export type CatagoryFilter = {
-  every?: Maybe<CatagoryWhereInput>;
-  some?: Maybe<CatagoryWhereInput>;
-  none?: Maybe<CatagoryWhereInput>;
-};
-
-export type CatagoryWhereInput = {
-  id?: Maybe<StringFilter>;
-  text?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  AND?: Maybe<Array<CatagoryWhereInput>>;
-  OR?: Maybe<Array<CatagoryWhereInput>>;
-  NOT?: Maybe<Array<CatagoryWhereInput>>;
-  item?: Maybe<ItemWhereInput>;
-  OrderItem?: Maybe<OrderItemWhereInput>;
-};
-
-export type TagFilter = {
-  every?: Maybe<TagWhereInput>;
-  some?: Maybe<TagWhereInput>;
-  none?: Maybe<TagWhereInput>;
-};
-
-export type TagWhereInput = {
-  id?: Maybe<StringFilter>;
-  text?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  AND?: Maybe<Array<TagWhereInput>>;
-  OR?: Maybe<Array<TagWhereInput>>;
-  NOT?: Maybe<Array<TagWhereInput>>;
-  item?: Maybe<ItemWhereInput>;
-  OrderItem?: Maybe<OrderItemWhereInput>;
-};
-
-export type ColorFilter = {
-  every?: Maybe<ColorWhereInput>;
-  some?: Maybe<ColorWhereInput>;
-  none?: Maybe<ColorWhereInput>;
-};
-
-export type ColorWhereInput = {
-  id?: Maybe<StringFilter>;
-  text?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  AND?: Maybe<Array<ColorWhereInput>>;
-  OR?: Maybe<Array<ColorWhereInput>>;
-  NOT?: Maybe<Array<ColorWhereInput>>;
-  item?: Maybe<ItemWhereInput>;
-  OrderItem?: Maybe<OrderItemWhereInput>;
-};
-
-export type OtherFeatureFilter = {
-  every?: Maybe<OtherFeatureWhereInput>;
-  some?: Maybe<OtherFeatureWhereInput>;
-  none?: Maybe<OtherFeatureWhereInput>;
-};
-
-export type OtherFeatureWhereInput = {
-  id?: Maybe<StringFilter>;
-  text?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  AND?: Maybe<Array<OtherFeatureWhereInput>>;
-  OR?: Maybe<Array<OtherFeatureWhereInput>>;
-  NOT?: Maybe<Array<OtherFeatureWhereInput>>;
-  item?: Maybe<ItemWhereInput>;
-  OrderItem?: Maybe<OrderItemWhereInput>;
-};
-
-export type OrderFilter = {
-  every?: Maybe<OrderWhereInput>;
-  some?: Maybe<OrderWhereInput>;
-  none?: Maybe<OrderWhereInput>;
-};
-
-export type OrderWhereInput = {
-  id?: Maybe<StringFilter>;
-  items?: Maybe<OrderItemFilter>;
-  total?: Maybe<IntFilter>;
-  userId?: Maybe<StringFilter>;
-  charge?: Maybe<StringFilter>;
-  status?: Maybe<OrderStatus>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  itemId?: Maybe<NullableStringFilter>;
-  AND?: Maybe<Array<OrderWhereInput>>;
-  OR?: Maybe<Array<OrderWhereInput>>;
-  NOT?: Maybe<Array<OrderWhereInput>>;
-  user?: Maybe<UserWhereInput>;
-  Item?: Maybe<ItemWhereInput>;
-};
-
-export type OrderItemFilter = {
-  every?: Maybe<OrderItemWhereInput>;
-  some?: Maybe<OrderItemWhereInput>;
-  none?: Maybe<OrderItemWhereInput>;
-};
-
-export type IntFilter = {
-  equals?: Maybe<Scalars['Int']>;
-  not?: Maybe<Scalars['Int']>;
-  in?: Maybe<Array<Scalars['Int']>>;
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  lt?: Maybe<Scalars['Int']>;
-  lte?: Maybe<Scalars['Int']>;
-  gt?: Maybe<Scalars['Int']>;
-  gte?: Maybe<Scalars['Int']>;
-};
-
-export type CartItemFilter = {
-  every?: Maybe<CartItemWhereInput>;
-  some?: Maybe<CartItemWhereInput>;
-  none?: Maybe<CartItemWhereInput>;
-};
-
-export type CartItemWhereInput = {
-  id?: Maybe<StringFilter>;
-  quantity?: Maybe<IntFilter>;
-  itemId?: Maybe<StringFilter>;
-  userId?: Maybe<StringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<CartItemWhereInput>>;
-  OR?: Maybe<Array<CartItemWhereInput>>;
-  NOT?: Maybe<Array<CartItemWhereInput>>;
-  item?: Maybe<ItemWhereInput>;
-  user?: Maybe<UserWhereInput>;
 };
 
 export type OrderItemUpdateManyDataInput = {
@@ -3747,6 +3382,9 @@ export type OrderItemUpdateManyDataInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemUpdateimagesInput>;
+  eagerImages?: Maybe<OrderItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemUpdateOtherFeaturesInput>;
 };
 
 export type OrderItemUpsertWithWhereUniqueWithoutOrderInput = {
@@ -3929,13 +3567,14 @@ export type ItemUpdateWithoutOrderDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
   Seller?: Maybe<SellerUpdateOneWithoutItemsInput>;
   itemReview?: Maybe<ReviewUpdateManyWithoutItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutItemInput>;
   tags?: Maybe<TagUpdateManyWithoutItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutItemInput>;
   likes?: Maybe<LikeUpdateManyWithoutItemInput>;
   CartItem?: Maybe<CartItemUpdateManyWithoutItemInput>;
 };
@@ -3986,39 +3625,39 @@ export type CartItemUpsertWithWhereUniqueWithoutItemInput = {
   create: CartItemCreateWithoutItemInput;
 };
 
-export type ItemUpsertWithoutOtherFeaturesInput = {
-  update: ItemUpdateWithoutOtherFeaturesDataInput;
-  create: ItemCreateWithoutOtherFeaturesInput;
+export type ItemUpsertWithoutColorsInput = {
+  update: ItemUpdateWithoutColorsDataInput;
+  create: ItemCreateWithoutColorsInput;
 };
 
-export type OtherFeatureUpdateManyWithWhereNestedInput = {
-  where: OtherFeatureScalarWhereInput;
-  data: OtherFeatureUpdateManyDataInput;
+export type ColorUpdateManyWithWhereNestedInput = {
+  where: ColorScalarWhereInput;
+  data: ColorUpdateManyDataInput;
 };
 
-export type OtherFeatureScalarWhereInput = {
+export type ColorScalarWhereInput = {
   id?: Maybe<StringFilter>;
   text?: Maybe<StringFilter>;
   itemId?: Maybe<StringFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
   orderItemId?: Maybe<NullableStringFilter>;
-  AND?: Maybe<Array<OtherFeatureScalarWhereInput>>;
-  OR?: Maybe<Array<OtherFeatureScalarWhereInput>>;
-  NOT?: Maybe<Array<OtherFeatureScalarWhereInput>>;
+  AND?: Maybe<Array<ColorScalarWhereInput>>;
+  OR?: Maybe<Array<ColorScalarWhereInput>>;
+  NOT?: Maybe<Array<ColorScalarWhereInput>>;
 };
 
-export type OtherFeatureUpdateManyDataInput = {
+export type ColorUpdateManyDataInput = {
   id?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type OtherFeatureUpsertWithWhereUniqueWithoutOrderItemInput = {
-  where: OtherFeatureWhereUniqueInput;
-  update: OtherFeatureUpdateWithoutOrderItemDataInput;
-  create: OtherFeatureCreateWithoutOrderItemInput;
+export type ColorUpsertWithWhereUniqueWithoutOrderItemInput = {
+  where: ColorWhereUniqueInput;
+  update: ColorUpdateWithoutOrderItemDataInput;
+  create: ColorCreateWithoutOrderItemInput;
 };
 
 export type OrderUpdateManyWithoutItemsInput = {
@@ -4087,52 +3726,6 @@ export type LikeUpsertWithWhereUniqueWithoutItemInput = {
   where: LikeWhereUniqueInput;
   update: LikeUpdateWithoutItemDataInput;
   create: LikeCreateWithoutItemInput;
-};
-
-export type ItemUpsertWithoutColorsInput = {
-  update: ItemUpdateWithoutColorsDataInput;
-  create: ItemCreateWithoutColorsInput;
-};
-
-export type ColorUpdateManyWithWhereNestedInput = {
-  where: ColorScalarWhereInput;
-  data: ColorUpdateManyDataInput;
-};
-
-export type ColorScalarWhereInput = {
-  id?: Maybe<StringFilter>;
-  text?: Maybe<StringFilter>;
-  itemId?: Maybe<StringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  AND?: Maybe<Array<ColorScalarWhereInput>>;
-  OR?: Maybe<Array<ColorScalarWhereInput>>;
-  NOT?: Maybe<Array<ColorScalarWhereInput>>;
-};
-
-export type ColorUpdateManyDataInput = {
-  id?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type ColorUpsertWithWhereUniqueWithoutOrderItemInput = {
-  where: ColorWhereUniqueInput;
-  update: ColorUpdateWithoutOrderItemDataInput;
-  create: ColorCreateWithoutOrderItemInput;
-};
-
-export type OrderItemUpsertWithoutOtherFeaturesInput = {
-  update: OrderItemUpdateWithoutOtherFeaturesDataInput;
-  create: OrderItemCreateWithoutOtherFeaturesInput;
-};
-
-export type OtherFeatureUpsertWithWhereUniqueWithoutItemInput = {
-  where: OtherFeatureWhereUniqueInput;
-  update: OtherFeatureUpdateWithoutItemDataInput;
-  create: OtherFeatureCreateWithoutItemInput;
 };
 
 export type ItemUpsertWithoutTagsInput = {
@@ -4227,54 +3820,6 @@ export type TagUpsertWithWhereUniqueWithoutItemInput = {
   create: TagCreateWithoutItemInput;
 };
 
-export type ItemUpsertWithoutImagesInput = {
-  update: ItemUpdateWithoutImagesDataInput;
-  create: ItemCreateWithoutImagesInput;
-};
-
-export type ItemImageUpdateManyWithWhereNestedInput = {
-  where: ItemImageScalarWhereInput;
-  data: ItemImageUpdateManyDataInput;
-};
-
-export type ItemImageScalarWhereInput = {
-  id?: Maybe<StringFilter>;
-  url?: Maybe<StringFilter>;
-  largeUrl?: Maybe<NullableStringFilter>;
-  itemId?: Maybe<StringFilter>;
-  orderItemId?: Maybe<NullableStringFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<ItemImageScalarWhereInput>>;
-  OR?: Maybe<Array<ItemImageScalarWhereInput>>;
-  NOT?: Maybe<Array<ItemImageScalarWhereInput>>;
-};
-
-export type ItemImageUpdateManyDataInput = {
-  id?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  largeUrl?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type ItemImageUpsertWithWhereUniqueWithoutOrderItemInput = {
-  where: ItemImageWhereUniqueInput;
-  update: ItemImageUpdateWithoutOrderItemDataInput;
-  create: ItemImageCreateWithoutOrderItemInput;
-};
-
-export type OrderItemUpsertWithoutCatagoryInput = {
-  update: OrderItemUpdateWithoutCatagoryDataInput;
-  create: OrderItemCreateWithoutCatagoryInput;
-};
-
-export type CatagoryUpsertWithWhereUniqueWithoutItemInput = {
-  where: CatagoryWhereUniqueInput;
-  update: CatagoryUpdateWithoutItemDataInput;
-  create: CatagoryCreateWithoutItemInput;
-};
-
 export type ItemUpsertWithoutItemReviewInput = {
   update: ItemUpdateWithoutItemReviewDataInput;
   create: ItemCreateWithoutItemReviewInput;
@@ -4305,12 +3850,13 @@ export type OrderItemUpdateWithoutItemReviewDataInput = {
   stock?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<OrderItemUpdateimagesInput>;
+  eagerImages?: Maybe<OrderItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<OrderItemUpdateOtherFeaturesInput>;
   likes?: Maybe<LikeUpdateManyWithoutOrderItemInput>;
-  images?: Maybe<ItemImageUpdateManyWithoutOrderItemInput>;
   catagory?: Maybe<CatagoryUpdateManyWithoutOrderItemInput>;
   tags?: Maybe<TagUpdateManyWithoutOrderItemInput>;
   colors?: Maybe<ColorUpdateManyWithoutOrderItemInput>;
-  OtherFeatures?: Maybe<OtherFeatureUpdateManyWithoutOrderItemInput>;
   Order?: Maybe<OrderUpdateManyWithoutItemsInput>;
 };
 
@@ -4336,15 +3882,15 @@ export type LikeUpsertWithWhereUniqueWithoutOrderItemInput = {
   create: LikeCreateWithoutOrderItemInput;
 };
 
-export type OrderItemUpsertWithoutImagesInput = {
-  update: OrderItemUpdateWithoutImagesDataInput;
-  create: OrderItemCreateWithoutImagesInput;
+export type OrderItemUpsertWithoutCatagoryInput = {
+  update: OrderItemUpdateWithoutCatagoryDataInput;
+  create: OrderItemCreateWithoutCatagoryInput;
 };
 
-export type ItemImageUpsertWithWhereUniqueWithoutItemInput = {
-  where: ItemImageWhereUniqueInput;
-  update: ItemImageUpdateWithoutItemDataInput;
-  create: ItemImageCreateWithoutItemInput;
+export type CatagoryUpsertWithWhereUniqueWithoutItemInput = {
+  where: CatagoryWhereUniqueInput;
+  update: CatagoryUpdateWithoutItemDataInput;
+  create: CatagoryCreateWithoutItemInput;
 };
 
 export type ItemUpsertWithoutLikesInput = {
@@ -4419,11 +3965,9 @@ export type ItemScalarWhereInput = {
   likesCount?: Maybe<NullableIntFilter>;
   reviewCount?: Maybe<NullableIntFilter>;
   itemReview?: Maybe<ReviewFilter>;
-  images?: Maybe<ItemImageFilter>;
   catagory?: Maybe<CatagoryFilter>;
   tags?: Maybe<TagFilter>;
   colors?: Maybe<ColorFilter>;
-  OtherFeatures?: Maybe<OtherFeatureFilter>;
   likes?: Maybe<LikeFilter>;
   Order?: Maybe<OrderFilter>;
   CartItem?: Maybe<CartItemFilter>;
@@ -4452,6 +3996,9 @@ export type ItemUpdateManyDataInput = {
   reviewCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  images?: Maybe<ItemUpdateimagesInput>;
+  eagerImages?: Maybe<ItemUpdateeagerImagesInput>;
+  OtherFeatures?: Maybe<ItemUpdateOtherFeaturesInput>;
 };
 
 export type ItemUpsertWithWhereUniqueWithoutSellerInput = {
@@ -4463,30 +4010,6 @@ export type ItemUpsertWithWhereUniqueWithoutSellerInput = {
 export type SellerUpsertWithoutPickupLocationsInput = {
   update: SellerUpdateWithoutPickupLocationsDataInput;
   create: SellerCreateWithoutPickupLocationsInput;
-};
-
-export type Tag = {
-  __typename?: 'Tag';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-};
-
-export type Color = {
-  __typename?: 'Color';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-};
-
-export type OtherFeature = {
-  __typename?: 'OtherFeature';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
 };
 
 export type AddressQueryVariables = {};
@@ -4511,6 +4034,9 @@ export type MeQuery = (
     & { cart: Array<(
       { __typename?: 'CartItem' }
       & Pick<CartItem, 'id' | 'itemId'>
+    )>, likes: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'id' | 'itemId'>
     )>, address: Array<(
       { __typename?: 'Address' }
       & Pick<Address, 'id' | 'name' | 'address' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'isPrimary' | 'Lat' | 'Lng'>
@@ -4597,14 +4123,17 @@ export type CurrentSellerQueryVariables = {};
 
 export type CurrentSellerQuery = (
   { __typename?: 'Query' }
-  & { CurrentSeller: (
+  & { CurrentSeller?: Maybe<(
     { __typename?: 'Seller' }
     & Pick<Seller, 'id' | 'name' | 'storeName' | 'sellerNationality' | 'sellerIdentification' | 'EmailIsVerified' | 'SellerItemsCout' | 'role' | 'phone' | 'Brand' | 'permissions'>
     & { PickupLocations: Array<(
       { __typename?: 'Address' }
       & Pick<Address, 'address'>
+    )>, items: Array<(
+      { __typename?: 'Item' }
+      & Pick<Item, 'id'>
     )> }
-  ) }
+  )> }
 );
 
 export type CreateSellerMutationVariables = {
@@ -4636,11 +4165,7 @@ export type CreateSellerMutation = (
     & Pick<Seller, 'id' | 'name' | 'email' | 'storeName' | 'sellerNationality' | 'EmailIsVerified' | 'SellerItemsCout' | 'role' | 'phone' | 'Brand' | 'permissions'>
     & { items: Array<(
       { __typename?: 'Item' }
-      & Pick<Item, 'title'>
-      & { images: Array<(
-        { __typename?: 'ItemImage' }
-        & Pick<ItemImage, 'url'>
-      )> }
+      & Pick<Item, 'title' | 'images'>
     )>, PickupLocations: Array<(
       { __typename?: 'Address' }
       & Pick<Address, 'name' | 'address'>
@@ -4699,6 +4224,111 @@ export type UsersOrdersQuery = (
     { __typename?: 'Order' }
     & Pick<Order, 'id' | 'total' | 'charge' | 'status'>
   )>> }
+);
+
+export type CreateItemMutationVariables = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  overview?: Maybe<Scalars['String']>;
+  brand?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  dimensions?: Maybe<Scalars['String']>;
+  materials?: Maybe<Scalars['String']>;
+  otherInfo?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  beforeDiscountPrice: Scalars['Float'];
+  stock?: Maybe<Scalars['Int']>;
+  images?: Maybe<Array<Scalars['String']>>;
+  eagerImages?: Maybe<Array<Scalars['String']>>;
+  catagory?: Maybe<Array<Scalars['String']>>;
+  tags?: Maybe<Array<Scalars['String']>>;
+  colors?: Maybe<Array<Scalars['String']>>;
+  otherFeature: Array<Scalars['String']>;
+};
+
+
+export type CreateItemMutation = (
+  { __typename?: 'Mutation' }
+  & { CreateItem: (
+    { __typename?: 'Item' }
+    & Pick<Item, 'id'>
+  ) }
+);
+
+export type ItemQueryVariables = {
+  id: Scalars['String'];
+};
+
+
+export type ItemQuery = (
+  { __typename?: 'Query' }
+  & { item?: Maybe<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id' | 'likesCount' | 'reviewCount' | 'images' | 'eagerImages' | 'OtherFeatures' | 'title' | 'description' | 'overview' | 'otherInfo' | 'videoLink' | 'brand' | 'weight' | 'dimensions' | 'materials' | 'price' | 'beforeDiscountPrice' | 'stock'>
+    & { likes: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'id'>
+    )>, itemReview: Array<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'id'>
+    )>, catagory: Array<(
+      { __typename?: 'Catagory' }
+      & Pick<Catagory, 'id' | 'text'>
+    )>, tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'id' | 'text'>
+    )>, colors: Array<(
+      { __typename?: 'Color' }
+      & Pick<Color, 'id' | 'text'>
+    )> }
+  )> }
+);
+
+export type ItemsQueryVariables = {};
+
+
+export type ItemsQuery = (
+  { __typename?: 'Query' }
+  & { items: Array<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id' | 'likesCount' | 'reviewCount' | 'images' | 'eagerImages' | 'OtherFeatures' | 'title' | 'description' | 'overview' | 'otherInfo' | 'videoLink' | 'brand' | 'weight' | 'dimensions' | 'materials' | 'price' | 'beforeDiscountPrice' | 'stock'>
+    & { likes: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'id'>
+    )>, itemReview: Array<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'text'>
+    )>, catagory: Array<(
+      { __typename?: 'Catagory' }
+      & Pick<Catagory, 'text'>
+    )>, tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'text'>
+    )>, colors: Array<(
+      { __typename?: 'Color' }
+      & Pick<Color, 'text'>
+    )> }
+  )> }
+);
+
+export type DeleteItemMutationVariables = {
+  itemId: Scalars['String'];
+};
+
+
+export type DeleteItemMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'DeleteItem'>
+);
+
+export type ToggleLikeMutationVariables = {
+  itemId: Scalars['String'];
+};
+
+
+export type ToggleLikeMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'ToggleLikeItem'>
 );
 
 
@@ -4775,6 +4405,10 @@ export const MeDocument = gql`
     likesCount
     reviewCount
     cart {
+      id
+      itemId
+    }
+    likes {
       id
       itemId
     }
@@ -5203,6 +4837,9 @@ export const CurrentSellerDocument = gql`
     }
     Brand
     permissions
+    items {
+      id
+    }
   }
 }
     `;
@@ -5265,9 +4902,7 @@ export const CreateSellerDocument = gql`
     Brand
     items {
       title
-      images {
-        url
-      }
+      images
     }
     PickupLocations {
       name
@@ -5590,3 +5225,338 @@ export function useUsersOrdersLazyQuery(baseOptions?: ApolloReactHooks.LazyQuery
 export type UsersOrdersQueryHookResult = ReturnType<typeof useUsersOrdersQuery>;
 export type UsersOrdersLazyQueryHookResult = ReturnType<typeof useUsersOrdersLazyQuery>;
 export type UsersOrdersQueryResult = ApolloReactCommon.QueryResult<UsersOrdersQuery, UsersOrdersQueryVariables>;
+export const CreateItemDocument = gql`
+    mutation CreateItem($title: String!, $description: String!, $overview: String, $brand: String, $weight: String, $dimensions: String, $materials: String, $otherInfo: String, $price: Float!, $beforeDiscountPrice: Float!, $stock: Int, $images: [String!], $eagerImages: [String!], $catagory: [String!], $tags: [String!], $colors: [String!], $otherFeature: [String!]!) {
+  CreateItem(title: $title, description: $description, overview: $overview, brand: $brand, weight: $weight, dimensions: $dimensions, materials: $materials, otherInfo: $otherInfo, price: $price, beforeDiscountPrice: $beforeDiscountPrice, stock: $stock, images: $images, eagerImages: $eagerImages, catagory: $catagory, tags: $tags, colors: $colors, otherFeature: $otherFeature) {
+    id
+  }
+}
+    `;
+export type CreateItemMutationFn = ApolloReactCommon.MutationFunction<CreateItemMutation, CreateItemMutationVariables>;
+export type CreateItemComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateItemMutation, CreateItemMutationVariables>, 'mutation'>;
+
+    export const CreateItemComponent = (props: CreateItemComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateItemMutation, CreateItemMutationVariables> mutation={CreateItemDocument} {...props} />
+    );
+    
+export type CreateItemProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateItemMutation, CreateItemMutationVariables>
+    } & TChildProps;
+export function withCreateItem<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateItemMutation,
+  CreateItemMutationVariables,
+  CreateItemProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateItemMutation, CreateItemMutationVariables, CreateItemProps<TChildProps, TDataName>>(CreateItemDocument, {
+      alias: 'createItem',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateItemMutation__
+ *
+ * To run a mutation, you first call `useCreateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createItemMutation, { data, loading, error }] = useCreateItemMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *      overview: // value for 'overview'
+ *      brand: // value for 'brand'
+ *      weight: // value for 'weight'
+ *      dimensions: // value for 'dimensions'
+ *      materials: // value for 'materials'
+ *      otherInfo: // value for 'otherInfo'
+ *      price: // value for 'price'
+ *      beforeDiscountPrice: // value for 'beforeDiscountPrice'
+ *      stock: // value for 'stock'
+ *      images: // value for 'images'
+ *      eagerImages: // value for 'eagerImages'
+ *      catagory: // value for 'catagory'
+ *      tags: // value for 'tags'
+ *      colors: // value for 'colors'
+ *      otherFeature: // value for 'otherFeature'
+ *   },
+ * });
+ */
+export function useCreateItemMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateItemMutation, CreateItemMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument, baseOptions);
+      }
+export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
+export type CreateItemMutationResult = ApolloReactCommon.MutationResult<CreateItemMutation>;
+export type CreateItemMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
+export const ItemDocument = gql`
+    query item($id: String!) {
+  item(where: {id: $id}) {
+    id
+    likes {
+      id
+    }
+    likesCount
+    itemReview {
+      id
+    }
+    reviewCount
+    images
+    eagerImages
+    catagory {
+      id
+      text
+    }
+    tags {
+      id
+      text
+    }
+    colors {
+      id
+      text
+    }
+    OtherFeatures
+    title
+    description
+    overview
+    otherInfo
+    videoLink
+    brand
+    weight
+    dimensions
+    materials
+    price
+    beforeDiscountPrice
+    stock
+  }
+}
+    `;
+export type ItemComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ItemQuery, ItemQueryVariables>, 'query'> & ({ variables: ItemQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const ItemComponent = (props: ItemComponentProps) => (
+      <ApolloReactComponents.Query<ItemQuery, ItemQueryVariables> query={ItemDocument} {...props} />
+    );
+    
+export type ItemProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ItemQuery, ItemQueryVariables>
+    } & TChildProps;
+export function withItem<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ItemQuery,
+  ItemQueryVariables,
+  ItemProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ItemQuery, ItemQueryVariables, ItemProps<TChildProps, TDataName>>(ItemDocument, {
+      alias: 'item',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useItemQuery__
+ *
+ * To run a query within a React component, call `useItemQuery` and pass it any options that fit your needs.
+ * When your component renders, `useItemQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useItemQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useItemQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ItemQuery, ItemQueryVariables>) {
+        return ApolloReactHooks.useQuery<ItemQuery, ItemQueryVariables>(ItemDocument, baseOptions);
+      }
+export function useItemLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ItemQuery, ItemQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ItemQuery, ItemQueryVariables>(ItemDocument, baseOptions);
+        }
+export type ItemQueryHookResult = ReturnType<typeof useItemQuery>;
+export type ItemLazyQueryHookResult = ReturnType<typeof useItemLazyQuery>;
+export type ItemQueryResult = ApolloReactCommon.QueryResult<ItemQuery, ItemQueryVariables>;
+export const ItemsDocument = gql`
+    query Items {
+  items {
+    id
+    likes {
+      id
+    }
+    likesCount
+    itemReview {
+      text
+    }
+    reviewCount
+    images
+    eagerImages
+    catagory {
+      text
+    }
+    tags {
+      text
+    }
+    colors {
+      text
+    }
+    OtherFeatures
+    title
+    description
+    overview
+    otherInfo
+    videoLink
+    brand
+    weight
+    dimensions
+    materials
+    price
+    beforeDiscountPrice
+    stock
+  }
+}
+    `;
+export type ItemsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ItemsQuery, ItemsQueryVariables>, 'query'>;
+
+    export const ItemsComponent = (props: ItemsComponentProps) => (
+      <ApolloReactComponents.Query<ItemsQuery, ItemsQueryVariables> query={ItemsDocument} {...props} />
+    );
+    
+export type ItemsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ItemsQuery, ItemsQueryVariables>
+    } & TChildProps;
+export function withItems<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ItemsQuery,
+  ItemsQueryVariables,
+  ItemsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ItemsQuery, ItemsQueryVariables, ItemsProps<TChildProps, TDataName>>(ItemsDocument, {
+      alias: 'items',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useItemsQuery__
+ *
+ * To run a query within a React component, call `useItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useItemsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useItemsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ItemsQuery, ItemsQueryVariables>) {
+        return ApolloReactHooks.useQuery<ItemsQuery, ItemsQueryVariables>(ItemsDocument, baseOptions);
+      }
+export function useItemsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ItemsQuery, ItemsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ItemsQuery, ItemsQueryVariables>(ItemsDocument, baseOptions);
+        }
+export type ItemsQueryHookResult = ReturnType<typeof useItemsQuery>;
+export type ItemsLazyQueryHookResult = ReturnType<typeof useItemsLazyQuery>;
+export type ItemsQueryResult = ApolloReactCommon.QueryResult<ItemsQuery, ItemsQueryVariables>;
+export const DeleteItemDocument = gql`
+    mutation DeleteItem($itemId: String!) {
+  DeleteItem(itemId: $itemId)
+}
+    `;
+export type DeleteItemMutationFn = ApolloReactCommon.MutationFunction<DeleteItemMutation, DeleteItemMutationVariables>;
+export type DeleteItemComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteItemMutation, DeleteItemMutationVariables>, 'mutation'>;
+
+    export const DeleteItemComponent = (props: DeleteItemComponentProps) => (
+      <ApolloReactComponents.Mutation<DeleteItemMutation, DeleteItemMutationVariables> mutation={DeleteItemDocument} {...props} />
+    );
+    
+export type DeleteItemProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteItemMutation, DeleteItemMutationVariables>
+    } & TChildProps;
+export function withDeleteItem<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteItemMutation,
+  DeleteItemMutationVariables,
+  DeleteItemProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteItemMutation, DeleteItemMutationVariables, DeleteItemProps<TChildProps, TDataName>>(DeleteItemDocument, {
+      alias: 'deleteItem',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteItemMutation__
+ *
+ * To run a mutation, you first call `useDeleteItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteItemMutation, { data, loading, error }] = useDeleteItemMutation({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *   },
+ * });
+ */
+export function useDeleteItemMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteItemMutation, DeleteItemMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteItemMutation, DeleteItemMutationVariables>(DeleteItemDocument, baseOptions);
+      }
+export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutation>;
+export type DeleteItemMutationResult = ApolloReactCommon.MutationResult<DeleteItemMutation>;
+export type DeleteItemMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
+export const ToggleLikeDocument = gql`
+    mutation ToggleLike($itemId: String!) {
+  ToggleLikeItem(itemId: $itemId)
+}
+    `;
+export type ToggleLikeMutationFn = ApolloReactCommon.MutationFunction<ToggleLikeMutation, ToggleLikeMutationVariables>;
+export type ToggleLikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ToggleLikeMutation, ToggleLikeMutationVariables>, 'mutation'>;
+
+    export const ToggleLikeComponent = (props: ToggleLikeComponentProps) => (
+      <ApolloReactComponents.Mutation<ToggleLikeMutation, ToggleLikeMutationVariables> mutation={ToggleLikeDocument} {...props} />
+    );
+    
+export type ToggleLikeProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<ToggleLikeMutation, ToggleLikeMutationVariables>
+    } & TChildProps;
+export function withToggleLike<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ToggleLikeMutation,
+  ToggleLikeMutationVariables,
+  ToggleLikeProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, ToggleLikeMutation, ToggleLikeMutationVariables, ToggleLikeProps<TChildProps, TDataName>>(ToggleLikeDocument, {
+      alias: 'toggleLike',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useToggleLikeMutation__
+ *
+ * To run a mutation, you first call `useToggleLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useToggleLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [toggleLikeMutation, { data, loading, error }] = useToggleLikeMutation({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *   },
+ * });
+ */
+export function useToggleLikeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ToggleLikeMutation, ToggleLikeMutationVariables>) {
+        return ApolloReactHooks.useMutation<ToggleLikeMutation, ToggleLikeMutationVariables>(ToggleLikeDocument, baseOptions);
+      }
+export type ToggleLikeMutationHookResult = ReturnType<typeof useToggleLikeMutation>;
+export type ToggleLikeMutationResult = ApolloReactCommon.MutationResult<ToggleLikeMutation>;
+export type ToggleLikeMutationOptions = ApolloReactCommon.BaseMutationOptions<ToggleLikeMutation, ToggleLikeMutationVariables>;
