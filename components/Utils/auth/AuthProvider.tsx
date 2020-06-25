@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { logout } from "./helpers";
 import ErrorMessage from "../ErrorMessage";
-import { useMeQuery, useCurrentSellerQuery } from "generated/graphql";
+import { useCurrentUserQuery, useCurrentSellerQuery } from "generated/graphql";
 import Spinner from "../Spinner/Spinner";
 import LoginForm from "components/Account/UserAccount/LoginForm";
 
@@ -13,7 +13,7 @@ export const AuthContext = createContext<AuthContextParams>([
 ]);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const { data, loading, error } = useMeQuery();
+  const { data, loading, error } = useCurrentUserQuery();
 
   // Usually you don't see this, because we have no "loading" state on SSR
   if (loading) {
@@ -48,7 +48,7 @@ const AuthProvider: React.FC = ({ children }) => {
 };
 
 function useUser() {
-  const { loading, data, error, called } = useMeQuery();
+  const { loading, data, error, called } = useCurrentUserQuery();
 
   if (data && !loading && !error && called) {
     return data.CurrentUser;

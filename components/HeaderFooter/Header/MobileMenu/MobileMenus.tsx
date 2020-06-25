@@ -13,7 +13,7 @@ import SideNavSearch from "../../../shop/SideNav/SideNavSearch";
 import { CategoryMenuHead } from "../Menus/CategoriesMenu";
 import { CatalogMenuHead } from "../Menus/CatalogueMene";
 import PagesMenus from "../Menus/PagesMenus";
-import { Me, CurrentSeller } from "components/Resolvers/AuthResolvers";
+import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
 import { useUser, useSeller } from "components/Utils/auth";
 import { useUserLogoutMutation } from "generated/graphql";
 
@@ -119,7 +119,7 @@ function MobileMenus() {
 
 function MyAccount({ user, seller }: any) {
   const [UserLogout] = useUserLogoutMutation({
-    refetchQueries: [{ query: Me }, { query: CurrentSeller }],
+    refetchQueries: [{ query: CurrentUser }, { query: CurrentSeller }],
   });
 
   const Logout = () => {

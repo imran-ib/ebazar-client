@@ -7,6 +7,9 @@ import calcTotalPrice from "components/Utils/CalculateTotal";
 import { useUser } from "components/Utils/auth";
 import { useOnClickOutside } from "../Utils/ClickOutside";
 
+interface Props {}
+
+// This Component is bieng used in header.js component
 const Cart = () => {
   // Create a ref that we add to the element for which we want to detect outside clicks
   const ref = useRef();
@@ -16,47 +19,28 @@ const Cart = () => {
 
   const user = useUser();
 
-  const TotalItems = user?.cart.reduce((tally, cartItem) => {
-    return tally + cartItem.quantity;
+  const TotalItems = user?.cart.reduce((tally: any, cartItem: any) => {
+    return tally;
   }, 0);
 
-  const TotalCartPrice = formatMoney(calcTotalPrice(user?.cart));
-
   return (
-    <div
-      style={{ overflow: `${isModalOpen ? "" : "hidden"}` }}
-      // @ts-ignore
-      ref={ref}
-      className={`cart-wrap ${isModalOpen && "show"} `}
-    >
+    // @ts-ignore
+    <div ref={ref} className={`cart-wrap ${isModalOpen && "show"} `}>
       <button onClick={() => setModalOpen(true)} className="icon-cart-active">
         <RubberBand spy={TotalItems}>
-          <div style={{ width: "50px" }}>
-            <span className="icon-cart bag" style={{ right: "15px" }}>
-              <i className="sli sli-bag" />
-              {TotalItems ? (
-                <span
-                  className="count-style"
-                  style={{ top: "4px", left: "14px" }}
-                >
-                  {TotalItems || 0}
-                </span>
-              ) : (
-                ""
-              )}
-            </span>
-            {TotalCartPrice !== "$0" && TotalCartPrice !== "$NaN" ? (
-              <span className="cart-price">{TotalCartPrice}</span>
-            ) : (
-              ""
-            )}
-          </div>
+          <span className="icon-cart">
+            <i className="sli sli-bag" />
+            <span className="count-style">{TotalItems || 0}</span>
+          </span>
+          <span className="cart-price">
+            {user && formatMoney(calcTotalPrice(user.cart))}
+          </span>
         </RubberBand>
       </button>
       <div className={`shopping-cart-content ${isModalOpen && "show"}`}>
         <div className="shopping-cart-top">
-          <h4>{user?.name}'s Shopping Cart</h4>
-          <a className="cart-close">
+          <h4>{user?.name}'s Shoping Cart</h4>
+          <a className="cart-close" href="#">
             <i onClick={() => setModalOpen(false)} className="sli sli-close" />
           </a>
         </div>

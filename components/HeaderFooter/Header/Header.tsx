@@ -36,7 +36,7 @@ const Header: React.FC<Props> = ({ user, seller }) => {
               <Logo />
               <Menus user={user} seller={seller} />
               <Col xl={3} lg={3}>
-                <div className="header-right-wrap pt-40">
+                <div className="header-right-wrap">
                   <Cart />
                 </div>
               </Col>

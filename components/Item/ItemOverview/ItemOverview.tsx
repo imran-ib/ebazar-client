@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import FormatMoney from "../../Utils/formatMoney";
-
 import { SideBySideMagnifier } from "react-image-magnifiers";
-
-import DeleteItem from "../DeleteItem/DeleteItem";
 import AddToCartButton from "../../Cart/AddToCartButton";
 import LikeButton from "../LikeItem/LikeItem";
-import EditItem from "../EditItem/EditItem";
 import StarRatingFixed from "../Review/ReviewForm/StarRatingFixed";
 // import AverageReviews from "../../Utils/AverageReviews";
 import { Item } from "generated/graphql";
@@ -24,7 +20,6 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
     (item.beforeDiscountPrice / item.price) * 100 - 100
   ).toFixed(0);
 
-  console.log("item", item);
   return (
     <div className="product-details-area pt-100 pb-95">
       <div className="container">
@@ -101,8 +96,7 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                     marginBottom: "15px",
                   }}
                 >
-                  {" "}
-                  |{" "}
+                  |
                 </span>
 
                 <span
@@ -143,17 +137,19 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                   </li>
                 </ul>
               </div>
-              <div className="pro-details-size-color">
-                <div className="pro-details-color-wrap">
-                  <span>Color</span>
-                  <div className="pro-details-color-content">
-                    <ul>
-                      {item.colors.map((color) => (
-                        <li key={color.id}>{color.text}</li>
-                      ))}
-                    </ul>
-                  </div>
+              <div className="pro-details-color-wrap">
+                <span>Color</span>
+
+                <div className="pro-details-color-content d-flex ">
+                  <ul className="d-flex">
+                    {item.colors.map((color) => (
+                      <li className="btn btn-sm" key={color.id}>
+                        {color.text}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+
                 <div className="pro-details-size">
                   <span>Size</span>
                   <div className="pro-details-size-content">
@@ -169,12 +165,10 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                 </div>
               </div>
               <div className="pro-details-quality">
-                <AddToCartButton />
+                <AddToCartButton id={item.id} />
 
                 {/* <AddToCartButton id={item.id} /> */}
                 <LikeButton id={item.id} />
-                <DeleteItem id={item.id} />
-                <EditItem id={item.id} />
               </div>
               <div className="pro-details-meta">
                 <span>Categories :</span>

@@ -4023,17 +4023,21 @@ export type AddressQuery = (
   )> }
 );
 
-export type MeQueryVariables = {};
+export type CurrentUserQueryVariables = {};
 
 
-export type MeQuery = (
+export type CurrentUserQuery = (
   { __typename?: 'Query' }
   & { CurrentUser?: Maybe<(
-    { __typename?: 'User' }
+    { __typename: 'User' }
     & Pick<User, 'id' | 'name' | 'email' | 'avatar' | 'role' | 'permissions' | 'likesCount' | 'reviewCount'>
     & { cart: Array<(
       { __typename?: 'CartItem' }
-      & Pick<CartItem, 'id' | 'itemId'>
+      & Pick<CartItem, 'id' | 'quantity' | 'itemId' | 'userId'>
+      & { item: (
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'title' | 'price' | 'eagerImages'>
+      ) }
     )>, likes: Array<(
       { __typename?: 'Like' }
       & Pick<Like, 'id' | 'itemId'>
@@ -4331,6 +4335,37 @@ export type ToggleLikeMutation = (
   & Pick<Mutation, 'ToggleLikeItem'>
 );
 
+export type AddItemToCartMutationVariables = {
+  itemId: Scalars['String'];
+  quantity: Scalars['Int'];
+};
+
+
+export type AddItemToCartMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'AddItemToTheCart'>
+);
+
+export type DeleteCartItemMutationVariables = {
+  cartItemId: Scalars['String'];
+};
+
+
+export type DeleteCartItemMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'DeleteCartItem'>
+);
+
+export type EmptyUserCartMutationVariables = {
+  userId: Scalars['String'];
+};
+
+
+export type EmptyUserCartMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'EmptyUserCart'>
+);
+
 
 export const AddressDocument = gql`
     query Address {
@@ -4393,8 +4428,8 @@ export function useAddressLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHook
 export type AddressQueryHookResult = ReturnType<typeof useAddressQuery>;
 export type AddressLazyQueryHookResult = ReturnType<typeof useAddressLazyQuery>;
 export type AddressQueryResult = ApolloReactCommon.QueryResult<AddressQuery, AddressQueryVariables>;
-export const MeDocument = gql`
-    query Me {
+export const CurrentUserDocument = gql`
+    query CurrentUser {
   CurrentUser {
     id
     name
@@ -4406,7 +4441,15 @@ export const MeDocument = gql`
     reviewCount
     cart {
       id
+      quantity
       itemId
+      userId
+      item {
+        id
+        title
+        price
+        eagerImages
+      }
     }
     likes {
       id
@@ -4425,53 +4468,54 @@ export const MeDocument = gql`
       Lat
       Lng
     }
+    __typename
   }
 }
     `;
-export type MeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MeQuery, MeQueryVariables>, 'query'>;
+export type CurrentUserComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CurrentUserQuery, CurrentUserQueryVariables>, 'query'>;
 
-    export const MeComponent = (props: MeComponentProps) => (
-      <ApolloReactComponents.Query<MeQuery, MeQueryVariables> query={MeDocument} {...props} />
+    export const CurrentUserComponent = (props: CurrentUserComponentProps) => (
+      <ApolloReactComponents.Query<CurrentUserQuery, CurrentUserQueryVariables> query={CurrentUserDocument} {...props} />
     );
     
-export type MeProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<MeQuery, MeQueryVariables>
+export type CurrentUserProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<CurrentUserQuery, CurrentUserQueryVariables>
     } & TChildProps;
-export function withMe<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withCurrentUser<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  MeQuery,
-  MeQueryVariables,
-  MeProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, MeQuery, MeQueryVariables, MeProps<TChildProps, TDataName>>(MeDocument, {
-      alias: 'me',
+  CurrentUserQuery,
+  CurrentUserQueryVariables,
+  CurrentUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, CurrentUserQuery, CurrentUserQueryVariables, CurrentUserProps<TChildProps, TDataName>>(CurrentUserDocument, {
+      alias: 'currentUser',
       ...operationOptions
     });
 };
 
 /**
- * __useMeQuery__
+ * __useCurrentUserQuery__
  *
- * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
- * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeQuery({
+ * const { data, loading, error } = useCurrentUserQuery({
  *   variables: {
  *   },
  * });
  */
-export function useMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        return ApolloReactHooks.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+export function useCurrentUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
+        return ApolloReactHooks.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, baseOptions);
       }
-export function useMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+export function useCurrentUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, baseOptions);
         }
-export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
-export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
-export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = ApolloReactCommon.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
 export const User_Login_MutationDocument = gql`
     mutation USER_LOGIN_MUTATION($email: String!, $password: String!) {
   UserLogin(email: $email, password: $password)
@@ -5560,3 +5604,151 @@ export function useToggleLikeMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type ToggleLikeMutationHookResult = ReturnType<typeof useToggleLikeMutation>;
 export type ToggleLikeMutationResult = ApolloReactCommon.MutationResult<ToggleLikeMutation>;
 export type ToggleLikeMutationOptions = ApolloReactCommon.BaseMutationOptions<ToggleLikeMutation, ToggleLikeMutationVariables>;
+export const AddItemToCartDocument = gql`
+    mutation AddItemToCart($itemId: String!, $quantity: Int!) {
+  AddItemToTheCart(itemId: $itemId, quantity: $quantity)
+}
+    `;
+export type AddItemToCartMutationFn = ApolloReactCommon.MutationFunction<AddItemToCartMutation, AddItemToCartMutationVariables>;
+export type AddItemToCartComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddItemToCartMutation, AddItemToCartMutationVariables>, 'mutation'>;
+
+    export const AddItemToCartComponent = (props: AddItemToCartComponentProps) => (
+      <ApolloReactComponents.Mutation<AddItemToCartMutation, AddItemToCartMutationVariables> mutation={AddItemToCartDocument} {...props} />
+    );
+    
+export type AddItemToCartProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<AddItemToCartMutation, AddItemToCartMutationVariables>
+    } & TChildProps;
+export function withAddItemToCart<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AddItemToCartMutation,
+  AddItemToCartMutationVariables,
+  AddItemToCartProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, AddItemToCartMutation, AddItemToCartMutationVariables, AddItemToCartProps<TChildProps, TDataName>>(AddItemToCartDocument, {
+      alias: 'addItemToCart',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAddItemToCartMutation__
+ *
+ * To run a mutation, you first call `useAddItemToCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddItemToCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addItemToCartMutation, { data, loading, error }] = useAddItemToCartMutation({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *      quantity: // value for 'quantity'
+ *   },
+ * });
+ */
+export function useAddItemToCartMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddItemToCartMutation, AddItemToCartMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddItemToCartMutation, AddItemToCartMutationVariables>(AddItemToCartDocument, baseOptions);
+      }
+export type AddItemToCartMutationHookResult = ReturnType<typeof useAddItemToCartMutation>;
+export type AddItemToCartMutationResult = ApolloReactCommon.MutationResult<AddItemToCartMutation>;
+export type AddItemToCartMutationOptions = ApolloReactCommon.BaseMutationOptions<AddItemToCartMutation, AddItemToCartMutationVariables>;
+export const DeleteCartItemDocument = gql`
+    mutation DeleteCartItem($cartItemId: String!) {
+  DeleteCartItem(cartItemId: $cartItemId)
+}
+    `;
+export type DeleteCartItemMutationFn = ApolloReactCommon.MutationFunction<DeleteCartItemMutation, DeleteCartItemMutationVariables>;
+export type DeleteCartItemComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteCartItemMutation, DeleteCartItemMutationVariables>, 'mutation'>;
+
+    export const DeleteCartItemComponent = (props: DeleteCartItemComponentProps) => (
+      <ApolloReactComponents.Mutation<DeleteCartItemMutation, DeleteCartItemMutationVariables> mutation={DeleteCartItemDocument} {...props} />
+    );
+    
+export type DeleteCartItemProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteCartItemMutation, DeleteCartItemMutationVariables>
+    } & TChildProps;
+export function withDeleteCartItem<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteCartItemMutation,
+  DeleteCartItemMutationVariables,
+  DeleteCartItemProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteCartItemMutation, DeleteCartItemMutationVariables, DeleteCartItemProps<TChildProps, TDataName>>(DeleteCartItemDocument, {
+      alias: 'deleteCartItem',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteCartItemMutation__
+ *
+ * To run a mutation, you first call `useDeleteCartItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCartItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCartItemMutation, { data, loading, error }] = useDeleteCartItemMutation({
+ *   variables: {
+ *      cartItemId: // value for 'cartItemId'
+ *   },
+ * });
+ */
+export function useDeleteCartItemMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteCartItemMutation, DeleteCartItemMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteCartItemMutation, DeleteCartItemMutationVariables>(DeleteCartItemDocument, baseOptions);
+      }
+export type DeleteCartItemMutationHookResult = ReturnType<typeof useDeleteCartItemMutation>;
+export type DeleteCartItemMutationResult = ApolloReactCommon.MutationResult<DeleteCartItemMutation>;
+export type DeleteCartItemMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteCartItemMutation, DeleteCartItemMutationVariables>;
+export const EmptyUserCartDocument = gql`
+    mutation EmptyUserCart($userId: String!) {
+  EmptyUserCart(userId: $userId)
+}
+    `;
+export type EmptyUserCartMutationFn = ApolloReactCommon.MutationFunction<EmptyUserCartMutation, EmptyUserCartMutationVariables>;
+export type EmptyUserCartComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EmptyUserCartMutation, EmptyUserCartMutationVariables>, 'mutation'>;
+
+    export const EmptyUserCartComponent = (props: EmptyUserCartComponentProps) => (
+      <ApolloReactComponents.Mutation<EmptyUserCartMutation, EmptyUserCartMutationVariables> mutation={EmptyUserCartDocument} {...props} />
+    );
+    
+export type EmptyUserCartProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<EmptyUserCartMutation, EmptyUserCartMutationVariables>
+    } & TChildProps;
+export function withEmptyUserCart<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EmptyUserCartMutation,
+  EmptyUserCartMutationVariables,
+  EmptyUserCartProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EmptyUserCartMutation, EmptyUserCartMutationVariables, EmptyUserCartProps<TChildProps, TDataName>>(EmptyUserCartDocument, {
+      alias: 'emptyUserCart',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEmptyUserCartMutation__
+ *
+ * To run a mutation, you first call `useEmptyUserCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEmptyUserCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [emptyUserCartMutation, { data, loading, error }] = useEmptyUserCartMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useEmptyUserCartMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EmptyUserCartMutation, EmptyUserCartMutationVariables>) {
+        return ApolloReactHooks.useMutation<EmptyUserCartMutation, EmptyUserCartMutationVariables>(EmptyUserCartDocument, baseOptions);
+      }
+export type EmptyUserCartMutationHookResult = ReturnType<typeof useEmptyUserCartMutation>;
+export type EmptyUserCartMutationResult = ApolloReactCommon.MutationResult<EmptyUserCartMutation>;
+export type EmptyUserCartMutationOptions = ApolloReactCommon.BaseMutationOptions<EmptyUserCartMutation, EmptyUserCartMutationVariables>;

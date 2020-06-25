@@ -30,6 +30,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
+    "**/*.js",
     "**/*.tsx", "next.config.js", "components/lib/withData.ts", "components/HeaderFooter/Header/Menus/PagesMenus.js", "components/Utils/formatMoney.js"
   ]
 }

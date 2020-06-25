@@ -1,6 +1,5 @@
 import React from "react";
 import { toast } from "react-toastify";
-//@ts-ignore
 import Pulse from "react-reveal/Pulse";
 import {
   MDBIcon,
@@ -15,7 +14,7 @@ import Styles from "styled-components";
 import Link from "next/link";
 import media from "styled-media-query";
 import { useUserLogoutMutation, Seller, User } from "generated/graphql";
-import { Me, CurrentSeller } from "components/Resolvers/AuthResolvers";
+import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
 
 const TopNavStyles = Styles.div`
 font-size: 12px;
@@ -86,7 +85,7 @@ const Icons: { id: number; icon: string; text: string }[] = [
 
 const TopNav = (props: Props) => {
   const [UserLogout] = useUserLogoutMutation({
-    refetchQueries: [{ query: Me }, { query: CurrentSeller }],
+    refetchQueries: [{ query: CurrentUser }, { query: CurrentSeller }],
   });
   const { user, seller } = props;
 

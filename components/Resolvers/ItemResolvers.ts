@@ -149,3 +149,20 @@ export const ToggleLike = gql`
     ToggleLikeItem(itemId: $itemId)
   }
 `;
+
+export const AddItemToCart = gql`
+  mutation AddItemToCart($itemId: String!, $quantity: Int!) {
+    AddItemToTheCart(itemId: $itemId, quantity: $quantity)
+  }
+`;
+
+export const DeleteCartItem = gql`
+  mutation DeleteCartItem($cartItemId: String!) {
+    DeleteCartItem(cartItemId: $cartItemId)
+  }
+`;
+export const EmptyUserCart = gql`
+  mutation EmptyUserCart($userId: String!) {
+    EmptyUserCart(userId: $userId)
+  }
+`;

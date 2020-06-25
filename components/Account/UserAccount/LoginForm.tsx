@@ -6,7 +6,7 @@ import { useUser_Login_MutationMutation } from "generated/graphql";
 import ErrorMessage from "../../Utils/ErrorMessage";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { Me, CurrentSeller } from "components/Resolvers/AuthResolvers";
+import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
 
 interface Props {}
 
@@ -14,7 +14,7 @@ const LoginForm = (props: Props) => {
   const [UserLogin, { loading, error }] = useUser_Login_MutationMutation({
     refetchQueries: [
       {
-        query: Me,
+        query: CurrentUser,
       },
       {
         query: CurrentSeller,

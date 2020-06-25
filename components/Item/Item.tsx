@@ -23,7 +23,7 @@ const ItemComponent: React.FC<Props> = ({ id }) => {
     return <h1 style={{ textAlign: "center" }}>Sorry! Item Not Found</h1>;
 
   return (
-    <>
+    <div style={{ overflow: "hidden" }}>
       {/* 
     //@ts-ignore */}
       <ItemOverview item={item} />
@@ -31,7 +31,7 @@ const ItemComponent: React.FC<Props> = ({ id }) => {
     //@ts-ignore */}
       <ItemDescription item={item} />
       {/* <RelatedProducts /> */}
-    </>
+    </div>
   );
 };
 

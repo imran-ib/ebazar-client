@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useUserResetPasswordMutation } from "generated/graphql";
 import ErrorMessage from "../../../Utils/ErrorMessage";
-import { Me, CurrentSeller } from "components/Resolvers/AuthResolvers";
+import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
 
 interface Props {
   token: any;
@@ -12,7 +12,7 @@ interface Props {
 
 const UserResetPasswordForm: React.FC<Props> = ({ token }) => {
   const [UserResetPassword, { loading, error }] = useUserResetPasswordMutation({
-    refetchQueries: [{ query: Me }, { query: CurrentSeller }],
+    refetchQueries: [{ query: CurrentUser }, { query: CurrentSeller }],
   });
   const { register, handleSubmit, errors } = useForm();
   const router = useRouter();

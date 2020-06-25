@@ -8,7 +8,7 @@ const endpoint = `http://localhost:4444`;
 const prodEndpoint = "";
 
 function createClient({ headers, initialState }: any) {
-  return new ApolloClient({
+  const client = new ApolloClient({
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
@@ -34,6 +34,8 @@ function createClient({ headers, initialState }: any) {
     ]),
     cache: new InMemoryCache().restore(initialState || {}),
   });
+  // client.clearStore();
+  return client;
 }
 
 //@ts-ignore

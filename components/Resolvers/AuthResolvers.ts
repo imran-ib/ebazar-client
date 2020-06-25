@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
-export const Me = gql`
-  query Me {
+export const CurrentUser = gql`
+  query CurrentUser {
     CurrentUser {
       id
       name
@@ -11,10 +11,17 @@ export const Me = gql`
       permissions
       likesCount
       reviewCount
-
       cart {
         id
+        quantity
         itemId
+        userId
+        item {
+          id
+          title
+          price
+          eagerImages
+        }
       }
       likes {
         id
@@ -34,6 +41,7 @@ export const Me = gql`
         Lat
         Lng
       }
+      __typename
     }
   }
 `;

@@ -13,13 +13,13 @@ import {
   MDBIcon,
 } from "mdbreact";
 import { useSellerLoginMutation } from "generated/graphql";
-import { Me, CurrentSeller } from "components/Resolvers/AuthResolvers";
+import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
 
 const SellerLogin = () => {
   const [loginSeller, { loading, error }] = useSellerLoginMutation({
     refetchQueries: [
       {
-        query: Me,
+        query: CurrentUser,
       },
       {
         query: CurrentSeller,
