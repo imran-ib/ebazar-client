@@ -7,8 +7,8 @@ interface Props {
 }
 
 const ItemDescription: React.FC<Props> = ({ item }) => {
-  const [description, setDescription] = useState(false);
-  const [information, setInformation] = useState(true);
+  const [description, setDescription] = useState(true);
+  const [information, setInformation] = useState(false);
   const [reviews, setReviews] = useState(false);
 
   const DescriptionActive = () => {
@@ -108,7 +108,7 @@ const ItemDescription: React.FC<Props> = ({ item }) => {
 
                 {reviews && (
                   <>
-                    <ReviewProduct reviews={reviews} id={item.id} />
+                    <ReviewProduct reviews={reviews} item={item} />
                   </>
                 )}
               </div>

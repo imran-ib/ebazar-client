@@ -1,24 +1,45 @@
 import React from "react";
 import ReviewForm from "./ReviewForm/ReviewForm";
 import StarRatingFixed from "./ReviewForm/StarRatingFixed";
-
-import { ItemDocument, useItemReviewsQuery } from "generated/graphql";
+import {
+  ItemReviewsDocument,
+  useToggleReviewUpVoteMutation,
+  useToggleReviewDownVoteMutation,
+  Item,
+} from "generated/graphql";
 import { MDBIcon } from "mdbreact";
+import { toast } from "react-toastify";
+import { useUser } from "components/Utils/auth";
 
 interface Props {
   reviews: boolean;
-  id: string;
+  item: Item;
 }
 
-const ReviewProduct: React.FC<Props> = ({ reviews, id }) => {
+const ReviewProduct: React.FC<Props> = ({ reviews, item }) => {
   // props reviews is to make reviews tab active in product detail
-  const { loading, error, data } = useItemReviewsQuery({
-    variables: { itemId: id },
-    partialRefetch: true,
+  const [
+    ToggleReviewUpVote,
+    { loading: upLoading, error: upError },
+  ] = useToggleReviewUpVoteMutation({
+    refetchQueries: [
+      { query: ItemReviewsDocument, variables: { itemId: item.id } },
+    ],
   });
-  if (loading) return <p>loading...</p>;
-  if (error) return <p>{error.message}</p>;
-  const ItemReviews = data?.ITemRevives;
+  const [
+    ToggleReviewDownVote,
+    { loading: downLoading, error: downError },
+  ] = useToggleReviewDownVoteMutation({
+    refetchQueries: [
+      { query: ItemReviewsDocument, variables: { itemId: item.id } },
+    ],
+  });
+
+  if (upError) toast.error(upError.message);
+  if (downError) toast.error(downError.message);
+  const ItemReviews = item?.itemReview;
+  const user = useUser();
+
   return (
     <div id="des-details2" className={`tab-pane ${reviews ? "active" : ""}`}>
       <div
@@ -26,54 +47,90 @@ const ReviewProduct: React.FC<Props> = ({ reviews, id }) => {
         className="review-wrapper"
       >
         {ItemReviews?.length ? (
-          ItemReviews?.map((item) => (
-            <div key={item.id}>
-              <div className="single-review">
+          ItemReviews?.map((review) => (
+            <div key={review.id}>
+              <div className="single-review flex-1 ">
                 <div className="review-img">
-                  <img src="/static/img/no-user.png" alt="User Avatar" />
+                  <img
+                    src={review.author.avatar || "/static/img/no-user.png"}
+                    alt="User Avatar"
+                  />
                 </div>
-
                 <div className="review-content ">
-                  <p>{item.text}</p>
+                  <p>{review.text}</p>
                   <div className="review-top-wrap d-flex justify-content-between align-items-center ">
                     <div className="review-name">
-                      <h4>{item.author.name}</h4>
+                      <h4>{review.author.name}</h4>
                       <hr />
 
                       <div className="review-rating align-self-end">
-                        <StarRatingFixed stars={item.rating} />
+                        <StarRatingFixed stars={review.rating} />
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="float-right">
-                <ul className="d-flex">
-                  <li className="ml-4">
+
+                <ul className="d-flex  ml-auto align-self-center mr-3 ">
+                  <li style={{ cursor: "pointer" }} className="ml-4">
                     <MDBIcon
                       onClick={() => {
-                        alert("InProgress");
-                      }}
-                      className="p-2"
-                      size="1x"
-                      far
-                      icon="thumbs-down"
-                    />
-                    <br />
-                    <small>40 Vote down</small>
-                  </li>
-                  <li className="ml-4">
-                    <MDBIcon
-                      onClick={() => {
-                        alert("InProgress");
+                        ToggleReviewUpVote({
+                          variables: {
+                            itemId: item.id,
+                            reviewId: review.id,
+                          },
+                        });
                       }}
                       className="p-2"
                       size="1x"
                       far
                       icon="thumbs-up"
+                      style={{
+                        color: review.upVote.some(
+                          (vote) => vote.authorId === user?.id
+                        )
+                          ? "blue"
+                          : "",
+                      }}
                     />
+
                     <br />
-                    <small>40 Vote up</small>
+                    {upLoading ? (
+                      <div className="spinner-grow text-danger" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <small className="ml-3">{review.upVoteCount}</small>
+                    )}
+                  </li>
+                  <li style={{ cursor: "pointer" }} className="ml-4">
+                    <MDBIcon
+                      onClick={() => {
+                        ToggleReviewDownVote({
+                          variables: { reviewId: review.id, itemId: item.id },
+                        });
+                      }}
+                      className="p-2"
+                      size="1x"
+                      far
+                      icon="thumbs-down"
+                      style={{
+                        color: review.downVote.some(
+                          (vote) => vote.authorId === user?.id
+                        )
+                          ? "blue"
+                          : "",
+                      }}
+                    />
+
+                    <br />
+                    {downLoading ? (
+                      <div className="spinner-grow text-danger" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      <small className="ml-3">{review.downVoteCount}</small>
+                    )}
                   </li>
                 </ul>
               </div>
@@ -86,7 +143,7 @@ const ReviewProduct: React.FC<Props> = ({ reviews, id }) => {
           </>
         )}
       </div>
-      <ReviewForm id={id} />
+      <ReviewForm id={item.id} />
     </div>
   );
 };

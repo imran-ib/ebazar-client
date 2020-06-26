@@ -22,31 +22,31 @@ const StarRatingEditAble: React.FC<Props> = (props) => {
 
   const onStarClick = (nextValue: any, prevValue: any, name: any) => {
     setLocalRating(nextValue);
+    props.setRating(localRating);
   };
-  const onClickHalfStar = (
-    nextValue: any,
-    prevValue: any,
-    name: any,
-    e: any
-  ) => {
-    const xPos =
-      (e.pageX - e.currentTarget.getBoundingClientRect().left) /
-      e.currentTarget.offsetWidth;
+  // const onClickHalfStar = (
+  //   nextValue: any,
+  //   prevValue: any,
+  //   name: any,
+  // ) => {
+  //   const xPos =
+  //     (e.pageX - e.currentTarget.getBoundingClientRect().left) /
+  //     e.currentTarget.offsetWidth;
 
-    if (xPos <= 0.5) {
-      nextValue -= 0.5;
-    }
+  //   if (xPos <= 0.5) {
+  //     nextValue -= 0.5;
+  //   }
 
-    console.log(
-      "name: %s, nextValue: %s, prevValue: %s",
-      name,
-      nextValue,
-      prevValue
-    );
-    // console.log(e);
-    setLocalRating(nextValue);
-  };
-  props.setRating(localRating);
+  //   console.log(
+  //     "name: %s, nextValue: %s, prevValue: %s",
+  //     name,
+  //     nextValue,
+  //     prevValue
+  //   );
+  //   // console.log(e);
+
+  // };
+
   return (
     <StarStyles>
       <h3 className="Review-text-center">

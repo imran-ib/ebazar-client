@@ -17,7 +17,9 @@ const LikeButton: React.FC<Props> = ({ id }) => {
 
   if (loading)
     return (
-      <Spinner as="span" animation="grow" role="status" aria-hidden="true" />
+      <div className="spinner-grow text-danger" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
     );
 
   if (!user) return null;

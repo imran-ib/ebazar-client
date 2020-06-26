@@ -31,6 +31,16 @@ export const GlobalStyles: GlobalStyleComponent<
     color: grey;
     pointer-events: none;
   }
+  .b-red{
+    border: 1px solid red;
+  }
+  .b-blue{
+    border: 1px solid blue;
+
+  }
+  .b-green{
+    border: 1px solid green;
+  }
 
   
   ;`;

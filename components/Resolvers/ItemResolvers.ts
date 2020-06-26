@@ -65,10 +65,29 @@ export const Item = gql`
       likesCount
       itemReview {
         id
-        text
         rating
+        text
         itemId
         authorId
+        author {
+          name
+          avatar
+          reviewCount
+        }
+        downVoteCount
+        upVoteCount
+        upVote {
+          id
+          voteUp
+          authorId
+          itemId
+        }
+        downVote {
+          id
+          voteDown
+          authorId
+          itemId
+        }
       }
       reviewCount
       images
@@ -111,7 +130,25 @@ export const Items = gql`
       }
       likesCount
       itemReview {
+        id
+        rating
         text
+        itemId
+        authorId
+        downVoteCount
+        upVoteCount
+        upVote {
+          id
+          voteUp
+          authorId
+          itemId
+        }
+        downVote {
+          id
+          voteDown
+          authorId
+          itemId
+        }
       }
       reviewCount
       images
@@ -175,17 +212,23 @@ export const ItemReviews = gql`
   query ItemReviews($itemId: String!) {
     ITemRevives(itemId: $itemId) {
       id
-      text
-      authorId
-      itemId
       rating
-      __typename
-      author {
-        name
-        email
-        avatar
-        reviewCount
-        likesCount
+      text
+      itemId
+      authorId
+      downVoteCount
+      upVoteCount
+      upVote {
+        id
+        voteUp
+        authorId
+        itemId
+      }
+      downVote {
+        id
+        voteDown
+        authorId
+        itemId
       }
     }
   }
@@ -200,5 +243,16 @@ export const CreateReview = gql`
       itemId
       authorId
     }
+  }
+`;
+
+export const ToggleReviewUpVote = gql`
+  mutation ToggleReviewUpVote($reviewId: String!, $itemId: String!) {
+    ToggleReviewUpVote(reviewId: $reviewId, itemId: $itemId)
+  }
+`;
+export const ToggleReviewDownVote = gql`
+  mutation ToggleReviewDownVote($reviewId: String!, $itemId: String!) {
+    ToggleReviewDownVote(reviewId: $reviewId, itemId: $itemId)
   }
 `;

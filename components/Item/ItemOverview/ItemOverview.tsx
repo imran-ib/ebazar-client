@@ -145,7 +145,7 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                 <span>Color</span>
 
                 <div className="pro-details-color-content d-flex ">
-                  <ul className="d-flex">
+                  <ul className="d-flex flex-wrap">
                     {item.colors.map((color) => (
                       <li className="btn btn-sm" key={color.id}>
                         {color.text}
