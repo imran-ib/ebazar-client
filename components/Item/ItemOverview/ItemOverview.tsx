@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import FormatMoney from "../../Utils/formatMoney";
 import { SideBySideMagnifier } from "react-image-magnifiers";
 import AddToCartButton from "../../Cart/AddToCartButton";
 import LikeButton from "../LikeItem/LikeItem";
 import StarRatingFixed from "../Review/ReviewForm/StarRatingFixed";
-// import AverageReviews from "../../Utils/AverageReviews";
+import AverageReviews from "../../Utils/AverageReviews";
 import { Item } from "generated/graphql";
 
 interface Props {
@@ -16,6 +16,7 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
   const ItemImages = item.images.map((image) => image);
   const ItemEagerImages = item.eagerImages.map((img) => img);
   const [mainImage, setImage] = useState(`${ItemEagerImages[0]}`);
+
   const percent = Math.abs(
     (item.beforeDiscountPrice / item.price) * 100 - 100
   ).toFixed(0);
@@ -88,7 +89,7 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
               </div>
               <div className="pro-details-rating-wrap">
                 <div>
-                  <StarRatingFixed stars={4} />
+                  <StarRatingFixed stars={AverageReviews(item)} />
                 </div>
                 <span
                   style={{
@@ -119,7 +120,10 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                     }}
                   >
                     {" "}
-                    {item ? item.itemReview.length : 0} Reviews
+                    {item && item.reviewCount !== null
+                      ? item.reviewCount
+                      : 0}{" "}
+                    Reviews
                   </a>
                 </span>
               </div>

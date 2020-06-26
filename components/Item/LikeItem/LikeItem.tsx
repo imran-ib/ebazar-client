@@ -25,7 +25,6 @@ const LikeButton: React.FC<Props> = ({ id }) => {
   // Find out if user already liked that item
   const Liked = user?.likes.map((like) => like.itemId);
   const isLiked = Liked.includes(id);
-  console.log("isLiked", isLiked);
 
   // Get Curent Like Id
   // here we will filter where Component(comming from query params) is equal to users likes item id

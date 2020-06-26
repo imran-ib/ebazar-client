@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import ReviewProduct from "../Review/ReviewProduct";
+import ReviewProduct from "../Review/ReviewProduct";
 import { Item } from "generated/graphql";
 
 interface Props {
@@ -106,11 +106,11 @@ const ItemDescription: React.FC<Props> = ({ item }) => {
                   </div>
                 )}
 
-                {/* {reviews && (
+                {reviews && (
                   <>
                     <ReviewProduct reviews={reviews} id={item.id} />
                   </>
-                )} */}
+                )}
               </div>
             </div>
           </div>
@@ -118,8 +118,8 @@ const ItemDescription: React.FC<Props> = ({ item }) => {
           <div className="col-lg-4 col-md-4">
             <div className="pro-dec-banner">
               <a href="#">
-                {item?.images[0]?.url ? (
-                  <img src={item?.images[0]?.url} alt={item.title} />
+                {item?.images[0] ? (
+                  <img src={item?.images[0]} alt={item.title} />
                 ) : (
                   <img
                     src="static/img/no-image-available.jpg"

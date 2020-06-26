@@ -65,6 +65,10 @@ export const Item = gql`
       likesCount
       itemReview {
         id
+        text
+        rating
+        itemId
+        authorId
       }
       reviewCount
       images
@@ -164,5 +168,37 @@ export const DeleteCartItem = gql`
 export const EmptyUserCart = gql`
   mutation EmptyUserCart($userId: String!) {
     EmptyUserCart(userId: $userId)
+  }
+`;
+
+export const ItemReviews = gql`
+  query ItemReviews($itemId: String!) {
+    ITemRevives(itemId: $itemId) {
+      id
+      text
+      authorId
+      itemId
+      rating
+      __typename
+      author {
+        name
+        email
+        avatar
+        reviewCount
+        likesCount
+      }
+    }
+  }
+`;
+
+export const CreateReview = gql`
+  mutation CreateReview($itemId: String!, $text: String!, $rating: Float!) {
+    CreateItemReview(itemId: $itemId, text: $text, rating: $rating) {
+      id
+      text
+      rating
+      itemId
+      authorId
+    }
   }
 `;

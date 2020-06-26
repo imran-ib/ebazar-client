@@ -1,45 +1,43 @@
 import React, { useState } from "react";
-import useForm from "react-hook-form";
+import { useForm } from "react-hook-form";
 import StarRatingEditAble from "./StarRatingEditAble";
-import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
-import { GET_ITEM_REVIEWS } from "../ReviewProduct";
-import { GET_SINGLE_ITEM } from "../../SingleItemQuery";
 import Spinner from "react-bootstrap/Spinner";
-const CREATE_ITEM_REVIEW = gql`
-  mutation($rating: Float!, $text: String!, $itemID: ID!) {
-    createReview(rating: $rating, text: $text, itemID: $itemID) {
-      id
-      text
-      rating
-    }
-  }
-`;
+import {
+  ItemDocument,
+  ItemReviewsDocument,
+  useCreateReviewMutation,
+} from "generated/graphql";
 
-const RatingForm = ({ id }) => {
-  const [createReview, { loading, error }] = useMutation(CREATE_ITEM_REVIEW, {
+interface Props {
+  id: string;
+}
+
+const RatingForm: React.FC<Props> = ({ id }) => {
+  const [CreateItemReview, { loading, error }] = useCreateReviewMutation({
     refetchQueries: [
-      { query: GET_ITEM_REVIEWS, variables: { id: id } },
-      { query: GET_SINGLE_ITEM, variables: { id: id } }
-    ]
+      { query: ItemReviewsDocument, variables: { itemId: id } },
+      { query: ItemDocument, variables: { id: id } },
+    ],
   });
-  const [rating, setrating] = useState(1);
+  const [rating, setRating] = useState(1);
 
   const { register, handleSubmit } = useForm();
-  const onSubmit = data => {
-    const res = createReview({
+  const onSubmit = (data: any) => {
+    const res = CreateItemReview({
       variables: {
+        itemId: id,
         text: data.text,
-        itemID: id,
-        rating: rating
-      }
-    }).catch(err => toast.error(err.message));
+        rating: rating,
+      },
+    })
+      .then(() => toast.success(`Thank You for reviewing the Item`))
+      .catch((err) => toast.error(err.message));
   };
 
   return (
     <>
-      <StarRatingEditAble rating={rating} setrating={setrating} />
+      <StarRatingEditAble rating={rating} setRating={setRating} />
       <div className="ratting-form">
         <form method="POST" onSubmit={handleSubmit(onSubmit)}>
           <div className="row">

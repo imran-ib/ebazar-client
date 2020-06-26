@@ -1,7 +1,11 @@
 import React from "react";
 import RatingForm from "./RatingForm";
 
-const ReviewForm = ({ id }) => {
+interface Props {
+  id: string;
+}
+
+const ReviewForm: React.FC<Props> = ({ id }) => {
   return (
     <div className="ratting-form-wrapper">
       <span>Add a Review</span>

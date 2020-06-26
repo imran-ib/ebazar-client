@@ -1,12 +1,16 @@
 import React from "react";
 import StarRatingComponent from "react-star-rating-component";
 
-const StarRatingFixed = ({ stars }) => (
+interface Props {
+  stars: number;
+}
+
+const StarRatingFixed: React.FC<Props> = ({ stars }) => (
   <StarRatingComponent
     name="ebazar"
     starColor="#ffb400"
     emptyStarColor="#ffb400"
-    value={stars}
+    value={stars | 0}
     editing={false}
     renderStarIcon={(index, value) => {
       return (

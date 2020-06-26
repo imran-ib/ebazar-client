@@ -4274,7 +4274,7 @@ export type ItemQuery = (
       & Pick<Like, 'id'>
     )>, itemReview: Array<(
       { __typename?: 'Review' }
-      & Pick<Review, 'id'>
+      & Pick<Review, 'id' | 'text' | 'rating' | 'itemId' | 'authorId'>
     )>, catagory: Array<(
       { __typename?: 'Catagory' }
       & Pick<Catagory, 'id' | 'text'>
@@ -4364,6 +4364,38 @@ export type EmptyUserCartMutationVariables = {
 export type EmptyUserCartMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'EmptyUserCart'>
+);
+
+export type ItemReviewsQueryVariables = {
+  itemId: Scalars['String'];
+};
+
+
+export type ItemReviewsQuery = (
+  { __typename?: 'Query' }
+  & { ITemRevives: Array<(
+    { __typename: 'Review' }
+    & Pick<Review, 'id' | 'text' | 'authorId' | 'itemId' | 'rating'>
+    & { author: (
+      { __typename?: 'User' }
+      & Pick<User, 'name' | 'email' | 'avatar' | 'reviewCount' | 'likesCount'>
+    ) }
+  )> }
+);
+
+export type CreateReviewMutationVariables = {
+  itemId: Scalars['String'];
+  text: Scalars['String'];
+  rating: Scalars['Float'];
+};
+
+
+export type CreateReviewMutation = (
+  { __typename?: 'Mutation' }
+  & { CreateItemReview: (
+    { __typename?: 'Review' }
+    & Pick<Review, 'id' | 'text' | 'rating' | 'itemId' | 'authorId'>
+  ) }
 );
 
 
@@ -5346,6 +5378,10 @@ export const ItemDocument = gql`
     likesCount
     itemReview {
       id
+      text
+      rating
+      itemId
+      authorId
     }
     reviewCount
     images
@@ -5752,3 +5788,124 @@ export function useEmptyUserCartMutation(baseOptions?: ApolloReactHooks.Mutation
 export type EmptyUserCartMutationHookResult = ReturnType<typeof useEmptyUserCartMutation>;
 export type EmptyUserCartMutationResult = ApolloReactCommon.MutationResult<EmptyUserCartMutation>;
 export type EmptyUserCartMutationOptions = ApolloReactCommon.BaseMutationOptions<EmptyUserCartMutation, EmptyUserCartMutationVariables>;
+export const ItemReviewsDocument = gql`
+    query ItemReviews($itemId: String!) {
+  ITemRevives(itemId: $itemId) {
+    id
+    text
+    authorId
+    itemId
+    rating
+    __typename
+    author {
+      name
+      email
+      avatar
+      reviewCount
+      likesCount
+    }
+  }
+}
+    `;
+export type ItemReviewsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ItemReviewsQuery, ItemReviewsQueryVariables>, 'query'> & ({ variables: ItemReviewsQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const ItemReviewsComponent = (props: ItemReviewsComponentProps) => (
+      <ApolloReactComponents.Query<ItemReviewsQuery, ItemReviewsQueryVariables> query={ItemReviewsDocument} {...props} />
+    );
+    
+export type ItemReviewsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ItemReviewsQuery, ItemReviewsQueryVariables>
+    } & TChildProps;
+export function withItemReviews<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ItemReviewsQuery,
+  ItemReviewsQueryVariables,
+  ItemReviewsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ItemReviewsQuery, ItemReviewsQueryVariables, ItemReviewsProps<TChildProps, TDataName>>(ItemReviewsDocument, {
+      alias: 'itemReviews',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useItemReviewsQuery__
+ *
+ * To run a query within a React component, call `useItemReviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useItemReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useItemReviewsQuery({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *   },
+ * });
+ */
+export function useItemReviewsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ItemReviewsQuery, ItemReviewsQueryVariables>) {
+        return ApolloReactHooks.useQuery<ItemReviewsQuery, ItemReviewsQueryVariables>(ItemReviewsDocument, baseOptions);
+      }
+export function useItemReviewsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ItemReviewsQuery, ItemReviewsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ItemReviewsQuery, ItemReviewsQueryVariables>(ItemReviewsDocument, baseOptions);
+        }
+export type ItemReviewsQueryHookResult = ReturnType<typeof useItemReviewsQuery>;
+export type ItemReviewsLazyQueryHookResult = ReturnType<typeof useItemReviewsLazyQuery>;
+export type ItemReviewsQueryResult = ApolloReactCommon.QueryResult<ItemReviewsQuery, ItemReviewsQueryVariables>;
+export const CreateReviewDocument = gql`
+    mutation CreateReview($itemId: String!, $text: String!, $rating: Float!) {
+  CreateItemReview(itemId: $itemId, text: $text, rating: $rating) {
+    id
+    text
+    rating
+    itemId
+    authorId
+  }
+}
+    `;
+export type CreateReviewMutationFn = ApolloReactCommon.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>;
+export type CreateReviewComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateReviewMutation, CreateReviewMutationVariables>, 'mutation'>;
+
+    export const CreateReviewComponent = (props: CreateReviewComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateReviewMutation, CreateReviewMutationVariables> mutation={CreateReviewDocument} {...props} />
+    );
+    
+export type CreateReviewProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>
+    } & TChildProps;
+export function withCreateReview<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateReviewMutation,
+  CreateReviewMutationVariables,
+  CreateReviewProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateReviewMutation, CreateReviewMutationVariables, CreateReviewProps<TChildProps, TDataName>>(CreateReviewDocument, {
+      alias: 'createReview',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateReviewMutation__
+ *
+ * To run a mutation, you first call `useCreateReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReviewMutation, { data, loading, error }] = useCreateReviewMutation({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *      text: // value for 'text'
+ *      rating: // value for 'rating'
+ *   },
+ * });
+ */
+export function useCreateReviewMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateReviewMutation, CreateReviewMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateReviewMutation, CreateReviewMutationVariables>(CreateReviewDocument, baseOptions);
+      }
+export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
+export type CreateReviewMutationResult = ApolloReactCommon.MutationResult<CreateReviewMutation>;
+export type CreateReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
