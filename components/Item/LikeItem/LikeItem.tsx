@@ -1,6 +1,5 @@
 import React from "react";
 import { MDBIcon } from "mdbreact";
-import Spinner from "react-bootstrap/Spinner";
 import { useToggleLikeMutation, CurrentUserDocument } from "generated/graphql";
 import { useUser } from "components/Utils/auth";
 
@@ -33,7 +32,7 @@ const LikeButton: React.FC<Props> = ({ id }) => {
   const CurrentLikeIdArray = user?.likes.filter((like) => id === like.itemId);
 
   return (
-    <div className="pro-details-wishlist">
+    <div className="pro-details-wishlist ">
       <a aria-disabled={loading} onClick={() => ToggleLikeItem()} title="like">
         {isLiked ? (
           <MDBIcon style={{ color: "red" }} icon="heart" />

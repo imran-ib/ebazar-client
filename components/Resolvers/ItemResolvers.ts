@@ -1,4 +1,6 @@
 import gql from "graphql-tag";
+import { PER_PAGE } from "components/Utils/config";
+import { OrderByArg } from "generated/graphql";
 
 export const UserItems = gql`
   query UsersOrders {
@@ -21,6 +23,7 @@ export const CreateItem = gql`
     $dimensions: String
     $materials: String
     $otherInfo: String
+    $videoLink: String
     $price: Float!
     $beforeDiscountPrice: Float!
     $stock: Int
@@ -39,6 +42,7 @@ export const CreateItem = gql`
       weight: $weight
       dimensions: $dimensions
       materials: $materials
+      videoLink: $videoLink
       otherInfo: $otherInfo
       price: $price
       beforeDiscountPrice: $beforeDiscountPrice
@@ -121,9 +125,42 @@ export const Item = gql`
   }
 `;
 
+export const TotalItemsCount = gql`
+  query TotalItemsCount {
+    itemCount
+  }
+`;
+
 export const Items = gql`
-  query Items {
-    items {
+  query Items(
+    $skip: Int
+    $first: Int
+    $last: Int
+    $MinPrice: Float
+    $MaxPrice: Float
+    $orderBy: ItemOrderByInput
+    $searchTerm: String
+  ) {
+    items(
+      skip: $skip
+      first: $first
+      last: $last
+      where: {
+        AND: [{ price: { gte: $MinPrice } }, { price: { lte: $MaxPrice } }]
+        OR: [
+          { title: { contains: $searchTerm } }
+          { tags: { some: { text: { contains: $searchTerm } } } }
+          { catagory: { some: { text: { contains: $searchTerm } } } }
+          { description: { contains: $searchTerm } }
+          { overview: { contains: $searchTerm } }
+          { brand: { contains: $searchTerm } }
+          { otherInfo: { contains: $searchTerm } }
+        ]
+        tags: { some: { text: { contains: $searchTerm } } }
+        catagory: { some: { text: { contains: $searchTerm } } }
+      }
+      orderBy: $orderBy
+    ) {
       id
       likes {
         id
@@ -154,12 +191,15 @@ export const Items = gql`
       images
       eagerImages
       catagory {
+        id
         text
       }
       tags {
+        id
         text
       }
       colors {
+        id
         text
       }
       OtherFeatures

@@ -45,7 +45,6 @@ const SellerLogin = () => {
     <MDBContainer>
       <MDBRow>
         <MDBCol md="12">
-          {/* {!loading && error && called && <AlertPage error={error.message} />} */}
           <form method="POST" onSubmit={handleSubmit(onSubmit)}>
             <p className="h2 text-center mb-4">Seller Sign in</p>
             <ErrorMessage error={error} />

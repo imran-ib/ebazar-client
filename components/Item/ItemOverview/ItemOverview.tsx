@@ -170,8 +170,6 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
               </div>
               <div className="pro-details-quality">
                 <AddToCartButton id={item.id} />
-
-                {/* <AddToCartButton id={item.id} /> */}
                 <LikeButton id={item.id} />
               </div>
               <div className="pro-details-meta">

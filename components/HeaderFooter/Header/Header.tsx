@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import HeaderMobile from "./MobileMenu/HeaderMobile";
 import Menus from "./Menus/Menus";
 import Cart from "../../Cart/Cart";
+import Search from "components/Search/Search";
 
 interface Props {
   user: any;
@@ -44,7 +45,7 @@ const Header: React.FC<Props> = ({ user, seller }) => {
           </Container>
         </div>
 
-        {/* <Search /> */}
+        <Search />
       </header>
       <div>
         <HeaderMobile />

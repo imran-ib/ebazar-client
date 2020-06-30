@@ -18,8 +18,6 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  item?: Maybe<Item>;
-  items: Array<Item>;
   seller?: Maybe<Seller>;
   sellers: Array<Seller>;
   user?: Maybe<User>;
@@ -35,22 +33,9 @@ export type Query = {
   Order: Order;
   /** Item Reviews */
   ITemRevives: Array<Review>;
-};
-
-
-export type QueryItemArgs = {
-  where: ItemWhereUniqueInput;
-};
-
-
-export type QueryItemsArgs = {
-  where?: Maybe<ItemWhereInput>;
-  orderBy?: Maybe<ItemOrderByInput>;
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ItemWhereUniqueInput>;
-  before?: Maybe<ItemWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  item?: Maybe<Item>;
+  items: Array<Item>;
+  itemCount: Scalars['Int'];
 };
 
 
@@ -100,93 +85,95 @@ export type QueryITemRevivesArgs = {
   itemId: Scalars['String'];
 };
 
-export type ItemWhereUniqueInput = {
+
+export type QueryItemArgs = {
+  where: ItemWhereUniqueInput;
+};
+
+
+export type QueryItemsArgs = {
+  where?: Maybe<ItemWhereInput>;
+  orderBy?: Maybe<ItemOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ItemWhereUniqueInput>;
+  before?: Maybe<ItemWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type SellerWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  sellerIdentification?: Maybe<Scalars['String']>;
+  phone?: Maybe<Array<Scalars['String']>>;
+};
+
+export type Seller = {
+  __typename?: 'Seller';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  storeName: Scalars['String'];
+  sellerNationality: Scalars['String'];
+  sellerIdentification: Scalars['String'];
+  EmailIsVerified?: Maybe<Scalars['Boolean']>;
+  SellerItemsCout?: Maybe<Scalars['Int']>;
+  role?: Maybe<Role>;
+  phone: Array<Scalars['String']>;
+  PickupLocations: Array<Address>;
+  Brand: Array<Scalars['String']>;
+  items: Array<Item>;
+  permissions?: Maybe<Permission>;
+};
+
+
+export type SellerPickupLocationsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<AddressWhereUniqueInput>;
+  before?: Maybe<AddressWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type SellerItemsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ItemWhereUniqueInput>;
+  before?: Maybe<ItemWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export enum Role {
+  Admin = 'ADMIN',
+  User = 'USER',
+  Seller = 'SELLER'
+}
+
+export type AddressWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
 };
 
-export type Item = {
-  __typename?: 'Item';
+export type Address = {
+  __typename?: 'Address';
   id: Scalars['String'];
-  likes: Array<Like>;
-  likesCount?: Maybe<Scalars['Int']>;
-  itemReview: Array<Review>;
-  reviewCount?: Maybe<Scalars['Int']>;
-  images: Array<Scalars['String']>;
-  eagerImages: Array<Scalars['String']>;
-  OtherFeatures: Array<Scalars['String']>;
-  catagory: Array<Catagory>;
-  tags: Array<Tag>;
-  colors: Array<Color>;
-  title: Scalars['String'];
-  description: Scalars['String'];
-  overview?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  beforeDiscountPrice: Scalars['Float'];
-  stock?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemLikesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<LikeWhereUniqueInput>;
-  before?: Maybe<LikeWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemItemReviewArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ReviewWhereUniqueInput>;
-  before?: Maybe<ReviewWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemCatagoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<CatagoryWhereUniqueInput>;
-  before?: Maybe<CatagoryWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemTagsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<TagWhereUniqueInput>;
-  before?: Maybe<TagWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemColorsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ColorWhereUniqueInput>;
-  before?: Maybe<ColorWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type LikeWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Like = {
-  __typename?: 'Like';
-  id: Scalars['String'];
-  user: User;
-  userId: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
+  name: Scalars['String'];
+  address: Scalars['String'];
+  country: Scalars['String'];
+  state: Scalars['String'];
+  city: Scalars['String'];
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  zipCode: Scalars['String'];
+  company?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  additionalInfo?: Maybe<Scalars['String']>;
+  MaincontactNubmer: Scalars['String'];
+  OthercontactNubmers: Array<Scalars['String']>;
+  isPrimary?: Maybe<Scalars['Boolean']>;
+  Lat?: Maybe<Scalars['Float']>;
+  Lng?: Maybe<Scalars['Float']>;
+  User?: Maybe<User>;
 };
 
 export type User = {
@@ -249,38 +236,6 @@ export type UserItemReviewArgs = {
   before?: Maybe<ReviewWhereUniqueInput>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
-};
-
-export enum Role {
-  Admin = 'ADMIN',
-  User = 'USER',
-  Seller = 'SELLER'
-}
-
-export type AddressWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Address = {
-  __typename?: 'Address';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  address: Scalars['String'];
-  country: Scalars['String'];
-  state: Scalars['String'];
-  city: Scalars['String'];
-  streetAddress1?: Maybe<Scalars['String']>;
-  streetAddress2?: Maybe<Scalars['String']>;
-  zipCode: Scalars['String'];
-  company?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  additionalInfo?: Maybe<Scalars['String']>;
-  MaincontactNubmer: Scalars['String'];
-  OthercontactNubmers: Array<Scalars['String']>;
-  isPrimary?: Maybe<Scalars['Boolean']>;
-  Lat?: Maybe<Scalars['Float']>;
-  Lng?: Maybe<Scalars['Float']>;
-  User?: Maybe<User>;
 };
 
 export type OrderWhereUniqueInput = {
@@ -359,6 +314,91 @@ export type OrderItemCatagoryArgs = {
   skip?: Maybe<Scalars['Int']>;
   after?: Maybe<CatagoryWhereUniqueInput>;
   before?: Maybe<CatagoryWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type LikeWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Like = {
+  __typename?: 'Like';
+  id: Scalars['String'];
+  user: User;
+  userId: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type Item = {
+  __typename?: 'Item';
+  id: Scalars['String'];
+  likes: Array<Like>;
+  likesCount?: Maybe<Scalars['Int']>;
+  itemReview: Array<Review>;
+  reviewCount?: Maybe<Scalars['Int']>;
+  images: Array<Scalars['String']>;
+  eagerImages: Array<Scalars['String']>;
+  OtherFeatures: Array<Scalars['String']>;
+  catagory: Array<Catagory>;
+  tags: Array<Tag>;
+  colors: Array<Color>;
+  title: Scalars['String'];
+  description: Scalars['String'];
+  overview?: Maybe<Scalars['String']>;
+  otherInfo?: Maybe<Scalars['String']>;
+  videoLink?: Maybe<Scalars['String']>;
+  brand?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  dimensions?: Maybe<Scalars['String']>;
+  materials?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  beforeDiscountPrice: Scalars['Float'];
+  stock?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemLikesArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<LikeWhereUniqueInput>;
+  before?: Maybe<LikeWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemItemReviewArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ReviewWhereUniqueInput>;
+  before?: Maybe<ReviewWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemCatagoryArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<CatagoryWhereUniqueInput>;
+  before?: Maybe<CatagoryWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemTagsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<TagWhereUniqueInput>;
+  before?: Maybe<TagWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemColorsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ColorWhereUniqueInput>;
+  before?: Maybe<ColorWhereUniqueInput>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -445,6 +485,30 @@ export type Catagory = {
   itemId: Scalars['String'];
 };
 
+export type TagWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type ColorWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Color = {
+  __typename?: 'Color';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
 export enum OrderStatus {
   Pending = 'PENDING',
   Delivered = 'DELIVERED',
@@ -475,28 +539,13 @@ export type CartItem = {
   userId: Scalars['String'];
 };
 
-export type TagWhereUniqueInput = {
+export type ItemWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
 };
 
-export type Tag = {
-  __typename?: 'Tag';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-};
-
-export type ColorWhereUniqueInput = {
+export type UserWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
-};
-
-export type Color = {
-  __typename?: 'Color';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
 };
 
 export type ItemWhereInput = {
@@ -971,54 +1020,6 @@ export enum OrderByArg {
   Asc = 'asc',
   Desc = 'desc'
 }
-
-export type SellerWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  sellerIdentification?: Maybe<Scalars['String']>;
-  phone?: Maybe<Array<Scalars['String']>>;
-};
-
-export type Seller = {
-  __typename?: 'Seller';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  email: Scalars['String'];
-  storeName: Scalars['String'];
-  sellerNationality: Scalars['String'];
-  sellerIdentification: Scalars['String'];
-  EmailIsVerified?: Maybe<Scalars['Boolean']>;
-  SellerItemsCout?: Maybe<Scalars['Int']>;
-  role?: Maybe<Role>;
-  phone: Array<Scalars['String']>;
-  PickupLocations: Array<Address>;
-  Brand: Array<Scalars['String']>;
-  items: Array<Item>;
-  permissions?: Maybe<Permission>;
-};
-
-
-export type SellerPickupLocationsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<AddressWhereUniqueInput>;
-  before?: Maybe<AddressWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type SellerItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ItemWhereUniqueInput>;
-  before?: Maybe<ItemWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type UserWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -5155,6 +5156,7 @@ export type CreateItemMutationVariables = {
   dimensions?: Maybe<Scalars['String']>;
   materials?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
+  videoLink?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
   stock?: Maybe<Scalars['Int']>;
@@ -5214,7 +5216,23 @@ export type ItemQuery = (
   )> }
 );
 
-export type ItemsQueryVariables = {};
+export type TotalItemsCountQueryVariables = {};
+
+
+export type TotalItemsCountQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'itemCount'>
+);
+
+export type ItemsQueryVariables = {
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  MinPrice?: Maybe<Scalars['Float']>;
+  MaxPrice?: Maybe<Scalars['Float']>;
+  orderBy?: Maybe<ItemOrderByInput>;
+  searchTerm?: Maybe<Scalars['String']>;
+};
 
 
 export type ItemsQuery = (
@@ -5237,13 +5255,13 @@ export type ItemsQuery = (
       )> }
     )>, catagory: Array<(
       { __typename?: 'Catagory' }
-      & Pick<Catagory, 'text'>
+      & Pick<Catagory, 'id' | 'text'>
     )>, tags: Array<(
       { __typename?: 'Tag' }
-      & Pick<Tag, 'text'>
+      & Pick<Tag, 'id' | 'text'>
     )>, colors: Array<(
       { __typename?: 'Color' }
-      & Pick<Color, 'text'>
+      & Pick<Color, 'id' | 'text'>
     )> }
   )> }
 );
@@ -6260,8 +6278,8 @@ export type UsersOrdersQueryHookResult = ReturnType<typeof useUsersOrdersQuery>;
 export type UsersOrdersLazyQueryHookResult = ReturnType<typeof useUsersOrdersLazyQuery>;
 export type UsersOrdersQueryResult = ApolloReactCommon.QueryResult<UsersOrdersQuery, UsersOrdersQueryVariables>;
 export const CreateItemDocument = gql`
-    mutation CreateItem($title: String!, $description: String!, $overview: String, $brand: String, $weight: String, $dimensions: String, $materials: String, $otherInfo: String, $price: Float!, $beforeDiscountPrice: Float!, $stock: Int, $images: [String!], $eagerImages: [String!], $catagory: [String!], $tags: [String!], $colors: [String!], $otherFeature: [String!]!) {
-  CreateItem(title: $title, description: $description, overview: $overview, brand: $brand, weight: $weight, dimensions: $dimensions, materials: $materials, otherInfo: $otherInfo, price: $price, beforeDiscountPrice: $beforeDiscountPrice, stock: $stock, images: $images, eagerImages: $eagerImages, catagory: $catagory, tags: $tags, colors: $colors, otherFeature: $otherFeature) {
+    mutation CreateItem($title: String!, $description: String!, $overview: String, $brand: String, $weight: String, $dimensions: String, $materials: String, $otherInfo: String, $videoLink: String, $price: Float!, $beforeDiscountPrice: Float!, $stock: Int, $images: [String!], $eagerImages: [String!], $catagory: [String!], $tags: [String!], $colors: [String!], $otherFeature: [String!]!) {
+  CreateItem(title: $title, description: $description, overview: $overview, brand: $brand, weight: $weight, dimensions: $dimensions, materials: $materials, videoLink: $videoLink, otherInfo: $otherInfo, price: $price, beforeDiscountPrice: $beforeDiscountPrice, stock: $stock, images: $images, eagerImages: $eagerImages, catagory: $catagory, tags: $tags, colors: $colors, otherFeature: $otherFeature) {
     id
   }
 }
@@ -6308,6 +6326,7 @@ export function withCreateItem<TProps, TChildProps = {}, TDataName extends strin
  *      dimensions: // value for 'dimensions'
  *      materials: // value for 'materials'
  *      otherInfo: // value for 'otherInfo'
+ *      videoLink: // value for 'videoLink'
  *      price: // value for 'price'
  *      beforeDiscountPrice: // value for 'beforeDiscountPrice'
  *      stock: // value for 'stock'
@@ -6436,9 +6455,58 @@ export function useItemLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOpt
 export type ItemQueryHookResult = ReturnType<typeof useItemQuery>;
 export type ItemLazyQueryHookResult = ReturnType<typeof useItemLazyQuery>;
 export type ItemQueryResult = ApolloReactCommon.QueryResult<ItemQuery, ItemQueryVariables>;
+export const TotalItemsCountDocument = gql`
+    query TotalItemsCount {
+  itemCount
+}
+    `;
+export type TotalItemsCountComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<TotalItemsCountQuery, TotalItemsCountQueryVariables>, 'query'>;
+
+    export const TotalItemsCountComponent = (props: TotalItemsCountComponentProps) => (
+      <ApolloReactComponents.Query<TotalItemsCountQuery, TotalItemsCountQueryVariables> query={TotalItemsCountDocument} {...props} />
+    );
+    
+export type TotalItemsCountProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<TotalItemsCountQuery, TotalItemsCountQueryVariables>
+    } & TChildProps;
+export function withTotalItemsCount<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  TotalItemsCountQuery,
+  TotalItemsCountQueryVariables,
+  TotalItemsCountProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, TotalItemsCountQuery, TotalItemsCountQueryVariables, TotalItemsCountProps<TChildProps, TDataName>>(TotalItemsCountDocument, {
+      alias: 'totalItemsCount',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useTotalItemsCountQuery__
+ *
+ * To run a query within a React component, call `useTotalItemsCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTotalItemsCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTotalItemsCountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTotalItemsCountQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<TotalItemsCountQuery, TotalItemsCountQueryVariables>) {
+        return ApolloReactHooks.useQuery<TotalItemsCountQuery, TotalItemsCountQueryVariables>(TotalItemsCountDocument, baseOptions);
+      }
+export function useTotalItemsCountLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<TotalItemsCountQuery, TotalItemsCountQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<TotalItemsCountQuery, TotalItemsCountQueryVariables>(TotalItemsCountDocument, baseOptions);
+        }
+export type TotalItemsCountQueryHookResult = ReturnType<typeof useTotalItemsCountQuery>;
+export type TotalItemsCountLazyQueryHookResult = ReturnType<typeof useTotalItemsCountLazyQuery>;
+export type TotalItemsCountQueryResult = ApolloReactCommon.QueryResult<TotalItemsCountQuery, TotalItemsCountQueryVariables>;
 export const ItemsDocument = gql`
-    query Items {
-  items {
+    query Items($skip: Int, $first: Int, $last: Int, $MinPrice: Float, $MaxPrice: Float, $orderBy: ItemOrderByInput, $searchTerm: String) {
+  items(skip: $skip, first: $first, last: $last, where: {OR: [{title: {contains: $searchTerm}}, {tags: {some: {text: {contains: $searchTerm}}}}, {catagory: {some: {text: {contains: $searchTerm}}}}, {description: {contains: $searchTerm}}, {overview: {contains: $searchTerm}}, {brand: {contains: $searchTerm}}, {otherInfo: {contains: $searchTerm}}, {AND: [{price: {gte: $MinPrice}}, {price: {lte: $MaxPrice}}]}], tags: {some: {text: {contains: $searchTerm}}}, catagory: {some: {text: {contains: $searchTerm}}}}, orderBy: $orderBy) {
     id
     likes {
       id
@@ -6469,12 +6537,15 @@ export const ItemsDocument = gql`
     images
     eagerImages
     catagory {
+      id
       text
     }
     tags {
+      id
       text
     }
     colors {
+      id
       text
     }
     OtherFeatures
@@ -6525,6 +6596,13 @@ export function withItems<TProps, TChildProps = {}, TDataName extends string = '
  * @example
  * const { data, loading, error } = useItemsQuery({
  *   variables: {
+ *      skip: // value for 'skip'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      MinPrice: // value for 'MinPrice'
+ *      MaxPrice: // value for 'MaxPrice'
+ *      orderBy: // value for 'orderBy'
+ *      searchTerm: // value for 'searchTerm'
  *   },
  * });
  */

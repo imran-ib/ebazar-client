@@ -9,13 +9,14 @@ import {
   MDBDropdownItem,
   MDBIcon,
 } from "mdbreact";
-import SideNavSearch from "../../../shop/SideNav/SideNavSearch";
+
 import { CategoryMenuHead } from "../Menus/CategoriesMenu";
 import { CatalogMenuHead } from "../Menus/CatalogueMene";
 import PagesMenus from "../Menus/PagesMenus";
 import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
 import { useUser, useSeller } from "components/Utils/auth";
 import { useUserLogoutMutation } from "generated/graphql";
+import SideNavSearch from "components/Shop/ShopSideNav/SideNavSearch";
 
 function MobileMenus() {
   const [category, setCategory] = useState(false);

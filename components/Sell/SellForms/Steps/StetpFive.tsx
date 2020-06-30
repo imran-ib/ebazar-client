@@ -38,7 +38,7 @@ const StepFive = (props: Props) => {
   const [reviews, setReviews] = useState(false);
 
   const [index, setIndex] = useState(0);
-  const [mainImage, setImage] = useState(props.data.images[0]);
+  const [mainImage, setImage] = useState(props.data.images[1]);
 
   const [CreateItem, { loading, error }] = useCreateItemMutation();
   const handleSelect = (selectedIndex: number, e: any) => {
@@ -116,7 +116,7 @@ const StepFive = (props: Props) => {
             <div className="col-lg-6 col-md-6">
               <div className="product-details-img">
                 <div className="zoompro-border zoompro-span">
-                  <img src={mainImage} alt="" />
+                  <img src={mainImage} alt={item.Title} />
 
                   <span>{percent}% Off</span>
                   <div className="product-video">
