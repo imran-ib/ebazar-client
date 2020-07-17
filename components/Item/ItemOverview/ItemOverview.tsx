@@ -88,7 +88,7 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                 </span>
               </div>
               <div className="pro-details-rating-wrap">
-                <div>
+                <div className="b-red">
                   <StarRatingFixed stars={AverageReviews(item)} />
                 </div>
                 <span
@@ -179,10 +179,7 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                     item.catagory.map((catagory) => (
                       <li key={catagory.id}>
                         <Link
-                          href={{
-                            pathname: "/searchByCatagory",
-                            query: { catagory: catagory.text },
-                          }}
+                          href={`/shop/list/results/category/${catagory.text}`}
                         >
                           <a
                             style={{
@@ -202,12 +199,7 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                   {item.tags &&
                     item.tags.map((tag) => (
                       <li key={tag.id}>
-                        <Link
-                          href={{
-                            pathname: "/searchByTag",
-                            query: { tag: tag.text },
-                          }}
-                        >
+                        <Link href={`/shop/list/results/tag/${tag.text}`}>
                           <a
                             style={{
                               padding: "5px",

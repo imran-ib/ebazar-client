@@ -8,11 +8,25 @@ import LikeButton from "../LikeItem/LikeItem";
 import StarRatingFixed from "../Review/ReviewForm/StarRatingFixed";
 import AverageReviews from "../../Utils/AverageReviews";
 import { Item } from "generated/graphql";
+import Spinner from "react-bootstrap/Spinner";
+import { useUser } from "components/Utils/auth";
+import {
+  useAddItemToCartMutation,
+  CurrentUserDocument,
+} from "generated/graphql";
+import { toast } from "react-toastify";
 
 interface Props {
   item: Item;
   autoPlay?: boolean;
 }
+
+const DisableLinkStyles = Styles.div`
+a[aria-disabled='true'] {
+  color: grey;
+  pointer-events: none;
+}
+`;
 
 const ProductCartStyles = Styles.div`
 .M-Small{
@@ -24,6 +38,12 @@ const ProductCartStyles = Styles.div`
 
 const ItemCard: React.FC<Props> = ({ item, autoPlay }) => {
   const [toggle, setToggle] = useState(false);
+
+  const [AddItemToTheCart, { loading }] = useAddItemToCartMutation({
+    variables: { itemId: item.id, quantity: 1 },
+    refetchQueries: [{ query: CurrentUserDocument }],
+  });
+
   return (
     <ProductCartStyles>
       {item && (
@@ -79,15 +99,39 @@ const ItemCard: React.FC<Props> = ({ item, autoPlay }) => {
                             </li>
 
                             <li>
-                              <a onClick={() => setToggle(!toggle)}>
-                                <i
-                                  style={{ color: "red" }}
-                                  className="sli sli-bag"
-                                />
-                                <span className="ht-product-action-tooltip">
-                                  Add to Cart
-                                </span>
-                              </a>
+                              <DisableLinkStyles>
+                                <a
+                                  aria-disabled={loading}
+                                  onClick={() => {
+                                    // () => setToggle(!toggle)
+                                    AddItemToTheCart()
+                                      .then(() =>
+                                        toast.success(
+                                          "Success, Item is Added To Your Cart"
+                                        )
+                                      )
+                                      .catch((err) => toast.error(err.message));
+                                  }}
+                                >
+                                  {loading ? (
+                                    <Spinner
+                                      as="span"
+                                      animation="grow"
+                                      size="sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    />
+                                  ) : (
+                                    <i
+                                      style={{ color: "red" }}
+                                      className="sli sli-bag"
+                                    />
+                                  )}
+                                  <span className="ht-product-action-tooltip">
+                                    Add to Cart
+                                  </span>
+                                </a>
+                              </DisableLinkStyles>
                             </li>
                           </ul>
                         </div>
@@ -98,7 +142,11 @@ const ItemCard: React.FC<Props> = ({ item, autoPlay }) => {
                   <div className="ht-product-content">
                     <div className="ht-product-content-inner">
                       <div className="ht-product-categories">
-                        <a href="#">{item.catagory[0].text}</a>
+                        <a
+                          href={`/shop/list/results/category/${item.catagory[0].text}`}
+                        >
+                          {item.catagory[0].text}
+                        </a>
                       </div>
                       <div
                         style={{

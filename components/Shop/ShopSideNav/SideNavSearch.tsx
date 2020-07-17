@@ -8,8 +8,8 @@ function SideNavSearch() {
 
   const onSubmit = (data: { searchTerm: string }) => {
     Router.push({
-      pathname: "/shop/list",
-      query: { searchTerm: data.searchTerm },
+      pathname: "/shop/list/search-results",
+      query: { term: data.searchTerm },
     });
   };
 

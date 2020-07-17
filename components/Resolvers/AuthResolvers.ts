@@ -23,21 +23,37 @@ export const CurrentUser = gql`
           eagerImages
         }
       }
+
       likes {
-        id
+        userId
         itemId
+        item {
+          id
+          title
+          likesCount
+          eagerImages
+          price
+          dimensions
+          description
+        }
       }
 
       address {
         id
         name
         address
+        isPrimary
         country
         state
         city
         streetAddress1
         streetAddress2
-        isPrimary
+        zipCode
+        company
+        message
+        additionalInfo
+        MaincontactNubmer
+        OthercontactNubmers
         Lat
         Lng
       }
@@ -45,7 +61,6 @@ export const CurrentUser = gql`
     }
   }
 `;
-
 export const USER_LOGIN_MUTATION = gql`
   mutation USER_LOGIN_MUTATION($email: String!, $password: String!) {
     UserLogin(email: $email, password: $password)
@@ -210,6 +225,20 @@ export const SellerResetPassword = gql`
   ) {
     ResetSellerPassword(
       token: $token
+      password: $password
+      confirmPassword: $confirmPassword
+    )
+  }
+`;
+
+export const ResetUsersPasswordFromProfile = gql`
+  mutation ResetUsersPasswordFromProfile(
+    $OldPassword: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    ResetUsersPasswordFromProfile(
+      OldPassword: $OldPassword
       password: $password
       confirmPassword: $confirmPassword
     )

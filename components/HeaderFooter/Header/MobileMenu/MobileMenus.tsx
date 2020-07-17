@@ -227,12 +227,7 @@ function CategoryMenus() {
         <div key={i}>
           {item.list.map((list, i) => (
             <MDBDropdownItem key={i}>
-              <Link
-                href={{
-                  pathname: "searchByCatagory",
-                  query: { catagory: `${list}` },
-                }}
-              >
+              <Link href={`shop/list/results/category/${list}`}>
                 <a>{list}</a>
               </Link>
             </MDBDropdownItem>
@@ -250,12 +245,7 @@ function CatalogMenus() {
         <div key={i}>
           {item.list.map((list, i) => (
             <MDBDropdownItem key={i}>
-              <Link
-                href={{
-                  pathname: "/searchByTag",
-                  query: { tag: `${list}` },
-                }}
-              >
+              <Link href={`shop/list/result/tag/${list}`}>
                 <a>{list}</a>
               </Link>
             </MDBDropdownItem>

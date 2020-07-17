@@ -14,9 +14,7 @@ const UserPaymentMethod = ({ Payment, me }: Props) => {
     >
       <div className="myaccount-content">
         <h3>Payment Method</h3>
-        <p className="saved-message">
-          You Can't Saved Your Payment Method yet.
-        </p>
+        <p className="saved-message">You Can't Save Your Payment Method yet.</p>
       </div>
     </div>
   );

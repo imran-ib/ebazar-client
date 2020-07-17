@@ -7,6 +7,7 @@ import UserAccountDetails from "./AccountDetails";
 import UserDactivate from "./UserDeActivate";
 import UserAccountSideNav from "./UserAccountSideNav";
 import { useUser } from "components/Utils/auth";
+import Head from "next/head";
 
 const MyAccount = () => {
   const [Dashboard, setDashboard] = useState(true);
@@ -70,6 +71,9 @@ const MyAccount = () => {
 
   return (
     <>
+      <Head>
+        <title>ebazar | {CurrentUser?.name}</title>
+      </Head>
       <div className="my-account-wrapper pt-100 pb-100">
         <div className="container">
           <div className="row">

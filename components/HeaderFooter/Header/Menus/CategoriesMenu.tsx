@@ -60,12 +60,7 @@ function CategoriesMenu() {
               <ul>
                 {item.list.map((list: any, i: any) => (
                   <li key={i}>
-                    <Link
-                      href={{
-                        pathname: "searchByCatagory",
-                        query: { catagory: `${list}` },
-                      }}
-                    >
+                    <Link href={`/shop/list/results/category/${list}`}>
                       <a>{list}</a>
                     </Link>
                   </li>

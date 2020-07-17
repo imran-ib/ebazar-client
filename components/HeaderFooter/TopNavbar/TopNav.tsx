@@ -15,6 +15,7 @@ import Link from "next/link";
 import media from "styled-media-query";
 import { useUserLogoutMutation, Seller, User } from "generated/graphql";
 import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
+import HeaderSlider from "./HeaderSlider";
 
 const TopNavStyles = Styles.div`
 font-size: 12px;
@@ -96,6 +97,7 @@ const TopNav = (props: Props) => {
   };
   return (
     <TopNavStyles>
+      <HeaderSlider />
       <MDBNavbar color="unique-color-dark" dark>
         <div className="container">
           {Icons.map((icon) => (

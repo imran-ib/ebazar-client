@@ -36,7 +36,7 @@ const UserAccountSideNav = ({
       <a
         data-toggle="tab"
         onClick={ActiveDashboard}
-        className={`${Dashboard ? "active" : ""}`}
+        className={`${Dashboard ? "active text-white" : ""} `}
       >
         <MDBIcon icon="desktop" />
         Dashboard
@@ -44,7 +44,7 @@ const UserAccountSideNav = ({
       <a
         data-toggle="tab"
         onClick={ActiveOrders}
-        className={`${Orders ? "active" : ""}`}
+        className={`${Orders ? "active text-white" : ""}`}
       >
         <i className="fa fa-cart-arrow-down" /> Orders
       </a>
@@ -52,21 +52,21 @@ const UserAccountSideNav = ({
       <a
         data-toggle="tab"
         onClick={ActivePayment}
-        className={`${Payment ? "active" : ""}`}
+        className={`${Payment ? "active text-white" : ""}`}
       >
         <i className="fa fa-credit-card" /> Payment Method
       </a>
       <a
         data-toggle="tab"
         onClick={ActiveAddress}
-        className={`${Address ? "active" : ""}`}
+        className={`${Address ? "active text-white" : ""}`}
       >
         <i className="fa fa-map-marker" /> address
       </a>
       <a
         onClick={ActiveAccount}
         data-toggle="tab"
-        className={`${Account ? "active" : ""}`}
+        className={`${Account ? "active text-white" : ""}`}
       >
         <i className="fa fa-user" /> Account Details
       </a>
@@ -75,7 +75,7 @@ const UserAccountSideNav = ({
       <a
         data-toggle="tab"
         onClick={ActiveDactivate}
-        className={`${Dactivate ? "active" : ""}`}
+        className={`${Dactivate ? "active text-white" : ""}`}
       >
         <MDBIcon icon="trash-alt" /> Dactivate Your Account
       </a>

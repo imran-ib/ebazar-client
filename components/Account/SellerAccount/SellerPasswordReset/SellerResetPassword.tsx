@@ -9,10 +9,7 @@ interface Props {
 }
 
 const SellerResetPassword = ({ token }: Props) => {
-  const [
-    resetSellerPassword,
-    { loading, error },
-  ] = useSellerResetPasswordMutation();
+  const [resetSellerPassword, { loading }] = useSellerResetPasswordMutation();
   const { register, handleSubmit, errors } = useForm();
   const Router = useRouter();
   const onSubmit = (data: any) => {

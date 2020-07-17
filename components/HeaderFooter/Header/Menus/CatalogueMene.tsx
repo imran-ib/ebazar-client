@@ -77,12 +77,7 @@ function CatalogueMenu() {
               <ul>
                 {item.list.map((list: any, i: any) => (
                   <li key={i}>
-                    <Link
-                      href={{
-                        pathname: "/searchByTag",
-                        query: { tag: `${list}` },
-                      }}
-                    >
+                    <Link href={`/shop/list/results/tag/${list}`}>
                       <a>{list}</a>
                     </Link>
                   </li>

@@ -13,8 +13,8 @@ import { PaginationStyles } from "./PaginationStyles";
 interface Props {
   orderBy: {}; // apply Filter
   setOrderBy: React.Dispatch<React.SetStateAction<{}>>;
-  page: number; // page query from Url
-  SendTrue: boolean; // we need This To Update The Sort state
+  page?: number; // page query from Url
+  SendTrue?: boolean; // we need This To Update The Sort state
 }
 
 const PaginationHeader: React.FC<Props> = (props: Props) => {

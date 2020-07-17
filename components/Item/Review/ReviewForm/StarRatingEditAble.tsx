@@ -22,13 +22,9 @@ const StarRatingEditAble: React.FC<Props> = (props) => {
 
   const onStarClick = (nextValue: any, prevValue: any, name: any) => {
     setLocalRating(nextValue);
-    props.setRating(localRating);
+    props.setRating(nextValue);
   };
-  // const onClickHalfStar = (
-  //   nextValue: any,
-  //   prevValue: any,
-  //   name: any,
-  // ) => {
+  // const onClickHalfStar = (nextValue: any, prevValue: any, name: any) => {
   //   const xPos =
   //     (e.pageX - e.currentTarget.getBoundingClientRect().left) /
   //     e.currentTarget.offsetWidth;
@@ -44,7 +40,6 @@ const StarRatingEditAble: React.FC<Props> = (props) => {
   //     prevValue
   //   );
   //   // console.log(e);
-
   // };
 
   return (

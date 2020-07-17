@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useDeleteUserAccountMutation } from "generated/graphql";
 
@@ -9,16 +9,14 @@ interface Props {
 }
 
 const UserDeActivate = ({ Dactivate, me }: Props) => {
-  const [
-    DeleteUserAccount,
-    { loading, error },
-  ] = useDeleteUserAccountMutation();
+  const Router = useRouter();
+  const [DeleteUserAccount, { loading }] = useDeleteUserAccountMutation();
   const DeleteUser = (id: any) => {
     DeleteUserAccount({
       variables: { userId: id },
     }).then(() => {
       toast.success(`Success: Account Deleted! Sorry To See You Go`);
-      Router.push("/shop");
+      Router.reload();
     });
   };
 

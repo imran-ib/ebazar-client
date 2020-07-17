@@ -9,6 +9,7 @@ const Meta = () => (
     <link rel="stylesheet" type="text/css" href="/static/css/icons.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/plugins.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/slick/slick.css" />
+
     <link
       rel="stylesheet"
       type="text/css"

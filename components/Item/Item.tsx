@@ -1,10 +1,11 @@
 import React from "react";
 import ItemOverview from "./ItemOverview/ItemOverview";
 import ItemDescription from "./ItemDescription/ItemDescription";
-// import RelatedProducts from "./RelatedProducts/RelatedProducts";
+import RelatedProducts from "./RelatedProducts/RelatedProducts";
 import ErrorMessage from "../Utils/ErrorMessage";
 import Spinner from "../Utils/Spinner/Spinner";
 import { useItemQuery } from "generated/graphql";
+import Head from "next/head";
 
 interface Props {
   id: any;
@@ -13,6 +14,8 @@ interface Props {
 const ItemComponent: React.FC<Props> = ({ id }) => {
   const { loading, error, data } = useItemQuery({
     variables: { id },
+    // partialRefetch: true,
+    // pollInterval: 500,
   });
 
   if (loading) return <Spinner />;
@@ -24,13 +27,16 @@ const ItemComponent: React.FC<Props> = ({ id }) => {
 
   return (
     <div style={{ overflow: "hidden" }}>
+      <Head>
+        <title>ebazar | {item.title}</title>
+      </Head>
       {/* 
     //@ts-ignore */}
       <ItemOverview item={item} />
       {/* 
     //@ts-ignore */}
       <ItemDescription item={item} />
-      {/* <RelatedProducts /> */}
+      <RelatedProducts />
     </div>
   );
 };

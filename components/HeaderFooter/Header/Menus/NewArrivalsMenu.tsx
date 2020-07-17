@@ -45,7 +45,7 @@ const MenuHead = [
 function NewArrivals() {
   return (
     <NewArrivalsStyles className="angle-shape">
-      <Link href="/shop/list">
+      <Link href="/shop">
         <a>
           Exclusive <span>new</span>{" "}
         </a>

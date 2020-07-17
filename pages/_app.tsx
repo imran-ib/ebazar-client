@@ -5,6 +5,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { ToastContainer } from "react-toastify";
 import withData from "components/lib/withData";
 import NProgress from "nprogress";
+import Meta from "components/Layout/Meta";
 //@ts-ignore
 import config from "react-reveal/globals";
 
@@ -31,6 +32,7 @@ function MyApp({ Component, pageProps, apollo }: MyProps) {
     <>
       <ApolloProvider client={apollo}>
         <GlobalStyles />
+        <Meta />
 
         <ToastContainer
           position="bottom-center"

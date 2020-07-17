@@ -18,11 +18,8 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  seller?: Maybe<Seller>;
-  sellers: Array<Seller>;
-  user?: Maybe<User>;
-  addresses: Array<Address>;
-  users: Array<User>;
+  AllAddress: Array<Address>;
+  SingleAddress?: Maybe<Address>;
   /** Currently Logged in User */
   CurrentUser?: Maybe<User>;
   /** Currently Logged in Seller */
@@ -33,32 +30,19 @@ export type Query = {
   Order: Order;
   /** Item Reviews */
   ITemRevives: Array<Review>;
+  /** Users Whish List */
+  UserLikes: Item;
   item?: Maybe<Item>;
   items: Array<Item>;
   itemCount: Scalars['Int'];
+  ItemConnections: ItemConnection;
+  SearchTermResults: ItemConnection;
 };
 
 
-export type QuerySellerArgs = {
-  where: SellerWhereUniqueInput;
-};
-
-
-export type QuerySellersArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<SellerWhereUniqueInput>;
-  before?: Maybe<SellerWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryUserArgs = {
-  where: UserWhereUniqueInput;
-};
-
-
-export type QueryAddressesArgs = {
+export type QueryAllAddressArgs = {
+  where?: Maybe<AddressWhereInput>;
+  orderBy?: Maybe<AddressOrderByInput>;
   skip?: Maybe<Scalars['Int']>;
   after?: Maybe<AddressWhereUniqueInput>;
   before?: Maybe<AddressWhereUniqueInput>;
@@ -67,12 +51,8 @@ export type QueryAddressesArgs = {
 };
 
 
-export type QueryUsersArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<UserWhereUniqueInput>;
-  before?: Maybe<UserWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+export type QuerySingleAddressArgs = {
+  where: AddressWhereUniqueInput;
 };
 
 
@@ -83,6 +63,11 @@ export type QueryOrderArgs = {
 
 export type QueryITemRevivesArgs = {
   itemId: Scalars['String'];
+};
+
+
+export type QueryUserLikesArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -101,47 +86,140 @@ export type QueryItemsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type SellerWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  sellerIdentification?: Maybe<Scalars['String']>;
-  phone?: Maybe<Array<Scalars['String']>>;
+
+export type QueryItemConnectionsArgs = {
+  tag?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
 };
 
-export type Seller = {
-  __typename?: 'Seller';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  email: Scalars['String'];
-  storeName: Scalars['String'];
-  sellerNationality: Scalars['String'];
-  sellerIdentification: Scalars['String'];
-  EmailIsVerified?: Maybe<Scalars['Boolean']>;
-  SellerItemsCout?: Maybe<Scalars['Int']>;
+
+export type QuerySearchTermResultsArgs = {
+  term: Scalars['String'];
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+};
+
+export type AddressWhereInput = {
+  id?: Maybe<StringFilter>;
+  name?: Maybe<StringFilter>;
+  address?: Maybe<StringFilter>;
+  country?: Maybe<StringFilter>;
+  state?: Maybe<StringFilter>;
+  city?: Maybe<StringFilter>;
+  zipCode?: Maybe<StringFilter>;
+  MaincontactNubmer?: Maybe<StringFilter>;
+  streetAddress1?: Maybe<NullableStringFilter>;
+  streetAddress2?: Maybe<NullableStringFilter>;
+  company?: Maybe<NullableStringFilter>;
+  message?: Maybe<NullableStringFilter>;
+  additionalInfo?: Maybe<NullableStringFilter>;
+  isPrimary?: Maybe<NullableBooleanFilter>;
+  Lat?: Maybe<NullableFloatFilter>;
+  Lng?: Maybe<NullableFloatFilter>;
+  sellerId?: Maybe<NullableStringFilter>;
+  userId?: Maybe<NullableStringFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<AddressWhereInput>>;
+  OR?: Maybe<Array<AddressWhereInput>>;
+  NOT?: Maybe<Array<AddressWhereInput>>;
+  Seller?: Maybe<SellerWhereInput>;
+  User?: Maybe<UserWhereInput>;
+};
+
+export type StringFilter = {
+  equals?: Maybe<Scalars['String']>;
+  not?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  contains?: Maybe<Scalars['String']>;
+  startsWith?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+};
+
+export type NullableStringFilter = {
+  equals?: Maybe<Scalars['String']>;
+  not?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  contains?: Maybe<Scalars['String']>;
+  startsWith?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+};
+
+export type NullableBooleanFilter = {
+  equals?: Maybe<Scalars['Boolean']>;
+  not?: Maybe<Scalars['Boolean']>;
+};
+
+export type NullableFloatFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  not?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+};
+
+export type DateTimeFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Scalars['DateTime']>>;
+  notIn?: Maybe<Array<Scalars['DateTime']>>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type SellerWhereInput = {
+  id?: Maybe<StringFilter>;
+  name?: Maybe<StringFilter>;
+  email?: Maybe<StringFilter>;
+  password?: Maybe<StringFilter>;
+  storeName?: Maybe<StringFilter>;
+  sellerNationality?: Maybe<StringFilter>;
+  sellerIdentification?: Maybe<StringFilter>;
+  confirmPassword?: Maybe<NullableStringFilter>;
+  EmailIsVerified?: Maybe<NullableBooleanFilter>;
+  EmailVarificationHash?: Maybe<NullableStringFilter>;
+  PasswordResetToken?: Maybe<NullableStringFilter>;
+  PasswordResetTokenExpiry?: Maybe<NullableFloatFilter>;
+  SellerItemsCout?: Maybe<NullableIntFilter>;
   role?: Maybe<Role>;
-  phone: Array<Scalars['String']>;
-  PickupLocations: Array<Address>;
-  Brand: Array<Scalars['String']>;
-  items: Array<Item>;
+  PickupLocations?: Maybe<AddressFilter>;
+  items?: Maybe<ItemFilter>;
+  itemCount?: Maybe<IntFilter>;
   permissions?: Maybe<Permission>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: Maybe<Array<SellerWhereInput>>;
+  OR?: Maybe<Array<SellerWhereInput>>;
+  NOT?: Maybe<Array<SellerWhereInput>>;
 };
 
-
-export type SellerPickupLocationsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<AddressWhereUniqueInput>;
-  before?: Maybe<AddressWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type SellerItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ItemWhereUniqueInput>;
-  before?: Maybe<ItemWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+export type NullableIntFilter = {
+  equals?: Maybe<Scalars['Int']>;
+  not?: Maybe<Scalars['Int']>;
+  in?: Maybe<Array<Scalars['Int']>>;
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  lt?: Maybe<Scalars['Int']>;
+  lte?: Maybe<Scalars['Int']>;
+  gt?: Maybe<Scalars['Int']>;
+  gte?: Maybe<Scalars['Int']>;
 };
 
 export enum Role {
@@ -150,402 +228,16 @@ export enum Role {
   Seller = 'SELLER'
 }
 
-export type AddressWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
+export type AddressFilter = {
+  every?: Maybe<AddressWhereInput>;
+  some?: Maybe<AddressWhereInput>;
+  none?: Maybe<AddressWhereInput>;
 };
 
-export type Address = {
-  __typename?: 'Address';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  address: Scalars['String'];
-  country: Scalars['String'];
-  state: Scalars['String'];
-  city: Scalars['String'];
-  streetAddress1?: Maybe<Scalars['String']>;
-  streetAddress2?: Maybe<Scalars['String']>;
-  zipCode: Scalars['String'];
-  company?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  additionalInfo?: Maybe<Scalars['String']>;
-  MaincontactNubmer: Scalars['String'];
-  OthercontactNubmers: Array<Scalars['String']>;
-  isPrimary?: Maybe<Scalars['Boolean']>;
-  Lat?: Maybe<Scalars['Float']>;
-  Lng?: Maybe<Scalars['Float']>;
-  User?: Maybe<User>;
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['String'];
-  email: Scalars['String'];
-  avatar?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  role?: Maybe<Role>;
-  address: Array<Address>;
-  Order: Array<Order>;
-  permissions?: Maybe<Permission>;
-  cart: Array<CartItem>;
-  likes: Array<Like>;
-  likesCount?: Maybe<Scalars['Int']>;
-  itemReview: Array<Review>;
-  reviewCount?: Maybe<Scalars['Int']>;
-};
-
-
-export type UserAddressArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<AddressWhereUniqueInput>;
-  before?: Maybe<AddressWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type UserOrderArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<OrderWhereUniqueInput>;
-  before?: Maybe<OrderWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type UserCartArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<CartItemWhereUniqueInput>;
-  before?: Maybe<CartItemWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type UserLikesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<LikeWhereUniqueInput>;
-  before?: Maybe<LikeWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type UserItemReviewArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ReviewWhereUniqueInput>;
-  before?: Maybe<ReviewWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type OrderWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Order = {
-  __typename?: 'Order';
-  id: Scalars['String'];
-  items: Array<OrderItem>;
-  Item?: Maybe<Item>;
-  itemId?: Maybe<Scalars['String']>;
-  total: Scalars['Int'];
-  user: User;
-  userId: Scalars['String'];
-  charge: Scalars['String'];
-  status: OrderStatus;
-};
-
-
-export type OrderItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<OrderItemWhereUniqueInput>;
-  before?: Maybe<OrderItemWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type OrderItemWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type OrderItem = {
-  __typename?: 'OrderItem';
-  id: Scalars['String'];
-  likes: Array<Like>;
-  itemReview: Array<Review>;
-  images: Array<Scalars['String']>;
-  eagerImages: Array<Scalars['String']>;
-  OtherFeatures: Array<Scalars['String']>;
-  catagory: Array<Catagory>;
-  title: Scalars['String'];
-  description: Scalars['String'];
-  overview?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  beforeDiscountPrice: Scalars['Float'];
-  stock?: Maybe<Scalars['Int']>;
-};
-
-
-export type OrderItemLikesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<LikeWhereUniqueInput>;
-  before?: Maybe<LikeWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type OrderItemItemReviewArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ReviewWhereUniqueInput>;
-  before?: Maybe<ReviewWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type OrderItemCatagoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<CatagoryWhereUniqueInput>;
-  before?: Maybe<CatagoryWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type LikeWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Like = {
-  __typename?: 'Like';
-  id: Scalars['String'];
-  user: User;
-  userId: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-};
-
-export type Item = {
-  __typename?: 'Item';
-  id: Scalars['String'];
-  likes: Array<Like>;
-  likesCount?: Maybe<Scalars['Int']>;
-  itemReview: Array<Review>;
-  reviewCount?: Maybe<Scalars['Int']>;
-  images: Array<Scalars['String']>;
-  eagerImages: Array<Scalars['String']>;
-  OtherFeatures: Array<Scalars['String']>;
-  catagory: Array<Catagory>;
-  tags: Array<Tag>;
-  colors: Array<Color>;
-  title: Scalars['String'];
-  description: Scalars['String'];
-  overview?: Maybe<Scalars['String']>;
-  otherInfo?: Maybe<Scalars['String']>;
-  videoLink?: Maybe<Scalars['String']>;
-  brand?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<Scalars['String']>;
-  materials?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  beforeDiscountPrice: Scalars['Float'];
-  stock?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemLikesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<LikeWhereUniqueInput>;
-  before?: Maybe<LikeWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemItemReviewArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ReviewWhereUniqueInput>;
-  before?: Maybe<ReviewWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemCatagoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<CatagoryWhereUniqueInput>;
-  before?: Maybe<CatagoryWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemTagsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<TagWhereUniqueInput>;
-  before?: Maybe<TagWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ItemColorsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<ColorWhereUniqueInput>;
-  before?: Maybe<ColorWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type ReviewWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Review = {
-  __typename?: 'Review';
-  id: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-  author: User;
-  authorId: Scalars['String'];
-  rating: Scalars['Float'];
-  text: Scalars['String'];
-  downVoteCount: Scalars['Int'];
-  upVoteCount: Scalars['Int'];
-  upVote: Array<UpReview>;
-  downVote: Array<DownReview>;
-};
-
-
-export type ReviewUpVoteArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<UpReviewWhereUniqueInput>;
-  before?: Maybe<UpReviewWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type ReviewDownVoteArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  after?: Maybe<DownReviewWhereUniqueInput>;
-  before?: Maybe<DownReviewWhereUniqueInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type UpReviewWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type UpReview = {
-  __typename?: 'UpReview';
-  id: Scalars['String'];
-  voteUp: Scalars['Boolean'];
-  Review: Review;
-  item: Item;
-  itemId: Scalars['String'];
-  author: User;
-  authorId: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-};
-
-
-export type DownReviewWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type DownReview = {
-  __typename?: 'DownReview';
-  id: Scalars['String'];
-  voteDown: Scalars['Boolean'];
-  Review: Review;
-  item: Item;
-  itemId: Scalars['String'];
-  author: User;
-  authorId: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-};
-
-export type CatagoryWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Catagory = {
-  __typename?: 'Catagory';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-};
-
-export type TagWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Tag = {
-  __typename?: 'Tag';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-};
-
-export type ColorWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type Color = {
-  __typename?: 'Color';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  item: Item;
-  itemId: Scalars['String'];
-};
-
-export enum OrderStatus {
-  Pending = 'PENDING',
-  Delivered = 'DELIVERED',
-  Onhold = 'ONHOLD',
-  Approved = 'APPROVED',
-  OnTheWay = 'ON_THE_WAY'
-}
-
-export enum Permission {
-  UpdatePermission = 'UPDATE_PERMISSION',
-  AddItem = 'ADD_ITEM',
-  EditItem = 'EDIT_ITEM',
-  DeleteItem = 'DELETE_ITEM',
-  None = 'NONE'
-}
-
-export type CartItemWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type CartItem = {
-  __typename?: 'CartItem';
-  id: Scalars['String'];
-  quantity: Scalars['Int'];
-  item: Item;
-  itemId: Scalars['String'];
-  user: User;
-  userId: Scalars['String'];
-};
-
-export type ItemWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type UserWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+export type ItemFilter = {
+  every?: Maybe<ItemWhereInput>;
+  some?: Maybe<ItemWhereInput>;
+  none?: Maybe<ItemWhereInput>;
 };
 
 export type ItemWhereInput = {
@@ -582,34 +274,6 @@ export type ItemWhereInput = {
   Seller?: Maybe<SellerWhereInput>;
 };
 
-export type StringFilter = {
-  equals?: Maybe<Scalars['String']>;
-  not?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Scalars['String']>>;
-  notIn?: Maybe<Array<Scalars['String']>>;
-  lt?: Maybe<Scalars['String']>;
-  lte?: Maybe<Scalars['String']>;
-  gt?: Maybe<Scalars['String']>;
-  gte?: Maybe<Scalars['String']>;
-  contains?: Maybe<Scalars['String']>;
-  startsWith?: Maybe<Scalars['String']>;
-  endsWith?: Maybe<Scalars['String']>;
-};
-
-export type NullableStringFilter = {
-  equals?: Maybe<Scalars['String']>;
-  not?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Scalars['String']>>;
-  notIn?: Maybe<Array<Scalars['String']>>;
-  lt?: Maybe<Scalars['String']>;
-  lte?: Maybe<Scalars['String']>;
-  gt?: Maybe<Scalars['String']>;
-  gte?: Maybe<Scalars['String']>;
-  contains?: Maybe<Scalars['String']>;
-  startsWith?: Maybe<Scalars['String']>;
-  endsWith?: Maybe<Scalars['String']>;
-};
-
 export type FloatFilter = {
   equals?: Maybe<Scalars['Float']>;
   not?: Maybe<Scalars['Float']>;
@@ -619,17 +283,6 @@ export type FloatFilter = {
   lte?: Maybe<Scalars['Float']>;
   gt?: Maybe<Scalars['Float']>;
   gte?: Maybe<Scalars['Float']>;
-};
-
-export type NullableIntFilter = {
-  equals?: Maybe<Scalars['Int']>;
-  not?: Maybe<Scalars['Int']>;
-  in?: Maybe<Array<Scalars['Int']>>;
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  lt?: Maybe<Scalars['Int']>;
-  lte?: Maybe<Scalars['Int']>;
-  gt?: Maybe<Scalars['Int']>;
-  gte?: Maybe<Scalars['Int']>;
 };
 
 export type ReviewFilter = {
@@ -686,17 +339,6 @@ export type BooleanFilter = {
   not?: Maybe<Scalars['Boolean']>;
 };
 
-export type DateTimeFilter = {
-  equals?: Maybe<Scalars['DateTime']>;
-  not?: Maybe<Scalars['DateTime']>;
-  in?: Maybe<Array<Scalars['DateTime']>>;
-  notIn?: Maybe<Array<Scalars['DateTime']>>;
-  lt?: Maybe<Scalars['DateTime']>;
-  lte?: Maybe<Scalars['DateTime']>;
-  gt?: Maybe<Scalars['DateTime']>;
-  gte?: Maybe<Scalars['DateTime']>;
-};
-
 export type UserWhereInput = {
   id?: Maybe<StringFilter>;
   email?: Maybe<StringFilter>;
@@ -723,98 +365,13 @@ export type UserWhereInput = {
   NOT?: Maybe<Array<UserWhereInput>>;
 };
 
-export type AddressFilter = {
-  every?: Maybe<AddressWhereInput>;
-  some?: Maybe<AddressWhereInput>;
-  none?: Maybe<AddressWhereInput>;
-};
-
-export type AddressWhereInput = {
-  id?: Maybe<StringFilter>;
-  name?: Maybe<StringFilter>;
-  address?: Maybe<StringFilter>;
-  country?: Maybe<StringFilter>;
-  state?: Maybe<StringFilter>;
-  city?: Maybe<StringFilter>;
-  zipCode?: Maybe<StringFilter>;
-  MaincontactNubmer?: Maybe<StringFilter>;
-  streetAddress1?: Maybe<NullableStringFilter>;
-  streetAddress2?: Maybe<NullableStringFilter>;
-  company?: Maybe<NullableStringFilter>;
-  message?: Maybe<NullableStringFilter>;
-  additionalInfo?: Maybe<NullableStringFilter>;
-  isPrimary?: Maybe<NullableBooleanFilter>;
-  Lat?: Maybe<NullableFloatFilter>;
-  Lng?: Maybe<NullableFloatFilter>;
-  sellerId?: Maybe<NullableStringFilter>;
-  userId?: Maybe<NullableStringFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<AddressWhereInput>>;
-  OR?: Maybe<Array<AddressWhereInput>>;
-  NOT?: Maybe<Array<AddressWhereInput>>;
-  Seller?: Maybe<SellerWhereInput>;
-  User?: Maybe<UserWhereInput>;
-};
-
-export type NullableBooleanFilter = {
-  equals?: Maybe<Scalars['Boolean']>;
-  not?: Maybe<Scalars['Boolean']>;
-};
-
-export type NullableFloatFilter = {
-  equals?: Maybe<Scalars['Float']>;
-  not?: Maybe<Scalars['Float']>;
-  in?: Maybe<Array<Scalars['Float']>>;
-  notIn?: Maybe<Array<Scalars['Float']>>;
-  lt?: Maybe<Scalars['Float']>;
-  lte?: Maybe<Scalars['Float']>;
-  gt?: Maybe<Scalars['Float']>;
-  gte?: Maybe<Scalars['Float']>;
-};
-
-export type SellerWhereInput = {
-  id?: Maybe<StringFilter>;
-  name?: Maybe<StringFilter>;
-  email?: Maybe<StringFilter>;
-  password?: Maybe<StringFilter>;
-  storeName?: Maybe<StringFilter>;
-  sellerNationality?: Maybe<StringFilter>;
-  sellerIdentification?: Maybe<StringFilter>;
-  confirmPassword?: Maybe<NullableStringFilter>;
-  EmailIsVerified?: Maybe<NullableBooleanFilter>;
-  EmailVarificationHash?: Maybe<NullableStringFilter>;
-  PasswordResetToken?: Maybe<NullableStringFilter>;
-  PasswordResetTokenExpiry?: Maybe<NullableFloatFilter>;
-  SellerItemsCout?: Maybe<NullableIntFilter>;
-  role?: Maybe<Role>;
-  PickupLocations?: Maybe<AddressFilter>;
-  items?: Maybe<ItemFilter>;
-  itemCount?: Maybe<IntFilter>;
-  permissions?: Maybe<Permission>;
-  createdAt?: Maybe<DateTimeFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
-  AND?: Maybe<Array<SellerWhereInput>>;
-  OR?: Maybe<Array<SellerWhereInput>>;
-  NOT?: Maybe<Array<SellerWhereInput>>;
-};
-
-export type ItemFilter = {
-  every?: Maybe<ItemWhereInput>;
-  some?: Maybe<ItemWhereInput>;
-  none?: Maybe<ItemWhereInput>;
-};
-
-export type IntFilter = {
-  equals?: Maybe<Scalars['Int']>;
-  not?: Maybe<Scalars['Int']>;
-  in?: Maybe<Array<Scalars['Int']>>;
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  lt?: Maybe<Scalars['Int']>;
-  lte?: Maybe<Scalars['Int']>;
-  gt?: Maybe<Scalars['Int']>;
-  gte?: Maybe<Scalars['Int']>;
-};
+export enum Permission {
+  UpdatePermission = 'UPDATE_PERMISSION',
+  AddItem = 'ADD_ITEM',
+  EditItem = 'EDIT_ITEM',
+  DeleteItem = 'DELETE_ITEM',
+  None = 'NONE'
+}
 
 export type CartItemFilter = {
   every?: Maybe<CartItemWhereInput>;
@@ -834,6 +391,17 @@ export type CartItemWhereInput = {
   NOT?: Maybe<Array<CartItemWhereInput>>;
   item?: Maybe<ItemWhereInput>;
   user?: Maybe<UserWhereInput>;
+};
+
+export type IntFilter = {
+  equals?: Maybe<Scalars['Int']>;
+  not?: Maybe<Scalars['Int']>;
+  in?: Maybe<Array<Scalars['Int']>>;
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  lt?: Maybe<Scalars['Int']>;
+  lte?: Maybe<Scalars['Int']>;
+  gt?: Maybe<Scalars['Int']>;
+  gte?: Maybe<Scalars['Int']>;
 };
 
 export type LikeFilter = {
@@ -863,6 +431,7 @@ export type OrderItemWhereInput = {
   description?: Maybe<StringFilter>;
   price?: Maybe<FloatFilter>;
   beforeDiscountPrice?: Maybe<FloatFilter>;
+  quantity?: Maybe<IntFilter>;
   overview?: Maybe<NullableStringFilter>;
   otherInfo?: Maybe<NullableStringFilter>;
   videoLink?: Maybe<NullableStringFilter>;
@@ -973,6 +542,14 @@ export type OrderItemFilter = {
   none?: Maybe<OrderItemWhereInput>;
 };
 
+export enum OrderStatus {
+  Pending = 'PENDING',
+  Delivered = 'DELIVERED',
+  Onhold = 'ONHOLD',
+  Approved = 'APPROVED',
+  OnTheWay = 'ON_THE_WAY'
+}
+
 export type DownReviewFilter = {
   every?: Maybe<DownReviewWhereInput>;
   some?: Maybe<DownReviewWhereInput>;
@@ -993,6 +570,458 @@ export type DownReviewWhereInput = {
   author?: Maybe<UserWhereInput>;
   item?: Maybe<ItemWhereInput>;
   Review?: Maybe<ReviewWhereInput>;
+};
+
+export type AddressOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  name?: Maybe<OrderByArg>;
+  address?: Maybe<OrderByArg>;
+  country?: Maybe<OrderByArg>;
+  state?: Maybe<OrderByArg>;
+  city?: Maybe<OrderByArg>;
+  zipCode?: Maybe<OrderByArg>;
+  MaincontactNubmer?: Maybe<OrderByArg>;
+  streetAddress1?: Maybe<OrderByArg>;
+  streetAddress2?: Maybe<OrderByArg>;
+  company?: Maybe<OrderByArg>;
+  message?: Maybe<OrderByArg>;
+  additionalInfo?: Maybe<OrderByArg>;
+  isPrimary?: Maybe<OrderByArg>;
+  Lat?: Maybe<OrderByArg>;
+  Lng?: Maybe<OrderByArg>;
+  sellerId?: Maybe<OrderByArg>;
+  userId?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+};
+
+export enum OrderByArg {
+  Asc = 'asc',
+  Desc = 'desc'
+}
+
+export type AddressWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Address = {
+  __typename?: 'Address';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  address: Scalars['String'];
+  country: Scalars['String'];
+  state: Scalars['String'];
+  city: Scalars['String'];
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  zipCode: Scalars['String'];
+  company?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  additionalInfo?: Maybe<Scalars['String']>;
+  MaincontactNubmer: Scalars['String'];
+  OthercontactNubmers: Array<Scalars['String']>;
+  isPrimary?: Maybe<Scalars['Boolean']>;
+  Lat?: Maybe<Scalars['Float']>;
+  Lng?: Maybe<Scalars['Float']>;
+  User?: Maybe<User>;
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['String'];
+  email: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  role?: Maybe<Role>;
+  address: Array<Address>;
+  Order: Array<Order>;
+  permissions?: Maybe<Permission>;
+  cart: Array<CartItem>;
+  likes: Array<Like>;
+  likesCount?: Maybe<Scalars['Int']>;
+  itemReview: Array<Review>;
+  reviewCount?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserAddressArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<AddressWhereUniqueInput>;
+  before?: Maybe<AddressWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserOrderArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<OrderWhereUniqueInput>;
+  before?: Maybe<OrderWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserCartArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<CartItemWhereUniqueInput>;
+  before?: Maybe<CartItemWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserLikesArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<LikeWhereUniqueInput>;
+  before?: Maybe<LikeWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserItemReviewArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ReviewWhereUniqueInput>;
+  before?: Maybe<ReviewWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type OrderWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Order = {
+  __typename?: 'Order';
+  id: Scalars['String'];
+  items: Array<OrderItem>;
+  Item?: Maybe<Item>;
+  itemId?: Maybe<Scalars['String']>;
+  total: Scalars['Int'];
+  user: User;
+  userId: Scalars['String'];
+  charge: Scalars['String'];
+  status: OrderStatus;
+  createdAt: Scalars['DateTime'];
+};
+
+
+export type OrderItemsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<OrderItemWhereUniqueInput>;
+  before?: Maybe<OrderItemWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type OrderItemWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type OrderItem = {
+  __typename?: 'OrderItem';
+  id: Scalars['String'];
+  likes: Array<Like>;
+  itemReview: Array<Review>;
+  images: Array<Scalars['String']>;
+  eagerImages: Array<Scalars['String']>;
+  OtherFeatures: Array<Scalars['String']>;
+  catagory: Array<Catagory>;
+  title: Scalars['String'];
+  description: Scalars['String'];
+  overview?: Maybe<Scalars['String']>;
+  otherInfo?: Maybe<Scalars['String']>;
+  videoLink?: Maybe<Scalars['String']>;
+  brand?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  dimensions?: Maybe<Scalars['String']>;
+  materials?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  beforeDiscountPrice: Scalars['Float'];
+  stock?: Maybe<Scalars['Int']>;
+  quantity: Scalars['Int'];
+};
+
+
+export type OrderItemLikesArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<LikeWhereUniqueInput>;
+  before?: Maybe<LikeWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OrderItemItemReviewArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ReviewWhereUniqueInput>;
+  before?: Maybe<ReviewWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OrderItemCatagoryArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<CatagoryWhereUniqueInput>;
+  before?: Maybe<CatagoryWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type LikeWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Like = {
+  __typename?: 'Like';
+  id: Scalars['String'];
+  user: User;
+  userId: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type Item = {
+  __typename?: 'Item';
+  id: Scalars['String'];
+  likes: Array<Like>;
+  likesCount?: Maybe<Scalars['Int']>;
+  itemReview: Array<Review>;
+  reviewCount?: Maybe<Scalars['Int']>;
+  images: Array<Scalars['String']>;
+  eagerImages: Array<Scalars['String']>;
+  OtherFeatures: Array<Scalars['String']>;
+  catagory: Array<Catagory>;
+  tags: Array<Tag>;
+  colors: Array<Color>;
+  CartItem: Array<CartItem>;
+  title: Scalars['String'];
+  description: Scalars['String'];
+  overview?: Maybe<Scalars['String']>;
+  otherInfo?: Maybe<Scalars['String']>;
+  videoLink?: Maybe<Scalars['String']>;
+  brand?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  dimensions?: Maybe<Scalars['String']>;
+  materials?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  beforeDiscountPrice: Scalars['Float'];
+  stock?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemLikesArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<LikeWhereUniqueInput>;
+  before?: Maybe<LikeWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemItemReviewArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ReviewWhereUniqueInput>;
+  before?: Maybe<ReviewWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemCatagoryArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<CatagoryWhereUniqueInput>;
+  before?: Maybe<CatagoryWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemTagsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<TagWhereUniqueInput>;
+  before?: Maybe<TagWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemColorsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ColorWhereUniqueInput>;
+  before?: Maybe<ColorWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ItemCartItemArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<CartItemWhereUniqueInput>;
+  before?: Maybe<CartItemWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type ReviewWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Review = {
+  __typename?: 'Review';
+  id: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+  author: User;
+  authorId: Scalars['String'];
+  rating: Scalars['Float'];
+  text: Scalars['String'];
+  downVoteCount: Scalars['Int'];
+  upVoteCount: Scalars['Int'];
+  upVote: Array<UpReview>;
+  downVote: Array<DownReview>;
+};
+
+
+export type ReviewUpVoteArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<UpReviewWhereUniqueInput>;
+  before?: Maybe<UpReviewWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type ReviewDownVoteArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<DownReviewWhereUniqueInput>;
+  before?: Maybe<DownReviewWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type UpReviewWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type UpReview = {
+  __typename?: 'UpReview';
+  id: Scalars['String'];
+  voteUp: Scalars['Boolean'];
+  Review: Review;
+  item: Item;
+  itemId: Scalars['String'];
+  author: User;
+  authorId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+};
+
+export type DownReviewWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type DownReview = {
+  __typename?: 'DownReview';
+  id: Scalars['String'];
+  voteDown: Scalars['Boolean'];
+  Review: Review;
+  item: Item;
+  itemId: Scalars['String'];
+  author: User;
+  authorId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+};
+
+export type CatagoryWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Catagory = {
+  __typename?: 'Catagory';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type TagWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type ColorWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Color = {
+  __typename?: 'Color';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  item: Item;
+  itemId: Scalars['String'];
+};
+
+export type CartItemWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type CartItem = {
+  __typename?: 'CartItem';
+  id: Scalars['String'];
+  quantity: Scalars['Int'];
+  item: Item;
+  itemId: Scalars['String'];
+  user: User;
+  userId: Scalars['String'];
+};
+
+export type Seller = {
+  __typename?: 'Seller';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  storeName: Scalars['String'];
+  sellerNationality: Scalars['String'];
+  sellerIdentification: Scalars['String'];
+  EmailIsVerified?: Maybe<Scalars['Boolean']>;
+  SellerItemsCout?: Maybe<Scalars['Int']>;
+  role?: Maybe<Role>;
+  phone: Array<Scalars['String']>;
+  PickupLocations: Array<Address>;
+  Brand: Array<Scalars['String']>;
+  items: Array<Item>;
+  permissions?: Maybe<Permission>;
+};
+
+
+export type SellerPickupLocationsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<AddressWhereUniqueInput>;
+  before?: Maybe<AddressWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type SellerItemsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<ItemWhereUniqueInput>;
+  before?: Maybe<ItemWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type ItemWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type ItemOrderByInput = {
@@ -1016,10 +1045,34 @@ export type ItemOrderByInput = {
   updatedAt?: Maybe<OrderByArg>;
 };
 
-export enum OrderByArg {
-  Asc = 'asc',
-  Desc = 'desc'
-}
+export type ItemConnection = {
+  __typename?: 'ItemConnection';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges?: Maybe<Array<Maybe<ItemEdge>>>;
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo;
+};
+
+export type ItemEdge = {
+  __typename?: 'ItemEdge';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String'];
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: Item;
+};
+
+/** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** Used to indicate whether more edges exist following the set defined by the clients arguments. */
+  hasNextPage: Scalars['Boolean'];
+  /** Used to indicate whether more edges exist prior to the set defined by the clients arguments. */
+  hasPreviousPage: Scalars['Boolean'];
+  /** The cursor corresponding to the first nodes in edges. Null if the connection is empty. */
+  startCursor?: Maybe<Scalars['String']>;
+  /** The cursor corresponding to the last nodes in edges. Null if the connection is empty. */
+  endCursor?: Maybe<Scalars['String']>;
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -1032,11 +1085,14 @@ export type Mutation = {
   UserForgotPasswordRequest: Scalars['String'];
   /** User Reset Password */
   ResetUserPassword: Scalars['String'];
+  /** User Reset Password */
+  ResetUsersPasswordFromProfile: Scalars['String'];
   DeleteUserAccount: Scalars['String'];
   updateOneAddress?: Maybe<Address>;
   deleteOneAddress?: Maybe<Address>;
+  deleteUserAddresses: BatchPayload;
   /** Create Users Address */
-  CreateUsersAddress: Address;
+  CreateAddress: Address;
   /** Toggle Primary Address */
   TogglePrimaryAddress: Address;
   /** Contact Form */
@@ -1062,6 +1118,8 @@ export type Mutation = {
   DeleteItem: Scalars['String'];
   /** Like Or Remove Like From Item */
   ToggleLikeItem: Scalars['String'];
+  /** Remove All Items From Wishlist */
+  RemoveAllLikes: Scalars['String'];
   /** Create Item Review */
   CreateItemReview: Review;
   /** Toggle Vote Up For Review */
@@ -1070,9 +1128,9 @@ export type Mutation = {
   ToggleReviewDownVote: Scalars['String'];
   /** Add Item To Cart */
   AddItemToTheCart: Scalars['String'];
-  DeleteCartItem: Scalars['String'];
+  DeleteCartItem: CartItem;
   EmptyUserCart: Scalars['String'];
-  CreateOrder: Scalars['String'];
+  CreateOrder: Order;
 };
 
 
@@ -1102,6 +1160,13 @@ export type MutationResetUserPasswordArgs = {
 };
 
 
+export type MutationResetUsersPasswordFromProfileArgs = {
+  OldPassword: Scalars['String'];
+  password: Scalars['String'];
+  confirmPassword: Scalars['String'];
+};
+
+
 export type MutationDeleteUserAccountArgs = {
   userId: Scalars['String'];
 };
@@ -1118,7 +1183,12 @@ export type MutationDeleteOneAddressArgs = {
 };
 
 
-export type MutationCreateUsersAddressArgs = {
+export type MutationDeleteUserAddressesArgs = {
+  where?: Maybe<AddressWhereInput>;
+};
+
+
+export type MutationCreateAddressArgs = {
   name: Scalars['String'];
   address: Scalars['String'];
   MaincontactNubmer: Scalars['String'];
@@ -1227,7 +1297,7 @@ export type MutationCreateItemArgs = {
 
 
 export type MutationUpdateItemArgs = {
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   overview?: Maybe<Scalars['String']>;
@@ -1256,6 +1326,11 @@ export type MutationDeleteItemArgs = {
 
 export type MutationToggleLikeItemArgs = {
   itemId: Scalars['String'];
+};
+
+
+export type MutationRemoveAllLikesArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -1499,6 +1574,13 @@ export type SellerCreateOneWithoutPickupLocationsInput = {
   connect?: Maybe<SellerWhereUniqueInput>;
 };
 
+export type SellerWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  sellerIdentification?: Maybe<Scalars['String']>;
+  phone?: Maybe<Array<Scalars['String']>>;
+};
+
 export type CartItemCreateManyWithoutUserInput = {
   create?: Maybe<Array<CartItemCreateWithoutUserInput>>;
   connect?: Maybe<Array<CartItemWhereUniqueInput>>;
@@ -1707,6 +1789,7 @@ export type OrderItemCreateWithoutCatagoryInput = {
   description?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -1859,6 +1942,7 @@ export type OrderItemCreateWithoutTagsInput = {
   description?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -1966,6 +2050,7 @@ export type OrderItemCreateWithoutOrderInput = {
   description?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -2060,6 +2145,7 @@ export type OrderItemCreateWithoutColorsInput = {
   description?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -2154,6 +2240,7 @@ export type OrderItemCreateWithoutLikesInput = {
   description?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -2483,6 +2570,11 @@ export type UserCreateWithoutDownReviewInput = {
   UpReview?: Maybe<UpReviewCreateManyWithoutAuthorInput>;
 };
 
+export type UserWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
 export type OrderItemCreateOneWithoutItemReviewInput = {
   create?: Maybe<OrderItemCreateWithoutItemReviewInput>;
   connect?: Maybe<OrderItemWhereUniqueInput>;
@@ -2494,6 +2586,7 @@ export type OrderItemCreateWithoutItemReviewInput = {
   description?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   beforeDiscountPrice: Scalars['Float'];
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -3124,6 +3217,7 @@ export type OrderItemUpdateWithoutCatagoryDataInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -3320,6 +3414,7 @@ export type OrderItemUpdateWithoutTagsDataInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -3477,6 +3572,7 @@ export type OrderItemUpdateWithoutOrderDataInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -3601,6 +3697,7 @@ export type OrderItemUpdateWithoutColorsDataInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -3725,6 +3822,7 @@ export type OrderItemUpdateWithoutLikesDataInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -4203,6 +4301,7 @@ export type OrderItemUpdateWithoutItemReviewDataInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -4660,6 +4759,7 @@ export type OrderItemScalarWhereInput = {
   description?: Maybe<StringFilter>;
   price?: Maybe<FloatFilter>;
   beforeDiscountPrice?: Maybe<FloatFilter>;
+  quantity?: Maybe<IntFilter>;
   overview?: Maybe<NullableStringFilter>;
   otherInfo?: Maybe<NullableStringFilter>;
   videoLink?: Maybe<NullableStringFilter>;
@@ -4687,6 +4787,7 @@ export type OrderItemUpdateManyDataInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Int']>;
   overview?: Maybe<Scalars['String']>;
   otherInfo?: Maybe<Scalars['String']>;
   videoLink?: Maybe<Scalars['String']>;
@@ -4929,14 +5030,128 @@ export type SellerUpsertWithoutPickupLocationsInput = {
   create: SellerCreateWithoutPickupLocationsInput;
 };
 
-export type AddressQueryVariables = {};
+export type BatchPayload = {
+  __typename?: 'BatchPayload';
+  count: Scalars['Int'];
+};
+
+export type SellerAddressesQueryVariables = {
+  id: Scalars['String'];
+};
 
 
-export type AddressQuery = (
+export type SellerAddressesQuery = (
   { __typename?: 'Query' }
-  & { addresses: Array<(
+  & { AllAddress: Array<(
     { __typename?: 'Address' }
-    & Pick<Address, 'id' | 'name' | 'address' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'isPrimary' | 'Lat' | 'Lng'>
+    & Pick<Address, 'id' | 'name' | 'address' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'zipCode' | 'company' | 'message' | 'additionalInfo' | 'MaincontactNubmer' | 'OthercontactNubmers' | 'Lat' | 'Lng'>
+  )> }
+);
+
+export type UserAddressesQueryVariables = {
+  id: Scalars['String'];
+};
+
+
+export type UserAddressesQuery = (
+  { __typename?: 'Query' }
+  & { AllAddress: Array<(
+    { __typename?: 'Address' }
+    & Pick<Address, 'id' | 'name' | 'address' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'zipCode' | 'company' | 'message' | 'additionalInfo' | 'MaincontactNubmer' | 'OthercontactNubmers' | 'Lat' | 'Lng'>
+  )> }
+);
+
+export type UpdateAddressMutationVariables = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  address: Scalars['String'];
+  country: Scalars['String'];
+  state: Scalars['String'];
+  city: Scalars['String'];
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  zipCode: Scalars['String'];
+  company?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  additionalInfo?: Maybe<Scalars['String']>;
+  MaincontactNubmer: Scalars['String'];
+  OthercontactNubmers?: Maybe<AddressUpdateOthercontactNubmersInput>;
+  Lat?: Maybe<Scalars['Float']>;
+  Lng?: Maybe<Scalars['Float']>;
+};
+
+
+export type UpdateAddressMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOneAddress?: Maybe<(
+    { __typename?: 'Address' }
+    & Pick<Address, 'id'>
+  )> }
+);
+
+export type CreateAddressMutationVariables = {
+  name: Scalars['String'];
+  address: Scalars['String'];
+  MaincontactNubmer: Scalars['String'];
+  country: Scalars['String'];
+  state: Scalars['String'];
+  city: Scalars['String'];
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  company?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  additionalInfo?: Maybe<Scalars['String']>;
+  OthercontactNubmers?: Maybe<Array<Scalars['String']>>;
+  Lat?: Maybe<Scalars['Float']>;
+  Lng?: Maybe<Scalars['Float']>;
+};
+
+
+export type CreateAddressMutation = (
+  { __typename?: 'Mutation' }
+  & { CreateAddress: (
+    { __typename?: 'Address' }
+    & Pick<Address, 'id'>
+  ) }
+);
+
+export type DeleteAddressMutationVariables = {
+  id: Scalars['String'];
+};
+
+
+export type DeleteAddressMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteOneAddress?: Maybe<(
+    { __typename?: 'Address' }
+    & Pick<Address, 'id'>
+  )> }
+);
+
+export type TogglePrimaryAddressMutationVariables = {
+  addressId: Scalars['String'];
+};
+
+
+export type TogglePrimaryAddressMutation = (
+  { __typename?: 'Mutation' }
+  & { TogglePrimaryAddress: (
+    { __typename?: 'Address' }
+    & Pick<Address, 'id'>
+  ) }
+);
+
+export type SingleAddressQueryVariables = {
+  id: Scalars['String'];
+};
+
+
+export type SingleAddressQuery = (
+  { __typename?: 'Query' }
+  & { SingleAddress?: Maybe<(
+    { __typename?: 'Address' }
+    & Pick<Address, 'id' | 'name' | 'address' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'zipCode' | 'company' | 'message' | 'additionalInfo' | 'MaincontactNubmer' | 'OthercontactNubmers'>
   )> }
 );
 
@@ -4957,10 +5172,14 @@ export type CurrentUserQuery = (
       ) }
     )>, likes: Array<(
       { __typename?: 'Like' }
-      & Pick<Like, 'id' | 'itemId'>
+      & Pick<Like, 'userId' | 'itemId'>
+      & { item: (
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'title' | 'likesCount' | 'eagerImages' | 'price' | 'dimensions' | 'description'>
+      ) }
     )>, address: Array<(
       { __typename?: 'Address' }
-      & Pick<Address, 'id' | 'name' | 'address' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'isPrimary' | 'Lat' | 'Lng'>
+      & Pick<Address, 'id' | 'name' | 'address' | 'isPrimary' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'zipCode' | 'company' | 'message' | 'additionalInfo' | 'MaincontactNubmer' | 'OthercontactNubmers' | 'Lat' | 'Lng'>
     )> }
   )> }
 );
@@ -5136,6 +5355,30 @@ export type SellerResetPasswordMutation = (
   & Pick<Mutation, 'ResetSellerPassword'>
 );
 
+export type ResetUsersPasswordFromProfileMutationVariables = {
+  OldPassword: Scalars['String'];
+  password: Scalars['String'];
+  confirmPassword: Scalars['String'];
+};
+
+
+export type ResetUsersPasswordFromProfileMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'ResetUsersPasswordFromProfile'>
+);
+
+export type ContactUsMutationVariables = {
+  email: Scalars['String'];
+  subject: Scalars['String'];
+  message: Scalars['String'];
+};
+
+
+export type ContactUsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'ContactUs'>
+);
+
 export type UsersOrdersQueryVariables = {};
 
 
@@ -5172,6 +5415,37 @@ export type CreateItemMutationVariables = {
 export type CreateItemMutation = (
   { __typename?: 'Mutation' }
   & { CreateItem: (
+    { __typename?: 'Item' }
+    & Pick<Item, 'id'>
+  ) }
+);
+
+export type UpdateItemMutationVariables = {
+  id: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  overview?: Maybe<Scalars['String']>;
+  brand?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  dimensions?: Maybe<Scalars['String']>;
+  materials?: Maybe<Scalars['String']>;
+  otherInfo?: Maybe<Scalars['String']>;
+  videoLink?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  beforeDiscountPrice?: Maybe<Scalars['Float']>;
+  stock?: Maybe<Scalars['Int']>;
+  images?: Maybe<Array<Scalars['String']>>;
+  eagerImages?: Maybe<Array<Scalars['String']>>;
+  catagory?: Maybe<Array<Scalars['String']>>;
+  tags?: Maybe<Array<Scalars['String']>>;
+  colors?: Maybe<Array<Scalars['String']>>;
+  otherFeature?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type UpdateItemMutation = (
+  { __typename?: 'Mutation' }
+  & { UpdateItem: (
     { __typename?: 'Item' }
     & Pick<Item, 'id'>
   ) }
@@ -5232,6 +5506,8 @@ export type ItemsQueryVariables = {
   MaxPrice?: Maybe<Scalars['Float']>;
   orderBy?: Maybe<ItemOrderByInput>;
   searchTerm?: Maybe<Scalars['String']>;
+  tag?: Maybe<Scalars['String']>;
+  catagory?: Maybe<Scalars['String']>;
 };
 
 
@@ -5304,7 +5580,10 @@ export type DeleteCartItemMutationVariables = {
 
 export type DeleteCartItemMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'DeleteCartItem'>
+  & { DeleteCartItem: (
+    { __typename?: 'CartItem' }
+    & Pick<CartItem, 'itemId'>
+  ) }
 );
 
 export type EmptyUserCartMutationVariables = {
@@ -5374,10 +5653,156 @@ export type ToggleReviewDownVoteMutation = (
   & Pick<Mutation, 'ToggleReviewDownVote'>
 );
 
+export type CreateOrderMutationVariables = {
+  token: Scalars['String'];
+};
 
-export const AddressDocument = gql`
-    query Address {
-  addresses {
+
+export type CreateOrderMutation = (
+  { __typename?: 'Mutation' }
+  & { CreateOrder: (
+    { __typename?: 'Order' }
+    & Pick<Order, 'id' | 'itemId' | 'userId' | 'charge' | 'status' | 'total'>
+  ) }
+);
+
+export type OrderQueryVariables = {
+  orderId: Scalars['String'];
+};
+
+
+export type OrderQuery = (
+  { __typename?: 'Query' }
+  & { Order: (
+    { __typename?: 'Order' }
+    & Pick<Order, 'id' | 'total' | 'charge' | 'itemId' | 'userId' | 'status' | 'createdAt'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'email' | 'avatar'>
+    ), Item?: Maybe<(
+      { __typename?: 'Item' }
+      & { CartItem: Array<(
+        { __typename?: 'CartItem' }
+        & Pick<CartItem, 'quantity'>
+      )> }
+    )>, items: Array<(
+      { __typename?: 'OrderItem' }
+      & Pick<OrderItem, 'images' | 'OtherFeatures' | 'title' | 'description' | 'overview' | 'otherInfo' | 'videoLink' | 'brand' | 'weight' | 'dimensions' | 'materials' | 'price' | 'beforeDiscountPrice' | 'stock' | 'quantity'>
+    )> }
+  ) }
+);
+
+export type RemoveAllLikesMutationVariables = {
+  userId: Scalars['String'];
+};
+
+
+export type RemoveAllLikesMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'RemoveAllLikes'>
+);
+
+export type ItemsConnectionsQueryVariables = {
+  first?: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+  tag?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
+};
+
+
+export type ItemsConnectionsQuery = (
+  { __typename?: 'Query' }
+  & { ItemConnections: (
+    { __typename?: 'ItemConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename: 'ItemEdge' }
+      & Pick<ItemEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'likesCount' | 'reviewCount' | 'images' | 'eagerImages' | 'OtherFeatures' | 'title' | 'description' | 'overview' | 'otherInfo' | 'videoLink' | 'brand' | 'weight' | 'dimensions' | 'materials' | 'price' | 'beforeDiscountPrice' | 'stock'>
+        & { likes: Array<(
+          { __typename?: 'Like' }
+          & Pick<Like, 'id'>
+        )>, itemReview: Array<(
+          { __typename?: 'Review' }
+          & Pick<Review, 'id' | 'rating' | 'text' | 'itemId' | 'authorId' | 'downVoteCount' | 'upVoteCount'>
+          & { upVote: Array<(
+            { __typename?: 'UpReview' }
+            & Pick<UpReview, 'id' | 'voteUp' | 'authorId' | 'itemId'>
+          )>, downVote: Array<(
+            { __typename?: 'DownReview' }
+            & Pick<DownReview, 'id' | 'voteDown' | 'authorId' | 'itemId'>
+          )> }
+        )>, catagory: Array<(
+          { __typename?: 'Catagory' }
+          & Pick<Catagory, 'id' | 'text'>
+        )>, tags: Array<(
+          { __typename?: 'Tag' }
+          & Pick<Tag, 'id' | 'text'>
+        )>, colors: Array<(
+          { __typename?: 'Color' }
+          & Pick<Color, 'id' | 'text'>
+        )> }
+      ) }
+    )>>>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ) }
+  ) }
+);
+
+export type SearchTermResultQueryVariables = {
+  first?: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+  term: Scalars['String'];
+};
+
+
+export type SearchTermResultQuery = (
+  { __typename?: 'Query' }
+  & { SearchTermResults: (
+    { __typename?: 'ItemConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename: 'ItemEdge' }
+      & Pick<ItemEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'likesCount' | 'reviewCount' | 'images' | 'eagerImages' | 'OtherFeatures' | 'title' | 'description' | 'overview' | 'otherInfo' | 'videoLink' | 'brand' | 'weight' | 'dimensions' | 'materials' | 'price' | 'beforeDiscountPrice' | 'stock'>
+        & { likes: Array<(
+          { __typename?: 'Like' }
+          & Pick<Like, 'id'>
+        )>, itemReview: Array<(
+          { __typename?: 'Review' }
+          & Pick<Review, 'id' | 'rating' | 'text' | 'itemId' | 'authorId' | 'downVoteCount' | 'upVoteCount'>
+          & { upVote: Array<(
+            { __typename?: 'UpReview' }
+            & Pick<UpReview, 'id' | 'voteUp' | 'authorId' | 'itemId'>
+          )>, downVote: Array<(
+            { __typename?: 'DownReview' }
+            & Pick<DownReview, 'id' | 'voteDown' | 'authorId' | 'itemId'>
+          )> }
+        )>, catagory: Array<(
+          { __typename?: 'Catagory' }
+          & Pick<Catagory, 'id' | 'text'>
+        )>, tags: Array<(
+          { __typename?: 'Tag' }
+          & Pick<Tag, 'id' | 'text'>
+        )>, colors: Array<(
+          { __typename?: 'Color' }
+          & Pick<Color, 'id' | 'text'>
+        )> }
+      ) }
+    )>>>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ) }
+  ) }
+);
+
+
+export const SellerAddressesDocument = gql`
+    query SellerAddresses($id: String!) {
+  AllAddress(where: {sellerId: {equals: $id}}) {
     id
     name
     address
@@ -5386,56 +5811,427 @@ export const AddressDocument = gql`
     city
     streetAddress1
     streetAddress2
-    isPrimary
+    zipCode
+    company
+    message
+    additionalInfo
+    MaincontactNubmer
+    OthercontactNubmers
     Lat
     Lng
   }
 }
     `;
-export type AddressComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AddressQuery, AddressQueryVariables>, 'query'>;
+export type SellerAddressesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SellerAddressesQuery, SellerAddressesQueryVariables>, 'query'> & ({ variables: SellerAddressesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const AddressComponent = (props: AddressComponentProps) => (
-      <ApolloReactComponents.Query<AddressQuery, AddressQueryVariables> query={AddressDocument} {...props} />
+    export const SellerAddressesComponent = (props: SellerAddressesComponentProps) => (
+      <ApolloReactComponents.Query<SellerAddressesQuery, SellerAddressesQueryVariables> query={SellerAddressesDocument} {...props} />
     );
     
-export type AddressProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<AddressQuery, AddressQueryVariables>
+export type SellerAddressesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<SellerAddressesQuery, SellerAddressesQueryVariables>
     } & TChildProps;
-export function withAddress<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withSellerAddresses<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  AddressQuery,
-  AddressQueryVariables,
-  AddressProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, AddressQuery, AddressQueryVariables, AddressProps<TChildProps, TDataName>>(AddressDocument, {
-      alias: 'address',
+  SellerAddressesQuery,
+  SellerAddressesQueryVariables,
+  SellerAddressesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, SellerAddressesQuery, SellerAddressesQueryVariables, SellerAddressesProps<TChildProps, TDataName>>(SellerAddressesDocument, {
+      alias: 'sellerAddresses',
       ...operationOptions
     });
 };
 
 /**
- * __useAddressQuery__
+ * __useSellerAddressesQuery__
  *
- * To run a query within a React component, call `useAddressQuery` and pass it any options that fit your needs.
- * When your component renders, `useAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSellerAddressesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSellerAddressesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAddressQuery({
+ * const { data, loading, error } = useSellerAddressesQuery({
  *   variables: {
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useAddressQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AddressQuery, AddressQueryVariables>) {
-        return ApolloReactHooks.useQuery<AddressQuery, AddressQueryVariables>(AddressDocument, baseOptions);
+export function useSellerAddressesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SellerAddressesQuery, SellerAddressesQueryVariables>) {
+        return ApolloReactHooks.useQuery<SellerAddressesQuery, SellerAddressesQueryVariables>(SellerAddressesDocument, baseOptions);
       }
-export function useAddressLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AddressQuery, AddressQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<AddressQuery, AddressQueryVariables>(AddressDocument, baseOptions);
+export function useSellerAddressesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SellerAddressesQuery, SellerAddressesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SellerAddressesQuery, SellerAddressesQueryVariables>(SellerAddressesDocument, baseOptions);
         }
-export type AddressQueryHookResult = ReturnType<typeof useAddressQuery>;
-export type AddressLazyQueryHookResult = ReturnType<typeof useAddressLazyQuery>;
-export type AddressQueryResult = ApolloReactCommon.QueryResult<AddressQuery, AddressQueryVariables>;
+export type SellerAddressesQueryHookResult = ReturnType<typeof useSellerAddressesQuery>;
+export type SellerAddressesLazyQueryHookResult = ReturnType<typeof useSellerAddressesLazyQuery>;
+export type SellerAddressesQueryResult = ApolloReactCommon.QueryResult<SellerAddressesQuery, SellerAddressesQueryVariables>;
+export const UserAddressesDocument = gql`
+    query UserAddresses($id: String!) {
+  AllAddress(where: {userId: {equals: $id}}) {
+    id
+    name
+    address
+    country
+    state
+    city
+    streetAddress1
+    streetAddress2
+    zipCode
+    company
+    message
+    additionalInfo
+    MaincontactNubmer
+    OthercontactNubmers
+    Lat
+    Lng
+  }
+}
+    `;
+export type UserAddressesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserAddressesQuery, UserAddressesQueryVariables>, 'query'> & ({ variables: UserAddressesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const UserAddressesComponent = (props: UserAddressesComponentProps) => (
+      <ApolloReactComponents.Query<UserAddressesQuery, UserAddressesQueryVariables> query={UserAddressesDocument} {...props} />
+    );
+    
+export type UserAddressesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<UserAddressesQuery, UserAddressesQueryVariables>
+    } & TChildProps;
+export function withUserAddresses<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UserAddressesQuery,
+  UserAddressesQueryVariables,
+  UserAddressesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, UserAddressesQuery, UserAddressesQueryVariables, UserAddressesProps<TChildProps, TDataName>>(UserAddressesDocument, {
+      alias: 'userAddresses',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUserAddressesQuery__
+ *
+ * To run a query within a React component, call `useUserAddressesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserAddressesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserAddressesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserAddressesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UserAddressesQuery, UserAddressesQueryVariables>) {
+        return ApolloReactHooks.useQuery<UserAddressesQuery, UserAddressesQueryVariables>(UserAddressesDocument, baseOptions);
+      }
+export function useUserAddressesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserAddressesQuery, UserAddressesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<UserAddressesQuery, UserAddressesQueryVariables>(UserAddressesDocument, baseOptions);
+        }
+export type UserAddressesQueryHookResult = ReturnType<typeof useUserAddressesQuery>;
+export type UserAddressesLazyQueryHookResult = ReturnType<typeof useUserAddressesLazyQuery>;
+export type UserAddressesQueryResult = ApolloReactCommon.QueryResult<UserAddressesQuery, UserAddressesQueryVariables>;
+export const UpdateAddressDocument = gql`
+    mutation UpdateAddress($id: String!, $name: String!, $address: String!, $country: String!, $state: String!, $city: String!, $streetAddress1: String, $streetAddress2: String, $zipCode: String!, $company: String, $message: String, $additionalInfo: String, $MaincontactNubmer: String!, $OthercontactNubmers: AddressUpdateOthercontactNubmersInput, $Lat: Float, $Lng: Float) {
+  updateOneAddress(data: {name: $name, address: $address, country: $country, state: $state, city: $city, streetAddress1: $streetAddress1, streetAddress2: $streetAddress2, zipCode: $zipCode, company: $company, message: $message, additionalInfo: $additionalInfo, MaincontactNubmer: $MaincontactNubmer, OthercontactNubmers: $OthercontactNubmers, Lat: $Lat, Lng: $Lng}, where: {id: $id}) {
+    id
+  }
+}
+    `;
+export type UpdateAddressMutationFn = ApolloReactCommon.MutationFunction<UpdateAddressMutation, UpdateAddressMutationVariables>;
+export type UpdateAddressComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateAddressMutation, UpdateAddressMutationVariables>, 'mutation'>;
+
+    export const UpdateAddressComponent = (props: UpdateAddressComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateAddressMutation, UpdateAddressMutationVariables> mutation={UpdateAddressDocument} {...props} />
+    );
+    
+export type UpdateAddressProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateAddressMutation, UpdateAddressMutationVariables>
+    } & TChildProps;
+export function withUpdateAddress<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateAddressMutation,
+  UpdateAddressMutationVariables,
+  UpdateAddressProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateAddressMutation, UpdateAddressMutationVariables, UpdateAddressProps<TChildProps, TDataName>>(UpdateAddressDocument, {
+      alias: 'updateAddress',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateAddressMutation__
+ *
+ * To run a mutation, you first call `useUpdateAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAddressMutation, { data, loading, error }] = useUpdateAddressMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      address: // value for 'address'
+ *      country: // value for 'country'
+ *      state: // value for 'state'
+ *      city: // value for 'city'
+ *      streetAddress1: // value for 'streetAddress1'
+ *      streetAddress2: // value for 'streetAddress2'
+ *      zipCode: // value for 'zipCode'
+ *      company: // value for 'company'
+ *      message: // value for 'message'
+ *      additionalInfo: // value for 'additionalInfo'
+ *      MaincontactNubmer: // value for 'MaincontactNubmer'
+ *      OthercontactNubmers: // value for 'OthercontactNubmers'
+ *      Lat: // value for 'Lat'
+ *      Lng: // value for 'Lng'
+ *   },
+ * });
+ */
+export function useUpdateAddressMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateAddressMutation, UpdateAddressMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateAddressMutation, UpdateAddressMutationVariables>(UpdateAddressDocument, baseOptions);
+      }
+export type UpdateAddressMutationHookResult = ReturnType<typeof useUpdateAddressMutation>;
+export type UpdateAddressMutationResult = ApolloReactCommon.MutationResult<UpdateAddressMutation>;
+export type UpdateAddressMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateAddressMutation, UpdateAddressMutationVariables>;
+export const CreateAddressDocument = gql`
+    mutation CreateAddress($name: String!, $address: String!, $MaincontactNubmer: String!, $country: String!, $state: String!, $city: String!, $streetAddress1: String, $streetAddress2: String, $zipCode: String, $company: String, $message: String, $additionalInfo: String, $OthercontactNubmers: [String!], $Lat: Float, $Lng: Float) {
+  CreateAddress(name: $name, address: $address, MaincontactNubmer: $MaincontactNubmer, country: $country, state: $state, city: $city, streetAddress1: $streetAddress1, streetAddress2: $streetAddress2, zipCode: $zipCode, company: $company, message: $message, additionalInfo: $additionalInfo, OthercontactNubmers: $OthercontactNubmers, Lat: $Lat, Lng: $Lng) {
+    id
+  }
+}
+    `;
+export type CreateAddressMutationFn = ApolloReactCommon.MutationFunction<CreateAddressMutation, CreateAddressMutationVariables>;
+export type CreateAddressComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateAddressMutation, CreateAddressMutationVariables>, 'mutation'>;
+
+    export const CreateAddressComponent = (props: CreateAddressComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateAddressMutation, CreateAddressMutationVariables> mutation={CreateAddressDocument} {...props} />
+    );
+    
+export type CreateAddressProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateAddressMutation, CreateAddressMutationVariables>
+    } & TChildProps;
+export function withCreateAddress<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateAddressMutation,
+  CreateAddressMutationVariables,
+  CreateAddressProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateAddressMutation, CreateAddressMutationVariables, CreateAddressProps<TChildProps, TDataName>>(CreateAddressDocument, {
+      alias: 'createAddress',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateAddressMutation__
+ *
+ * To run a mutation, you first call `useCreateAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAddressMutation, { data, loading, error }] = useCreateAddressMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      address: // value for 'address'
+ *      MaincontactNubmer: // value for 'MaincontactNubmer'
+ *      country: // value for 'country'
+ *      state: // value for 'state'
+ *      city: // value for 'city'
+ *      streetAddress1: // value for 'streetAddress1'
+ *      streetAddress2: // value for 'streetAddress2'
+ *      zipCode: // value for 'zipCode'
+ *      company: // value for 'company'
+ *      message: // value for 'message'
+ *      additionalInfo: // value for 'additionalInfo'
+ *      OthercontactNubmers: // value for 'OthercontactNubmers'
+ *      Lat: // value for 'Lat'
+ *      Lng: // value for 'Lng'
+ *   },
+ * });
+ */
+export function useCreateAddressMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateAddressMutation, CreateAddressMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateAddressMutation, CreateAddressMutationVariables>(CreateAddressDocument, baseOptions);
+      }
+export type CreateAddressMutationHookResult = ReturnType<typeof useCreateAddressMutation>;
+export type CreateAddressMutationResult = ApolloReactCommon.MutationResult<CreateAddressMutation>;
+export type CreateAddressMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateAddressMutation, CreateAddressMutationVariables>;
+export const DeleteAddressDocument = gql`
+    mutation DeleteAddress($id: String!) {
+  deleteOneAddress(where: {id: $id}) {
+    id
+  }
+}
+    `;
+export type DeleteAddressMutationFn = ApolloReactCommon.MutationFunction<DeleteAddressMutation, DeleteAddressMutationVariables>;
+export type DeleteAddressComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteAddressMutation, DeleteAddressMutationVariables>, 'mutation'>;
+
+    export const DeleteAddressComponent = (props: DeleteAddressComponentProps) => (
+      <ApolloReactComponents.Mutation<DeleteAddressMutation, DeleteAddressMutationVariables> mutation={DeleteAddressDocument} {...props} />
+    );
+    
+export type DeleteAddressProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteAddressMutation, DeleteAddressMutationVariables>
+    } & TChildProps;
+export function withDeleteAddress<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteAddressMutation,
+  DeleteAddressMutationVariables,
+  DeleteAddressProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteAddressMutation, DeleteAddressMutationVariables, DeleteAddressProps<TChildProps, TDataName>>(DeleteAddressDocument, {
+      alias: 'deleteAddress',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteAddressMutation__
+ *
+ * To run a mutation, you first call `useDeleteAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAddressMutation, { data, loading, error }] = useDeleteAddressMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteAddressMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteAddressMutation, DeleteAddressMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteAddressMutation, DeleteAddressMutationVariables>(DeleteAddressDocument, baseOptions);
+      }
+export type DeleteAddressMutationHookResult = ReturnType<typeof useDeleteAddressMutation>;
+export type DeleteAddressMutationResult = ApolloReactCommon.MutationResult<DeleteAddressMutation>;
+export type DeleteAddressMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteAddressMutation, DeleteAddressMutationVariables>;
+export const TogglePrimaryAddressDocument = gql`
+    mutation TogglePrimaryAddress($addressId: String!) {
+  TogglePrimaryAddress(addressId: $addressId) {
+    id
+  }
+}
+    `;
+export type TogglePrimaryAddressMutationFn = ApolloReactCommon.MutationFunction<TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables>;
+export type TogglePrimaryAddressComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables>, 'mutation'>;
+
+    export const TogglePrimaryAddressComponent = (props: TogglePrimaryAddressComponentProps) => (
+      <ApolloReactComponents.Mutation<TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables> mutation={TogglePrimaryAddressDocument} {...props} />
+    );
+    
+export type TogglePrimaryAddressProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables>
+    } & TChildProps;
+export function withTogglePrimaryAddress<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  TogglePrimaryAddressMutation,
+  TogglePrimaryAddressMutationVariables,
+  TogglePrimaryAddressProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables, TogglePrimaryAddressProps<TChildProps, TDataName>>(TogglePrimaryAddressDocument, {
+      alias: 'togglePrimaryAddress',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useTogglePrimaryAddressMutation__
+ *
+ * To run a mutation, you first call `useTogglePrimaryAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTogglePrimaryAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [togglePrimaryAddressMutation, { data, loading, error }] = useTogglePrimaryAddressMutation({
+ *   variables: {
+ *      addressId: // value for 'addressId'
+ *   },
+ * });
+ */
+export function useTogglePrimaryAddressMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables>) {
+        return ApolloReactHooks.useMutation<TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables>(TogglePrimaryAddressDocument, baseOptions);
+      }
+export type TogglePrimaryAddressMutationHookResult = ReturnType<typeof useTogglePrimaryAddressMutation>;
+export type TogglePrimaryAddressMutationResult = ApolloReactCommon.MutationResult<TogglePrimaryAddressMutation>;
+export type TogglePrimaryAddressMutationOptions = ApolloReactCommon.BaseMutationOptions<TogglePrimaryAddressMutation, TogglePrimaryAddressMutationVariables>;
+export const SingleAddressDocument = gql`
+    query SingleAddress($id: String!) {
+  SingleAddress(where: {id: $id}) {
+    id
+    name
+    address
+    country
+    state
+    city
+    streetAddress1
+    streetAddress2
+    zipCode
+    company
+    message
+    additionalInfo
+    MaincontactNubmer
+    OthercontactNubmers
+  }
+}
+    `;
+export type SingleAddressComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SingleAddressQuery, SingleAddressQueryVariables>, 'query'> & ({ variables: SingleAddressQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const SingleAddressComponent = (props: SingleAddressComponentProps) => (
+      <ApolloReactComponents.Query<SingleAddressQuery, SingleAddressQueryVariables> query={SingleAddressDocument} {...props} />
+    );
+    
+export type SingleAddressProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<SingleAddressQuery, SingleAddressQueryVariables>
+    } & TChildProps;
+export function withSingleAddress<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SingleAddressQuery,
+  SingleAddressQueryVariables,
+  SingleAddressProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, SingleAddressQuery, SingleAddressQueryVariables, SingleAddressProps<TChildProps, TDataName>>(SingleAddressDocument, {
+      alias: 'singleAddress',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSingleAddressQuery__
+ *
+ * To run a query within a React component, call `useSingleAddressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSingleAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSingleAddressQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSingleAddressQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SingleAddressQuery, SingleAddressQueryVariables>) {
+        return ApolloReactHooks.useQuery<SingleAddressQuery, SingleAddressQueryVariables>(SingleAddressDocument, baseOptions);
+      }
+export function useSingleAddressLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SingleAddressQuery, SingleAddressQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SingleAddressQuery, SingleAddressQueryVariables>(SingleAddressDocument, baseOptions);
+        }
+export type SingleAddressQueryHookResult = ReturnType<typeof useSingleAddressQuery>;
+export type SingleAddressLazyQueryHookResult = ReturnType<typeof useSingleAddressLazyQuery>;
+export type SingleAddressQueryResult = ApolloReactCommon.QueryResult<SingleAddressQuery, SingleAddressQueryVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   CurrentUser {
@@ -5460,19 +6256,34 @@ export const CurrentUserDocument = gql`
       }
     }
     likes {
-      id
+      userId
       itemId
+      item {
+        id
+        title
+        likesCount
+        eagerImages
+        price
+        dimensions
+        description
+      }
     }
     address {
       id
       name
       address
+      isPrimary
       country
       state
       city
       streetAddress1
       streetAddress2
-      isPrimary
+      zipCode
+      company
+      message
+      additionalInfo
+      MaincontactNubmer
+      OthercontactNubmers
       Lat
       Lng
     }
@@ -6223,6 +7034,108 @@ export function useSellerResetPasswordMutation(baseOptions?: ApolloReactHooks.Mu
 export type SellerResetPasswordMutationHookResult = ReturnType<typeof useSellerResetPasswordMutation>;
 export type SellerResetPasswordMutationResult = ApolloReactCommon.MutationResult<SellerResetPasswordMutation>;
 export type SellerResetPasswordMutationOptions = ApolloReactCommon.BaseMutationOptions<SellerResetPasswordMutation, SellerResetPasswordMutationVariables>;
+export const ResetUsersPasswordFromProfileDocument = gql`
+    mutation ResetUsersPasswordFromProfile($OldPassword: String!, $password: String!, $confirmPassword: String!) {
+  ResetUsersPasswordFromProfile(OldPassword: $OldPassword, password: $password, confirmPassword: $confirmPassword)
+}
+    `;
+export type ResetUsersPasswordFromProfileMutationFn = ApolloReactCommon.MutationFunction<ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables>;
+export type ResetUsersPasswordFromProfileComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables>, 'mutation'>;
+
+    export const ResetUsersPasswordFromProfileComponent = (props: ResetUsersPasswordFromProfileComponentProps) => (
+      <ApolloReactComponents.Mutation<ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables> mutation={ResetUsersPasswordFromProfileDocument} {...props} />
+    );
+    
+export type ResetUsersPasswordFromProfileProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables>
+    } & TChildProps;
+export function withResetUsersPasswordFromProfile<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ResetUsersPasswordFromProfileMutation,
+  ResetUsersPasswordFromProfileMutationVariables,
+  ResetUsersPasswordFromProfileProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables, ResetUsersPasswordFromProfileProps<TChildProps, TDataName>>(ResetUsersPasswordFromProfileDocument, {
+      alias: 'resetUsersPasswordFromProfile',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useResetUsersPasswordFromProfileMutation__
+ *
+ * To run a mutation, you first call `useResetUsersPasswordFromProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResetUsersPasswordFromProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resetUsersPasswordFromProfileMutation, { data, loading, error }] = useResetUsersPasswordFromProfileMutation({
+ *   variables: {
+ *      OldPassword: // value for 'OldPassword'
+ *      password: // value for 'password'
+ *      confirmPassword: // value for 'confirmPassword'
+ *   },
+ * });
+ */
+export function useResetUsersPasswordFromProfileMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables>) {
+        return ApolloReactHooks.useMutation<ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables>(ResetUsersPasswordFromProfileDocument, baseOptions);
+      }
+export type ResetUsersPasswordFromProfileMutationHookResult = ReturnType<typeof useResetUsersPasswordFromProfileMutation>;
+export type ResetUsersPasswordFromProfileMutationResult = ApolloReactCommon.MutationResult<ResetUsersPasswordFromProfileMutation>;
+export type ResetUsersPasswordFromProfileMutationOptions = ApolloReactCommon.BaseMutationOptions<ResetUsersPasswordFromProfileMutation, ResetUsersPasswordFromProfileMutationVariables>;
+export const ContactUsDocument = gql`
+    mutation ContactUs($email: String!, $subject: String!, $message: String!) {
+  ContactUs(email: $email, subject: $subject, message: $message)
+}
+    `;
+export type ContactUsMutationFn = ApolloReactCommon.MutationFunction<ContactUsMutation, ContactUsMutationVariables>;
+export type ContactUsComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ContactUsMutation, ContactUsMutationVariables>, 'mutation'>;
+
+    export const ContactUsComponent = (props: ContactUsComponentProps) => (
+      <ApolloReactComponents.Mutation<ContactUsMutation, ContactUsMutationVariables> mutation={ContactUsDocument} {...props} />
+    );
+    
+export type ContactUsProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<ContactUsMutation, ContactUsMutationVariables>
+    } & TChildProps;
+export function withContactUs<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ContactUsMutation,
+  ContactUsMutationVariables,
+  ContactUsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, ContactUsMutation, ContactUsMutationVariables, ContactUsProps<TChildProps, TDataName>>(ContactUsDocument, {
+      alias: 'contactUs',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useContactUsMutation__
+ *
+ * To run a mutation, you first call `useContactUsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useContactUsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [contactUsMutation, { data, loading, error }] = useContactUsMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      subject: // value for 'subject'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useContactUsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ContactUsMutation, ContactUsMutationVariables>) {
+        return ApolloReactHooks.useMutation<ContactUsMutation, ContactUsMutationVariables>(ContactUsDocument, baseOptions);
+      }
+export type ContactUsMutationHookResult = ReturnType<typeof useContactUsMutation>;
+export type ContactUsMutationResult = ApolloReactCommon.MutationResult<ContactUsMutation>;
+export type ContactUsMutationOptions = ApolloReactCommon.BaseMutationOptions<ContactUsMutation, ContactUsMutationVariables>;
 export const UsersOrdersDocument = gql`
     query UsersOrders {
   UserOrder {
@@ -6345,6 +7258,75 @@ export function useCreateItemMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
 export type CreateItemMutationResult = ApolloReactCommon.MutationResult<CreateItemMutation>;
 export type CreateItemMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
+export const UpdateItemDocument = gql`
+    mutation UpdateItem($id: String!, $title: String, $description: String, $overview: String, $brand: String, $weight: String, $dimensions: String, $materials: String, $otherInfo: String, $videoLink: String, $price: Float, $beforeDiscountPrice: Float, $stock: Int, $images: [String!], $eagerImages: [String!], $catagory: [String!], $tags: [String!], $colors: [String!], $otherFeature: [String!]) {
+  UpdateItem(id: $id, title: $title, description: $description, overview: $overview, brand: $brand, weight: $weight, dimensions: $dimensions, materials: $materials, videoLink: $videoLink, otherInfo: $otherInfo, price: $price, beforeDiscountPrice: $beforeDiscountPrice, stock: $stock, images: $images, eagerImages: $eagerImages, catagory: $catagory, tags: $tags, colors: $colors, otherFeature: $otherFeature) {
+    id
+  }
+}
+    `;
+export type UpdateItemMutationFn = ApolloReactCommon.MutationFunction<UpdateItemMutation, UpdateItemMutationVariables>;
+export type UpdateItemComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateItemMutation, UpdateItemMutationVariables>, 'mutation'>;
+
+    export const UpdateItemComponent = (props: UpdateItemComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateItemMutation, UpdateItemMutationVariables> mutation={UpdateItemDocument} {...props} />
+    );
+    
+export type UpdateItemProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateItemMutation, UpdateItemMutationVariables>
+    } & TChildProps;
+export function withUpdateItem<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateItemMutation,
+  UpdateItemMutationVariables,
+  UpdateItemProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateItemMutation, UpdateItemMutationVariables, UpdateItemProps<TChildProps, TDataName>>(UpdateItemDocument, {
+      alias: 'updateItem',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateItemMutation__
+ *
+ * To run a mutation, you first call `useUpdateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateItemMutation, { data, loading, error }] = useUpdateItemMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *      overview: // value for 'overview'
+ *      brand: // value for 'brand'
+ *      weight: // value for 'weight'
+ *      dimensions: // value for 'dimensions'
+ *      materials: // value for 'materials'
+ *      otherInfo: // value for 'otherInfo'
+ *      videoLink: // value for 'videoLink'
+ *      price: // value for 'price'
+ *      beforeDiscountPrice: // value for 'beforeDiscountPrice'
+ *      stock: // value for 'stock'
+ *      images: // value for 'images'
+ *      eagerImages: // value for 'eagerImages'
+ *      catagory: // value for 'catagory'
+ *      tags: // value for 'tags'
+ *      colors: // value for 'colors'
+ *      otherFeature: // value for 'otherFeature'
+ *   },
+ * });
+ */
+export function useUpdateItemMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateItemMutation, UpdateItemMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateItemMutation, UpdateItemMutationVariables>(UpdateItemDocument, baseOptions);
+      }
+export type UpdateItemMutationHookResult = ReturnType<typeof useUpdateItemMutation>;
+export type UpdateItemMutationResult = ApolloReactCommon.MutationResult<UpdateItemMutation>;
+export type UpdateItemMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateItemMutation, UpdateItemMutationVariables>;
 export const ItemDocument = gql`
     query item($id: String!) {
   item(where: {id: $id}) {
@@ -6505,8 +7487,8 @@ export type TotalItemsCountQueryHookResult = ReturnType<typeof useTotalItemsCoun
 export type TotalItemsCountLazyQueryHookResult = ReturnType<typeof useTotalItemsCountLazyQuery>;
 export type TotalItemsCountQueryResult = ApolloReactCommon.QueryResult<TotalItemsCountQuery, TotalItemsCountQueryVariables>;
 export const ItemsDocument = gql`
-    query Items($skip: Int, $first: Int, $last: Int, $MinPrice: Float, $MaxPrice: Float, $orderBy: ItemOrderByInput, $searchTerm: String) {
-  items(skip: $skip, first: $first, last: $last, where: {OR: [{title: {contains: $searchTerm}}, {tags: {some: {text: {contains: $searchTerm}}}}, {catagory: {some: {text: {contains: $searchTerm}}}}, {description: {contains: $searchTerm}}, {overview: {contains: $searchTerm}}, {brand: {contains: $searchTerm}}, {otherInfo: {contains: $searchTerm}}, {AND: [{price: {gte: $MinPrice}}, {price: {lte: $MaxPrice}}]}], tags: {some: {text: {contains: $searchTerm}}}, catagory: {some: {text: {contains: $searchTerm}}}}, orderBy: $orderBy) {
+    query Items($skip: Int, $first: Int, $last: Int, $MinPrice: Float, $MaxPrice: Float, $orderBy: ItemOrderByInput, $searchTerm: String, $tag: String, $catagory: String) {
+  items(skip: $skip, first: $first, last: $last, where: {AND: [{price: {gte: $MinPrice}}, {price: {lte: $MaxPrice}}], OR: [{title: {contains: $searchTerm}}, {tags: {some: {text: {contains: $searchTerm}}}}, {catagory: {some: {text: {contains: $searchTerm}}}}, {description: {contains: $searchTerm}}, {overview: {contains: $searchTerm}}, {brand: {contains: $searchTerm}}, {otherInfo: {contains: $searchTerm}}], tags: {some: {text: {contains: $tag}}}, catagory: {some: {text: {contains: $catagory}}}}, orderBy: $orderBy) {
     id
     likes {
       id
@@ -6603,6 +7585,8 @@ export function withItems<TProps, TChildProps = {}, TDataName extends string = '
  *      MaxPrice: // value for 'MaxPrice'
  *      orderBy: // value for 'orderBy'
  *      searchTerm: // value for 'searchTerm'
+ *      tag: // value for 'tag'
+ *      catagory: // value for 'catagory'
  *   },
  * });
  */
@@ -6765,7 +7749,9 @@ export type AddItemToCartMutationResult = ApolloReactCommon.MutationResult<AddIt
 export type AddItemToCartMutationOptions = ApolloReactCommon.BaseMutationOptions<AddItemToCartMutation, AddItemToCartMutationVariables>;
 export const DeleteCartItemDocument = gql`
     mutation DeleteCartItem($cartItemId: String!) {
-  DeleteCartItem(cartItemId: $cartItemId)
+  DeleteCartItem(cartItemId: $cartItemId) {
+    itemId
+  }
 }
     `;
 export type DeleteCartItemMutationFn = ApolloReactCommon.MutationFunction<DeleteCartItemMutation, DeleteCartItemMutationVariables>;
@@ -7088,3 +8074,433 @@ export function useToggleReviewDownVoteMutation(baseOptions?: ApolloReactHooks.M
 export type ToggleReviewDownVoteMutationHookResult = ReturnType<typeof useToggleReviewDownVoteMutation>;
 export type ToggleReviewDownVoteMutationResult = ApolloReactCommon.MutationResult<ToggleReviewDownVoteMutation>;
 export type ToggleReviewDownVoteMutationOptions = ApolloReactCommon.BaseMutationOptions<ToggleReviewDownVoteMutation, ToggleReviewDownVoteMutationVariables>;
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($token: String!) {
+  CreateOrder(token: $token) {
+    id
+    itemId
+    userId
+    charge
+    status
+    total
+  }
+}
+    `;
+export type CreateOrderMutationFn = ApolloReactCommon.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>;
+export type CreateOrderComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateOrderMutation, CreateOrderMutationVariables>, 'mutation'>;
+
+    export const CreateOrderComponent = (props: CreateOrderComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateOrderMutation, CreateOrderMutationVariables> mutation={CreateOrderDocument} {...props} />
+    );
+    
+export type CreateOrderProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>
+    } & TChildProps;
+export function withCreateOrder<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateOrderMutation,
+  CreateOrderMutationVariables,
+  CreateOrderProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateOrderMutation, CreateOrderMutationVariables, CreateOrderProps<TChildProps, TDataName>>(CreateOrderDocument, {
+      alias: 'createOrder',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument, baseOptions);
+      }
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
+export type CreateOrderMutationResult = ApolloReactCommon.MutationResult<CreateOrderMutation>;
+export type CreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
+export const OrderDocument = gql`
+    query Order($orderId: String!) {
+  Order(orderId: $orderId) {
+    id
+    total
+    charge
+    itemId
+    userId
+    status
+    user {
+      id
+      name
+      email
+      avatar
+    }
+    Item {
+      CartItem {
+        quantity
+      }
+    }
+    items {
+      images
+      OtherFeatures
+      title
+      description
+      overview
+      otherInfo
+      videoLink
+      brand
+      weight
+      dimensions
+      materials
+      price
+      beforeDiscountPrice
+      stock
+      quantity
+    }
+    createdAt
+  }
+}
+    `;
+export type OrderComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<OrderQuery, OrderQueryVariables>, 'query'> & ({ variables: OrderQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const OrderComponent = (props: OrderComponentProps) => (
+      <ApolloReactComponents.Query<OrderQuery, OrderQueryVariables> query={OrderDocument} {...props} />
+    );
+    
+export type OrderProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<OrderQuery, OrderQueryVariables>
+    } & TChildProps;
+export function withOrder<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  OrderQuery,
+  OrderQueryVariables,
+  OrderProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, OrderQuery, OrderQueryVariables, OrderProps<TChildProps, TDataName>>(OrderDocument, {
+      alias: 'order',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useOrderQuery__
+ *
+ * To run a query within a React component, call `useOrderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrderQuery({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useOrderQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OrderQuery, OrderQueryVariables>) {
+        return ApolloReactHooks.useQuery<OrderQuery, OrderQueryVariables>(OrderDocument, baseOptions);
+      }
+export function useOrderLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrderQuery, OrderQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OrderQuery, OrderQueryVariables>(OrderDocument, baseOptions);
+        }
+export type OrderQueryHookResult = ReturnType<typeof useOrderQuery>;
+export type OrderLazyQueryHookResult = ReturnType<typeof useOrderLazyQuery>;
+export type OrderQueryResult = ApolloReactCommon.QueryResult<OrderQuery, OrderQueryVariables>;
+export const RemoveAllLikesDocument = gql`
+    mutation RemoveAllLikes($userId: String!) {
+  RemoveAllLikes(userId: $userId)
+}
+    `;
+export type RemoveAllLikesMutationFn = ApolloReactCommon.MutationFunction<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>;
+export type RemoveAllLikesComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>, 'mutation'>;
+
+    export const RemoveAllLikesComponent = (props: RemoveAllLikesComponentProps) => (
+      <ApolloReactComponents.Mutation<RemoveAllLikesMutation, RemoveAllLikesMutationVariables> mutation={RemoveAllLikesDocument} {...props} />
+    );
+    
+export type RemoveAllLikesProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>
+    } & TChildProps;
+export function withRemoveAllLikes<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  RemoveAllLikesMutation,
+  RemoveAllLikesMutationVariables,
+  RemoveAllLikesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, RemoveAllLikesMutation, RemoveAllLikesMutationVariables, RemoveAllLikesProps<TChildProps, TDataName>>(RemoveAllLikesDocument, {
+      alias: 'removeAllLikes',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useRemoveAllLikesMutation__
+ *
+ * To run a mutation, you first call `useRemoveAllLikesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveAllLikesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeAllLikesMutation, { data, loading, error }] = useRemoveAllLikesMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useRemoveAllLikesMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>(RemoveAllLikesDocument, baseOptions);
+      }
+export type RemoveAllLikesMutationHookResult = ReturnType<typeof useRemoveAllLikesMutation>;
+export type RemoveAllLikesMutationResult = ApolloReactCommon.MutationResult<RemoveAllLikesMutation>;
+export type RemoveAllLikesMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>;
+export const ItemsConnectionsDocument = gql`
+    query ItemsConnections($first: Int! = 6, $after: String, $tag: String, $category: String) {
+  ItemConnections(first: $first, after: $after, tag: $tag, category: $category) {
+    edges {
+      cursor
+      node {
+        id
+        likes {
+          id
+        }
+        likesCount
+        itemReview {
+          id
+          rating
+          text
+          itemId
+          authorId
+          downVoteCount
+          upVoteCount
+          upVote {
+            id
+            voteUp
+            authorId
+            itemId
+          }
+          downVote {
+            id
+            voteDown
+            authorId
+            itemId
+          }
+        }
+        reviewCount
+        images
+        eagerImages
+        catagory {
+          id
+          text
+        }
+        tags {
+          id
+          text
+        }
+        colors {
+          id
+          text
+        }
+        OtherFeatures
+        title
+        description
+        overview
+        otherInfo
+        videoLink
+        brand
+        weight
+        dimensions
+        materials
+        price
+        beforeDiscountPrice
+        stock
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}
+    `;
+export type ItemsConnectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>, 'query'> & ({ variables: ItemsConnectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const ItemsConnectionsComponent = (props: ItemsConnectionsComponentProps) => (
+      <ApolloReactComponents.Query<ItemsConnectionsQuery, ItemsConnectionsQueryVariables> query={ItemsConnectionsDocument} {...props} />
+    );
+    
+export type ItemsConnectionsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>
+    } & TChildProps;
+export function withItemsConnections<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ItemsConnectionsQuery,
+  ItemsConnectionsQueryVariables,
+  ItemsConnectionsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ItemsConnectionsQuery, ItemsConnectionsQueryVariables, ItemsConnectionsProps<TChildProps, TDataName>>(ItemsConnectionsDocument, {
+      alias: 'itemsConnections',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useItemsConnectionsQuery__
+ *
+ * To run a query within a React component, call `useItemsConnectionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useItemsConnectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useItemsConnectionsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      tag: // value for 'tag'
+ *      category: // value for 'category'
+ *   },
+ * });
+ */
+export function useItemsConnectionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>) {
+        return ApolloReactHooks.useQuery<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>(ItemsConnectionsDocument, baseOptions);
+      }
+export function useItemsConnectionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>(ItemsConnectionsDocument, baseOptions);
+        }
+export type ItemsConnectionsQueryHookResult = ReturnType<typeof useItemsConnectionsQuery>;
+export type ItemsConnectionsLazyQueryHookResult = ReturnType<typeof useItemsConnectionsLazyQuery>;
+export type ItemsConnectionsQueryResult = ApolloReactCommon.QueryResult<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>;
+export const SearchTermResultDocument = gql`
+    query SearchTermResult($first: Int! = 6, $after: String, $term: String!) {
+  SearchTermResults(first: $first, term: $term, after: $after) {
+    edges {
+      cursor
+      node {
+        id
+        likes {
+          id
+        }
+        likesCount
+        itemReview {
+          id
+          rating
+          text
+          itemId
+          authorId
+          downVoteCount
+          upVoteCount
+          upVote {
+            id
+            voteUp
+            authorId
+            itemId
+          }
+          downVote {
+            id
+            voteDown
+            authorId
+            itemId
+          }
+        }
+        reviewCount
+        images
+        eagerImages
+        catagory {
+          id
+          text
+        }
+        tags {
+          id
+          text
+        }
+        colors {
+          id
+          text
+        }
+        OtherFeatures
+        title
+        description
+        overview
+        otherInfo
+        videoLink
+        brand
+        weight
+        dimensions
+        materials
+        price
+        beforeDiscountPrice
+        stock
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}
+    `;
+export type SearchTermResultComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SearchTermResultQuery, SearchTermResultQueryVariables>, 'query'> & ({ variables: SearchTermResultQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const SearchTermResultComponent = (props: SearchTermResultComponentProps) => (
+      <ApolloReactComponents.Query<SearchTermResultQuery, SearchTermResultQueryVariables> query={SearchTermResultDocument} {...props} />
+    );
+    
+export type SearchTermResultProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<SearchTermResultQuery, SearchTermResultQueryVariables>
+    } & TChildProps;
+export function withSearchTermResult<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SearchTermResultQuery,
+  SearchTermResultQueryVariables,
+  SearchTermResultProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, SearchTermResultQuery, SearchTermResultQueryVariables, SearchTermResultProps<TChildProps, TDataName>>(SearchTermResultDocument, {
+      alias: 'searchTermResult',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSearchTermResultQuery__
+ *
+ * To run a query within a React component, call `useSearchTermResultQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchTermResultQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchTermResultQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      term: // value for 'term'
+ *   },
+ * });
+ */
+export function useSearchTermResultQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SearchTermResultQuery, SearchTermResultQueryVariables>) {
+        return ApolloReactHooks.useQuery<SearchTermResultQuery, SearchTermResultQueryVariables>(SearchTermResultDocument, baseOptions);
+      }
+export function useSearchTermResultLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SearchTermResultQuery, SearchTermResultQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SearchTermResultQuery, SearchTermResultQueryVariables>(SearchTermResultDocument, baseOptions);
+        }
+export type SearchTermResultQueryHookResult = ReturnType<typeof useSearchTermResultQuery>;
+export type SearchTermResultLazyQueryHookResult = ReturnType<typeof useSearchTermResultLazyQuery>;
+export type SearchTermResultQueryResult = ApolloReactCommon.QueryResult<SearchTermResultQuery, SearchTermResultQueryVariables>;

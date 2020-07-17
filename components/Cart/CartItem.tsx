@@ -1,20 +1,19 @@
 import React from "react";
-import { toast } from "react-toastify";
 import Fade from "react-reveal/Fade";
 import {
   useDeleteCartItemMutation,
-  Item,
   CurrentUserDocument,
 } from "generated/graphql";
 import formatMoney from "components/Utils/formatMoney";
+import Spinner from "react-bootstrap/Spinner";
 
 interface Props {
   user: any;
 }
 
 const CartItem: React.FC<Props> = ({ user }) => {
-  const [DeleteCartItem, { loading, error }] = useDeleteCartItemMutation();
-  if (loading) return <p>Please Wait</p>;
+  const [DeleteCartItem, { loading }] = useDeleteCartItemMutation();
+  if (loading) return <Spinner animation="border" size="sm" variant="danger" />;
 
   if (!user || !user.cart || !user.cart.length)
     return <p>You Don't Have Any Items In Your Cart</p>;
@@ -49,34 +48,11 @@ const CartItem: React.FC<Props> = ({ user }) => {
                           "Are you sure You want to delete this item from your cart"
                         )
                       ) {
-                        const id = item.id;
+                        const id = item.item.id;
 
                         DeleteCartItem({
                           variables: { cartItemId: id },
                           refetchQueries: [{ query: CurrentUserDocument }],
-
-                          // update: (cache, payload) => {
-                          //   const data = cache.readQuery({
-                          //     query: CurrentUserDocument,
-                          //   });
-
-                          //   cache.writeQuery({
-                          //     query: CurrentUserDocument,
-                          //     //@ts-ignore
-                          //     data: data.CurrentUser.cart.filter(
-                          //       (item: Item) => item.id !== id
-                          //     ),
-                          //   });
-                          // },
-
-                          // optimisticResponse: {
-                          //   __typename: "Mutation",
-                          //   //@ts-ignore
-                          //   DeleteCartItem: {
-                          //     __typename: "CartItem",
-                          //     cartItemId: item.id,
-                          //   },
-                          // },
                         });
                       }
                     }}

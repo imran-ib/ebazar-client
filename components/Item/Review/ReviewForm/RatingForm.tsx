@@ -20,7 +20,7 @@ const RatingForm: React.FC<Props> = ({ id }) => {
       { query: ItemDocument, variables: { id: id } },
     ],
   });
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(0);
 
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: any) => {

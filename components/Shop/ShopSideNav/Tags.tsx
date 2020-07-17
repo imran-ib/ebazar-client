@@ -9,12 +9,7 @@ const SideNavTags = () => {
         <ul>
           {Tags.map((tag, i) => (
             <li key={i}>
-              <Link
-                href={{
-                  pathname: "/searchByTag",
-                  query: { tag: tag },
-                }}
-              >
+              <Link href={`/shop/list/results/tag/${tag}`}>
                 <a>{tag}</a>
               </Link>
             </li>
