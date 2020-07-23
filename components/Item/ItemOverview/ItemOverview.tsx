@@ -15,7 +15,8 @@ interface Props {
 const ItemOverview: React.FC<Props> = ({ item }) => {
   const ItemImages = item.images.map((image) => image);
   const ItemEagerImages = item.eagerImages.map((img) => img);
-  const [mainImage, setImage] = useState(`${ItemEagerImages[0]}`);
+  const [SmallImage, setSmallImage] = useState(`${ItemImages[0]}`);
+  const [LargeImage, setLargeImage] = useState(`${ItemEagerImages[0]}`);
 
   const percent = Math.abs(
     (item.beforeDiscountPrice / item.price) * 100 - 100
@@ -29,12 +30,12 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
             <div className="product-details-img">
               <div className="zoompro-border zoompro-span">
                 <SideBySideMagnifier
-                  className="zoompro"
-                  imageSrc={mainImage}
+                  className="input-position"
+                  imageSrc={SmallImage}
                   imageAlt={item.title}
-                  data-image={mainImage}
-                  data-zoom-image={mainImage}
-                  largeImageSrc={mainImage} // Optional
+                  data-image={SmallImage}
+                  data-zoom-image={LargeImage}
+                  largeImageSrc={LargeImage}
                 />
 
                 <span>{percent}% Off</span>
@@ -55,7 +56,8 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                   <a
                     key={i}
                     onClick={() => {
-                      setImage(Image);
+                      setLargeImage(ItemEagerImages[i]);
+                      setSmallImage(Image);
                     }}
                     data-image={Image}
                     data-zoom-image={Image}
@@ -88,9 +90,8 @@ const ItemOverview: React.FC<Props> = ({ item }) => {
                 </span>
               </div>
               <div className="pro-details-rating-wrap">
-                <div className="b-red">
-                  <StarRatingFixed stars={AverageReviews(item)} />
-                </div>
+                <StarRatingFixed stars={AverageReviews(item)} />
+
                 <span
                   style={{
                     marginLeft: "20px",

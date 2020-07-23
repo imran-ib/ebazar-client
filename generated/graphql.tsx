@@ -32,9 +32,14 @@ export type Query = {
   ITemRevives: Array<Review>;
   /** Users Whish List */
   UserLikes: Item;
+  /** Admin Account */
+  isAdmin: Scalars['Boolean'];
+  AllUsers: UserConnection;
+  AllSeller: SellerConnection;
   item?: Maybe<Item>;
   items: Array<Item>;
   itemCount: Scalars['Int'];
+  AllItems: ItemConnection;
   ItemConnections: ItemConnection;
   SearchTermResults: ItemConnection;
 };
@@ -71,6 +76,18 @@ export type QueryUserLikesArgs = {
 };
 
 
+export type QueryAllUsersArgs = {
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryAllSellerArgs = {
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+};
+
+
 export type QueryItemArgs = {
   where: ItemWhereUniqueInput;
 };
@@ -84,6 +101,12 @@ export type QueryItemsArgs = {
   before?: Maybe<ItemWhereUniqueInput>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryAllItemsArgs = {
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
 };
 
 
@@ -1024,6 +1047,51 @@ export type ItemWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
 };
 
+export type UserConnection = {
+  __typename?: 'UserConnection';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges?: Maybe<Array<Maybe<UserEdge>>>;
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo;
+};
+
+export type UserEdge = {
+  __typename?: 'UserEdge';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String'];
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: User;
+};
+
+/** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** Used to indicate whether more edges exist following the set defined by the clients arguments. */
+  hasNextPage: Scalars['Boolean'];
+  /** Used to indicate whether more edges exist prior to the set defined by the clients arguments. */
+  hasPreviousPage: Scalars['Boolean'];
+  /** The cursor corresponding to the first nodes in edges. Null if the connection is empty. */
+  startCursor?: Maybe<Scalars['String']>;
+  /** The cursor corresponding to the last nodes in edges. Null if the connection is empty. */
+  endCursor?: Maybe<Scalars['String']>;
+};
+
+export type SellerConnection = {
+  __typename?: 'SellerConnection';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges?: Maybe<Array<Maybe<SellerEdge>>>;
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo;
+};
+
+export type SellerEdge = {
+  __typename?: 'SellerEdge';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String'];
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: Seller;
+};
+
 export type ItemOrderByInput = {
   id?: Maybe<OrderByArg>;
   title?: Maybe<OrderByArg>;
@@ -1059,19 +1127,6 @@ export type ItemEdge = {
   cursor: Scalars['String'];
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: Item;
-};
-
-/** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** Used to indicate whether more edges exist following the set defined by the clients arguments. */
-  hasNextPage: Scalars['Boolean'];
-  /** Used to indicate whether more edges exist prior to the set defined by the clients arguments. */
-  hasPreviousPage: Scalars['Boolean'];
-  /** The cursor corresponding to the first nodes in edges. Null if the connection is empty. */
-  startCursor?: Maybe<Scalars['String']>;
-  /** The cursor corresponding to the last nodes in edges. Null if the connection is empty. */
-  endCursor?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -1131,6 +1186,8 @@ export type Mutation = {
   DeleteCartItem: CartItem;
   EmptyUserCart: Scalars['String'];
   CreateOrder: Order;
+  /** Update User Or Seller's Roles */
+  UpdateRole: Scalars['String'];
 };
 
 
@@ -1371,6 +1428,13 @@ export type MutationEmptyUserCartArgs = {
 
 export type MutationCreateOrderArgs = {
   token: Scalars['String'];
+};
+
+
+export type MutationUpdateRoleArgs = {
+  userId?: Maybe<Scalars['String']>;
+  sellerId?: Maybe<Scalars['String']>;
+  role?: Maybe<Role>;
 };
 
 export type AddressUpdateInput = {
@@ -5155,6 +5219,134 @@ export type SingleAddressQuery = (
   )> }
 );
 
+export type IsAdminQueryVariables = {};
+
+
+export type IsAdminQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'isAdmin'>
+);
+
+export type AllUserQueryVariables = {};
+
+
+export type AllUserQuery = (
+  { __typename?: 'Query' }
+  & { AllUsers: (
+    { __typename?: 'UserConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'UserEdge' }
+      & Pick<UserEdge, 'cursor'>
+      & { node: (
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'name' | 'email' | 'avatar' | 'role' | 'permissions' | 'likesCount' | 'reviewCount'>
+        & { cart: Array<(
+          { __typename?: 'CartItem' }
+          & Pick<CartItem, 'id' | 'quantity' | 'itemId' | 'userId'>
+          & { item: (
+            { __typename?: 'Item' }
+            & Pick<Item, 'id' | 'title' | 'price' | 'eagerImages'>
+          ) }
+        )>, likes: Array<(
+          { __typename?: 'Like' }
+          & Pick<Like, 'userId' | 'itemId'>
+          & { item: (
+            { __typename?: 'Item' }
+            & Pick<Item, 'id' | 'title' | 'likesCount' | 'eagerImages' | 'price' | 'dimensions' | 'description'>
+          ) }
+        )>, address: Array<(
+          { __typename?: 'Address' }
+          & Pick<Address, 'id' | 'name' | 'address' | 'isPrimary' | 'country' | 'state' | 'city' | 'streetAddress1' | 'streetAddress2' | 'zipCode' | 'company' | 'message' | 'additionalInfo' | 'MaincontactNubmer' | 'OthercontactNubmers' | 'Lat' | 'Lng'>
+        )> }
+      ) }
+    )>>> }
+  ) }
+);
+
+export type AllSellerQueryVariables = {};
+
+
+export type AllSellerQuery = (
+  { __typename?: 'Query' }
+  & { AllSeller: (
+    { __typename?: 'SellerConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'SellerEdge' }
+      & Pick<SellerEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Seller' }
+        & Pick<Seller, 'id' | 'name' | 'email' | 'storeName' | 'sellerNationality' | 'sellerIdentification' | 'EmailIsVerified' | 'SellerItemsCout' | 'role' | 'phone' | 'Brand' | 'permissions'>
+        & { PickupLocations: Array<(
+          { __typename?: 'Address' }
+          & Pick<Address, 'address'>
+        )>, items: Array<(
+          { __typename?: 'Item' }
+          & Pick<Item, 'id'>
+        )> }
+      ) }
+    )>>> }
+  ) }
+);
+
+export type AllItemsQueryVariables = {};
+
+
+export type AllItemsQuery = (
+  { __typename?: 'Query' }
+  & { AllItems: (
+    { __typename?: 'ItemConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'ItemEdge' }
+      & Pick<ItemEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'likesCount' | 'reviewCount' | 'images' | 'eagerImages' | 'OtherFeatures' | 'title' | 'description' | 'overview' | 'otherInfo' | 'videoLink' | 'brand' | 'weight' | 'dimensions' | 'materials' | 'price' | 'beforeDiscountPrice' | 'stock'>
+        & { likes: Array<(
+          { __typename?: 'Like' }
+          & Pick<Like, 'id'>
+        )>, itemReview: Array<(
+          { __typename?: 'Review' }
+          & Pick<Review, 'id' | 'rating' | 'text' | 'itemId' | 'authorId' | 'downVoteCount' | 'upVoteCount'>
+          & { author: (
+            { __typename?: 'User' }
+            & Pick<User, 'name' | 'avatar' | 'reviewCount'>
+          ), upVote: Array<(
+            { __typename?: 'UpReview' }
+            & Pick<UpReview, 'id' | 'voteUp' | 'authorId' | 'itemId'>
+          )>, downVote: Array<(
+            { __typename?: 'DownReview' }
+            & Pick<DownReview, 'id' | 'voteDown' | 'authorId' | 'itemId'>
+          )> }
+        )>, catagory: Array<(
+          { __typename?: 'Catagory' }
+          & Pick<Catagory, 'id' | 'text'>
+        )>, tags: Array<(
+          { __typename?: 'Tag' }
+          & Pick<Tag, 'id' | 'text'>
+        )>, colors: Array<(
+          { __typename?: 'Color' }
+          & Pick<Color, 'id' | 'text'>
+        )> }
+      ) }
+    )>>>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage'>
+    ) }
+  ) }
+);
+
+export type UpdateRoleMutationVariables = {
+  userId?: Maybe<Scalars['String']>;
+  sellerId?: Maybe<Scalars['String']>;
+  role?: Maybe<Role>;
+};
+
+
+export type UpdateRoleMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'UpdateRole'>
+);
+
 export type CurrentUserQueryVariables = {};
 
 
@@ -5799,6 +5991,42 @@ export type SearchTermResultQuery = (
   ) }
 );
 
+export type SellerItemsQueryVariables = {
+  SellerId?: Maybe<Scalars['String']>;
+};
+
+
+export type SellerItemsQuery = (
+  { __typename?: 'Query' }
+  & { items: Array<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id' | 'likesCount' | 'reviewCount' | 'images' | 'eagerImages' | 'OtherFeatures' | 'title' | 'description' | 'overview' | 'otherInfo' | 'videoLink' | 'brand' | 'weight' | 'dimensions' | 'materials' | 'price' | 'beforeDiscountPrice' | 'stock'>
+    & { likes: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'id'>
+    )>, itemReview: Array<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'id' | 'rating' | 'text' | 'itemId' | 'authorId' | 'downVoteCount' | 'upVoteCount'>
+      & { upVote: Array<(
+        { __typename?: 'UpReview' }
+        & Pick<UpReview, 'id' | 'voteUp' | 'authorId' | 'itemId'>
+      )>, downVote: Array<(
+        { __typename?: 'DownReview' }
+        & Pick<DownReview, 'id' | 'voteDown' | 'authorId' | 'itemId'>
+      )> }
+    )>, catagory: Array<(
+      { __typename?: 'Catagory' }
+      & Pick<Catagory, 'id' | 'text'>
+    )>, tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'id' | 'text'>
+    )>, colors: Array<(
+      { __typename?: 'Color' }
+      & Pick<Color, 'id' | 'text'>
+    )> }
+  )> }
+);
+
 
 export const SellerAddressesDocument = gql`
     query SellerAddresses($id: String!) {
@@ -6232,6 +6460,404 @@ export function useSingleAddressLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type SingleAddressQueryHookResult = ReturnType<typeof useSingleAddressQuery>;
 export type SingleAddressLazyQueryHookResult = ReturnType<typeof useSingleAddressLazyQuery>;
 export type SingleAddressQueryResult = ApolloReactCommon.QueryResult<SingleAddressQuery, SingleAddressQueryVariables>;
+export const IsAdminDocument = gql`
+    query isAdmin {
+  isAdmin
+}
+    `;
+export type IsAdminComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IsAdminQuery, IsAdminQueryVariables>, 'query'>;
+
+    export const IsAdminComponent = (props: IsAdminComponentProps) => (
+      <ApolloReactComponents.Query<IsAdminQuery, IsAdminQueryVariables> query={IsAdminDocument} {...props} />
+    );
+    
+export type IsAdminProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<IsAdminQuery, IsAdminQueryVariables>
+    } & TChildProps;
+export function withIsAdmin<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  IsAdminQuery,
+  IsAdminQueryVariables,
+  IsAdminProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, IsAdminQuery, IsAdminQueryVariables, IsAdminProps<TChildProps, TDataName>>(IsAdminDocument, {
+      alias: 'isAdmin',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useIsAdminQuery__
+ *
+ * To run a query within a React component, call `useIsAdminQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsAdminQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsAdminQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIsAdminQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IsAdminQuery, IsAdminQueryVariables>) {
+        return ApolloReactHooks.useQuery<IsAdminQuery, IsAdminQueryVariables>(IsAdminDocument, baseOptions);
+      }
+export function useIsAdminLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IsAdminQuery, IsAdminQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<IsAdminQuery, IsAdminQueryVariables>(IsAdminDocument, baseOptions);
+        }
+export type IsAdminQueryHookResult = ReturnType<typeof useIsAdminQuery>;
+export type IsAdminLazyQueryHookResult = ReturnType<typeof useIsAdminLazyQuery>;
+export type IsAdminQueryResult = ApolloReactCommon.QueryResult<IsAdminQuery, IsAdminQueryVariables>;
+export const AllUserDocument = gql`
+    query AllUser {
+  AllUsers(first: 100) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        email
+        avatar
+        role
+        permissions
+        likesCount
+        reviewCount
+        cart {
+          id
+          quantity
+          itemId
+          userId
+          item {
+            id
+            title
+            price
+            eagerImages
+          }
+        }
+        likes {
+          userId
+          itemId
+          item {
+            id
+            title
+            likesCount
+            eagerImages
+            price
+            dimensions
+            description
+          }
+        }
+        address {
+          id
+          name
+          address
+          isPrimary
+          country
+          state
+          city
+          streetAddress1
+          streetAddress2
+          zipCode
+          company
+          message
+          additionalInfo
+          MaincontactNubmer
+          OthercontactNubmers
+          Lat
+          Lng
+        }
+        __typename
+      }
+    }
+  }
+}
+    `;
+export type AllUserComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllUserQuery, AllUserQueryVariables>, 'query'>;
+
+    export const AllUserComponent = (props: AllUserComponentProps) => (
+      <ApolloReactComponents.Query<AllUserQuery, AllUserQueryVariables> query={AllUserDocument} {...props} />
+    );
+    
+export type AllUserProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<AllUserQuery, AllUserQueryVariables>
+    } & TChildProps;
+export function withAllUser<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AllUserQuery,
+  AllUserQueryVariables,
+  AllUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, AllUserQuery, AllUserQueryVariables, AllUserProps<TChildProps, TDataName>>(AllUserDocument, {
+      alias: 'allUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAllUserQuery__
+ *
+ * To run a query within a React component, call `useAllUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllUserQuery, AllUserQueryVariables>) {
+        return ApolloReactHooks.useQuery<AllUserQuery, AllUserQueryVariables>(AllUserDocument, baseOptions);
+      }
+export function useAllUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllUserQuery, AllUserQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<AllUserQuery, AllUserQueryVariables>(AllUserDocument, baseOptions);
+        }
+export type AllUserQueryHookResult = ReturnType<typeof useAllUserQuery>;
+export type AllUserLazyQueryHookResult = ReturnType<typeof useAllUserLazyQuery>;
+export type AllUserQueryResult = ApolloReactCommon.QueryResult<AllUserQuery, AllUserQueryVariables>;
+export const AllSellerDocument = gql`
+    query AllSeller {
+  AllSeller(first: 100) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        email
+        storeName
+        sellerNationality
+        sellerIdentification
+        EmailIsVerified
+        SellerItemsCout
+        role
+        phone
+        PickupLocations {
+          address
+        }
+        Brand
+        permissions
+        items {
+          id
+        }
+      }
+    }
+  }
+}
+    `;
+export type AllSellerComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllSellerQuery, AllSellerQueryVariables>, 'query'>;
+
+    export const AllSellerComponent = (props: AllSellerComponentProps) => (
+      <ApolloReactComponents.Query<AllSellerQuery, AllSellerQueryVariables> query={AllSellerDocument} {...props} />
+    );
+    
+export type AllSellerProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<AllSellerQuery, AllSellerQueryVariables>
+    } & TChildProps;
+export function withAllSeller<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AllSellerQuery,
+  AllSellerQueryVariables,
+  AllSellerProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, AllSellerQuery, AllSellerQueryVariables, AllSellerProps<TChildProps, TDataName>>(AllSellerDocument, {
+      alias: 'allSeller',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAllSellerQuery__
+ *
+ * To run a query within a React component, call `useAllSellerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllSellerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllSellerQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllSellerQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllSellerQuery, AllSellerQueryVariables>) {
+        return ApolloReactHooks.useQuery<AllSellerQuery, AllSellerQueryVariables>(AllSellerDocument, baseOptions);
+      }
+export function useAllSellerLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllSellerQuery, AllSellerQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<AllSellerQuery, AllSellerQueryVariables>(AllSellerDocument, baseOptions);
+        }
+export type AllSellerQueryHookResult = ReturnType<typeof useAllSellerQuery>;
+export type AllSellerLazyQueryHookResult = ReturnType<typeof useAllSellerLazyQuery>;
+export type AllSellerQueryResult = ApolloReactCommon.QueryResult<AllSellerQuery, AllSellerQueryVariables>;
+export const AllItemsDocument = gql`
+    query AllItems {
+  AllItems(first: 100) {
+    edges {
+      cursor
+      node {
+        id
+        likes {
+          id
+        }
+        likesCount
+        itemReview {
+          id
+          rating
+          text
+          itemId
+          authorId
+          author {
+            name
+            avatar
+            reviewCount
+          }
+          downVoteCount
+          upVoteCount
+          upVote {
+            id
+            voteUp
+            authorId
+            itemId
+          }
+          downVote {
+            id
+            voteDown
+            authorId
+            itemId
+          }
+        }
+        reviewCount
+        images
+        eagerImages
+        catagory {
+          id
+          text
+        }
+        tags {
+          id
+          text
+        }
+        colors {
+          id
+          text
+        }
+        OtherFeatures
+        title
+        description
+        overview
+        otherInfo
+        videoLink
+        brand
+        weight
+        dimensions
+        materials
+        price
+        beforeDiscountPrice
+        stock
+      }
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+    `;
+export type AllItemsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllItemsQuery, AllItemsQueryVariables>, 'query'>;
+
+    export const AllItemsComponent = (props: AllItemsComponentProps) => (
+      <ApolloReactComponents.Query<AllItemsQuery, AllItemsQueryVariables> query={AllItemsDocument} {...props} />
+    );
+    
+export type AllItemsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<AllItemsQuery, AllItemsQueryVariables>
+    } & TChildProps;
+export function withAllItems<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AllItemsQuery,
+  AllItemsQueryVariables,
+  AllItemsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, AllItemsQuery, AllItemsQueryVariables, AllItemsProps<TChildProps, TDataName>>(AllItemsDocument, {
+      alias: 'allItems',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAllItemsQuery__
+ *
+ * To run a query within a React component, call `useAllItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllItemsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllItemsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllItemsQuery, AllItemsQueryVariables>) {
+        return ApolloReactHooks.useQuery<AllItemsQuery, AllItemsQueryVariables>(AllItemsDocument, baseOptions);
+      }
+export function useAllItemsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllItemsQuery, AllItemsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<AllItemsQuery, AllItemsQueryVariables>(AllItemsDocument, baseOptions);
+        }
+export type AllItemsQueryHookResult = ReturnType<typeof useAllItemsQuery>;
+export type AllItemsLazyQueryHookResult = ReturnType<typeof useAllItemsLazyQuery>;
+export type AllItemsQueryResult = ApolloReactCommon.QueryResult<AllItemsQuery, AllItemsQueryVariables>;
+export const UpdateRoleDocument = gql`
+    mutation UpdateRole($userId: String, $sellerId: String, $role: Role) {
+  UpdateRole(userId: $userId, sellerId: $sellerId, role: $role)
+}
+    `;
+export type UpdateRoleMutationFn = ApolloReactCommon.MutationFunction<UpdateRoleMutation, UpdateRoleMutationVariables>;
+export type UpdateRoleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateRoleMutation, UpdateRoleMutationVariables>, 'mutation'>;
+
+    export const UpdateRoleComponent = (props: UpdateRoleComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateRoleMutation, UpdateRoleMutationVariables> mutation={UpdateRoleDocument} {...props} />
+    );
+    
+export type UpdateRoleProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateRoleMutation, UpdateRoleMutationVariables>
+    } & TChildProps;
+export function withUpdateRole<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateRoleMutation,
+  UpdateRoleMutationVariables,
+  UpdateRoleProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateRoleMutation, UpdateRoleMutationVariables, UpdateRoleProps<TChildProps, TDataName>>(UpdateRoleDocument, {
+      alias: 'updateRole',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateRoleMutation__
+ *
+ * To run a mutation, you first call `useUpdateRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRoleMutation, { data, loading, error }] = useUpdateRoleMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      sellerId: // value for 'sellerId'
+ *      role: // value for 'role'
+ *   },
+ * });
+ */
+export function useUpdateRoleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateRoleMutation, UpdateRoleMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateRoleMutation, UpdateRoleMutationVariables>(UpdateRoleDocument, baseOptions);
+      }
+export type UpdateRoleMutationHookResult = ReturnType<typeof useUpdateRoleMutation>;
+export type UpdateRoleMutationResult = ApolloReactCommon.MutationResult<UpdateRoleMutation>;
+export type UpdateRoleMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateRoleMutation, UpdateRoleMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   CurrentUser {
@@ -8504,3 +9130,108 @@ export function useSearchTermResultLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type SearchTermResultQueryHookResult = ReturnType<typeof useSearchTermResultQuery>;
 export type SearchTermResultLazyQueryHookResult = ReturnType<typeof useSearchTermResultLazyQuery>;
 export type SearchTermResultQueryResult = ApolloReactCommon.QueryResult<SearchTermResultQuery, SearchTermResultQueryVariables>;
+export const SellerItemsDocument = gql`
+    query SellerItems($SellerId: String) {
+  items(where: {sellerId: {equals: $SellerId}}, orderBy: {createdAt: asc}) {
+    id
+    likes {
+      id
+    }
+    likesCount
+    itemReview {
+      id
+      rating
+      text
+      itemId
+      authorId
+      downVoteCount
+      upVoteCount
+      upVote {
+        id
+        voteUp
+        authorId
+        itemId
+      }
+      downVote {
+        id
+        voteDown
+        authorId
+        itemId
+      }
+    }
+    reviewCount
+    images
+    eagerImages
+    catagory {
+      id
+      text
+    }
+    tags {
+      id
+      text
+    }
+    colors {
+      id
+      text
+    }
+    OtherFeatures
+    title
+    description
+    overview
+    otherInfo
+    videoLink
+    brand
+    weight
+    dimensions
+    materials
+    price
+    beforeDiscountPrice
+    stock
+  }
+}
+    `;
+export type SellerItemsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SellerItemsQuery, SellerItemsQueryVariables>, 'query'>;
+
+    export const SellerItemsComponent = (props: SellerItemsComponentProps) => (
+      <ApolloReactComponents.Query<SellerItemsQuery, SellerItemsQueryVariables> query={SellerItemsDocument} {...props} />
+    );
+    
+export type SellerItemsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<SellerItemsQuery, SellerItemsQueryVariables>
+    } & TChildProps;
+export function withSellerItems<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SellerItemsQuery,
+  SellerItemsQueryVariables,
+  SellerItemsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, SellerItemsQuery, SellerItemsQueryVariables, SellerItemsProps<TChildProps, TDataName>>(SellerItemsDocument, {
+      alias: 'sellerItems',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSellerItemsQuery__
+ *
+ * To run a query within a React component, call `useSellerItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSellerItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSellerItemsQuery({
+ *   variables: {
+ *      SellerId: // value for 'SellerId'
+ *   },
+ * });
+ */
+export function useSellerItemsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SellerItemsQuery, SellerItemsQueryVariables>) {
+        return ApolloReactHooks.useQuery<SellerItemsQuery, SellerItemsQueryVariables>(SellerItemsDocument, baseOptions);
+      }
+export function useSellerItemsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SellerItemsQuery, SellerItemsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SellerItemsQuery, SellerItemsQueryVariables>(SellerItemsDocument, baseOptions);
+        }
+export type SellerItemsQueryHookResult = ReturnType<typeof useSellerItemsQuery>;
+export type SellerItemsLazyQueryHookResult = ReturnType<typeof useSellerItemsLazyQuery>;
+export type SellerItemsQueryResult = ApolloReactCommon.QueryResult<SellerItemsQuery, SellerItemsQueryVariables>;

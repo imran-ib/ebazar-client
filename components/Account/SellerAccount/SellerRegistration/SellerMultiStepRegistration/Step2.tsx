@@ -1,5 +1,6 @@
 import { COUNTRIES } from "../../../../Utils/Options";
 import { MDBInput } from "mdbreact";
+import { toast } from "react-toastify";
 
 const suggestions = COUNTRIES.map((tag) => {
   return {
@@ -26,7 +27,24 @@ function Step2(props: Props) {
     setStoreName,
     sellerIdentification,
     storeName,
+    sellerNationality,
   } = props;
+
+  const runValidator = () => {
+    if (
+      sellerIdentification !== "" &&
+      storeName !== "" &&
+      sellerNationality !== ""
+    ) {
+      return props.nextStep();
+    } else if (sellerNationality === "") {
+      return toast.error("Please Select Your Country");
+    } else if (sellerIdentification === "") {
+      return toast.error("Please Provide a valid National ID number");
+    } else if (storeName === "") {
+      return toast.error("StoreName is required");
+    }
+  };
 
   return (
     <>
@@ -42,7 +60,7 @@ function Step2(props: Props) {
             className="custom-select my-1 mr-sm-2 float-right"
             id="sellerNationality"
             name="sellerNationality"
-            placeholder="Enter You Nationality"
+            placeholder="Enter You Nationality *"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               setSellerNationality(e.currentTarget.value)
             }
@@ -62,7 +80,7 @@ function Step2(props: Props) {
         value={sellerIdentification}
         name="sellerIdentification"
         type="text"
-        label="Enter Your National Id Card Number"
+        label="Enter Your National Id Card Number *"
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setSellerIdentification(e.currentTarget.value)
         }
@@ -73,7 +91,7 @@ function Step2(props: Props) {
         value={storeName}
         name="storeName"
         type="text"
-        label="Enter storeName"
+        label="Enter storeName *"
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setStoreName(e.currentTarget.value)
         }
@@ -81,7 +99,7 @@ function Step2(props: Props) {
       <button className="btn" onClick={props.previousStep}>
         prev
       </button>
-      <button className="btn float-right" onClick={props.nextStep}>
+      <button className="btn float-right" onClick={runValidator}>
         Next
       </button>
     </>

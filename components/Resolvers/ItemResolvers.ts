@@ -548,3 +548,66 @@ export const SearchTermResults = gql`
     }
   }
 `;
+export const SellerItems = gql`
+  query SellerItems($SellerId: String) {
+    items(
+      where: { sellerId: { equals: $SellerId } }
+      orderBy: { createdAt: asc }
+    ) {
+      id
+      likes {
+        id
+      }
+      likesCount
+      itemReview {
+        id
+        rating
+        text
+        itemId
+        authorId
+        downVoteCount
+        upVoteCount
+        upVote {
+          id
+          voteUp
+          authorId
+          itemId
+        }
+        downVote {
+          id
+          voteDown
+          authorId
+          itemId
+        }
+      }
+      reviewCount
+      images
+      eagerImages
+      catagory {
+        id
+        text
+      }
+      tags {
+        id
+        text
+      }
+      colors {
+        id
+        text
+      }
+      OtherFeatures
+      title
+      description
+      overview
+      otherInfo
+      videoLink
+      brand
+      weight
+      dimensions
+      materials
+      price
+      beforeDiscountPrice
+      stock
+    }
+  }
+`;

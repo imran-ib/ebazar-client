@@ -12,21 +12,25 @@ interface Props {
   item: Item;
 }
 const ProductModelContent: React.FC<Props> = ({ item }) => {
-  const [mainImage, setMainImage] = useState(`${item.images[0]}`);
+  const ItemImages = item.images.map((image) => image);
+  const ItemEagerImages = item.eagerImages.map((img) => img);
+  const [SmallImage, setSmallImage] = useState(`${ItemImages[0]}`);
+  const [LargeImage, setLargeImage] = useState(`${ItemEagerImages[0]}`);
+
   return (
     <div className="row">
       <div className="col-md-5 col-sm-12 col-xs-12">
         <div className="tab-content quickview-big-img">
           <div id="pro-1" className="tab-pane fade show active">
             <div className="zoompro-border zoompro-span">
-              {mainImage ? (
+              {SmallImage ? (
                 <SideBySideMagnifier
                   className="zoompro"
-                  imageSrc={mainImage}
+                  imageSrc={SmallImage}
                   imageAlt={item.title}
-                  data-image={mainImage}
-                  data-zoom-image={mainImage}
-                  largeImageSrc={mainImage} // Optional
+                  data-image={SmallImage}
+                  data-zoom-image={LargeImage}
+                  largeImageSrc={LargeImage} // Optional
                 />
               ) : (
                 <img src="static/img/no-image-available.jpg" alt={item.title} />
@@ -41,14 +45,17 @@ const ProductModelContent: React.FC<Props> = ({ item }) => {
             className="quickview-slide-active owl-carousel nav nav-style-2"
             role="tablist"
           >
-            {item.images.map((img, i) => (
+            {item.images.map((Image, i) => (
               <a
-                onClick={() => setMainImage(img)}
+                onClick={() => {
+                  setLargeImage(ItemEagerImages[i]);
+                  setSmallImage(Image);
+                }}
                 key={i}
                 className="active"
                 data-toggle="tab"
               >
-                <img width="100" src={img} alt={item.title} />
+                <img width="100" src={Image} alt={item.title} />
               </a>
             ))}
           </div>

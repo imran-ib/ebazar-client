@@ -8,8 +8,8 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
-  const user = useUser();
-  const seller = useSeller();
+  const user: any = useUser();
+  const seller: any = useSeller();
 
   return (
     <>

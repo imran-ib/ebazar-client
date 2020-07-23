@@ -35,7 +35,7 @@ const UserDeActivate = ({ Dactivate, me }: Props) => {
 
         <p className="mb-0">
           Here You Can Remove Your Account From{" "}
-          <strong style={{ color: "red" }}> iBazar </strong>. Please Note That
+          <strong style={{ color: "red" }}> eBazar </strong>. Please Note That
           This Action Is <strong>Permanent</strong> And All Of The Items History
           You Purchased Or Liked Or Added To Whishlist{" "}
           <strong>Will Be Removed</strong>.

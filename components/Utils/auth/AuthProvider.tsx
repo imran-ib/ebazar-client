@@ -1,7 +1,11 @@
 import React, { createContext, useContext } from "react";
 import { logout } from "./helpers";
 import ErrorMessage from "../ErrorMessage";
-import { useCurrentUserQuery, useCurrentSellerQuery } from "generated/graphql";
+import {
+  useCurrentUserQuery,
+  useCurrentSellerQuery,
+  useIsAdminQuery,
+} from "generated/graphql";
 import Spinner from "../Spinner/Spinner";
 import LoginForm from "components/Account/UserAccount/LoginForm";
 
@@ -64,8 +68,16 @@ function useSeller() {
     return null;
   }
 }
+function useAdmin() {
+  const { loading, data, error, called } = useIsAdminQuery();
+  if (data && !loading && !error && called) {
+    return data.isAdmin;
+  } else {
+    return null;
+  }
+}
 
 // Returns authentication-related data and functions
 const useAuth = (): AuthContextParams => useContext(AuthContext);
 
-export { AuthProvider, useAuth, useUser, useSeller };
+export { AuthProvider, useAuth, useUser, useSeller, useAdmin };

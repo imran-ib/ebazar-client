@@ -1,6 +1,7 @@
 import { MDBInput } from "mdbreact";
 import Link from "next/link";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const LinkStyles = styled.a`
   color: blueviolet !important;
@@ -34,6 +35,25 @@ function Step1(props: Props) {
     confirmPassword,
   } = props;
 
+  const RunValidator = () => {
+    if (
+      name !== "" &&
+      email !== "" &&
+      password !== "" &&
+      confirmPassword !== ""
+    ) {
+      props.nextStep();
+    } else if (name === "") {
+      return toast.error("Name is Required");
+    } else if (email === "") {
+      return toast.error("Email is Required");
+    } else if (password === "") {
+      return toast.error("Password is Required");
+    } else if (confirmPassword === "") {
+      return toast.error("You Must Confirm Your Password");
+    }
+  };
+
   return (
     <>
       <MDBInput
@@ -43,10 +63,9 @@ function Step1(props: Props) {
         icon="envelope"
         name="email"
         type="email"
-        label="Enter email"
+        label="Enter email *"
         value={email}
       />
-
       <MDBInput
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setName(e.currentTarget.value)
@@ -56,9 +75,8 @@ function Step1(props: Props) {
         name="name"
         type="text"
         value={name}
-        label="Enter Your Full Name"
+        label="Enter Your Full Name *"
       />
-
       <MDBInput
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setPassword(e.currentTarget.value)
@@ -66,10 +84,9 @@ function Step1(props: Props) {
         icon="key"
         name="password"
         type="password"
-        label="Enter password"
+        label="Enter password *"
         value={password}
       />
-
       <MDBInput
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setConfirmPassword(e.currentTarget.value)
@@ -77,11 +94,10 @@ function Step1(props: Props) {
         icon="key"
         type="password"
         name="confirmPassword"
-        label="Confirm password"
+        label="Confirm password *"
         value={confirmPassword}
       />
-
-      <button className="btn" onClick={props.nextStep}>
+      <button className="btn" onClick={RunValidator}>
         Next
       </button>
       <Link href="/seller/login">

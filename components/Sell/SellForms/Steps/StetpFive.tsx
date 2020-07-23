@@ -38,7 +38,7 @@ const StepFive = (props: Props) => {
   const [reviews, setReviews] = useState(false);
 
   const [index, setIndex] = useState(0);
-  const [mainImage, setImage] = useState(props.data.images[1]);
+  const [mainImage, setImage] = useState(props.data.images[0]);
 
   const [CreateItem, { loading, error }] = useCreateItemMutation();
   const handleSelect = (selectedIndex: number, e: any) => {
@@ -72,6 +72,7 @@ const StepFive = (props: Props) => {
         tags: data.tags,
         colors: data.Color,
         otherFeature: data.Features,
+        videoLink: data.Video,
       },
     }).catch((err) => toast.error(err.message));
     toast.success(`Success! Item Is Created`);

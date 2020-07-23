@@ -8,13 +8,15 @@ import {
   ItemReviewsDocument,
   useCreateReviewMutation,
 } from "generated/graphql";
+import { useUser } from "components/Utils/auth";
 
 interface Props {
   id: string;
 }
 
 const RatingForm: React.FC<Props> = ({ id }) => {
-  const [CreateItemReview, { loading, error }] = useCreateReviewMutation({
+  const user = useUser();
+  const [CreateItemReview, { loading }] = useCreateReviewMutation({
     refetchQueries: [
       { query: ItemReviewsDocument, variables: { itemId: id } },
       { query: ItemDocument, variables: { id: id } },
@@ -56,22 +58,28 @@ const RatingForm: React.FC<Props> = ({ id }) => {
 
             <div className="col-lg-12">
               <div className="form-submit">
-                <button
-                  type="submit"
-                  className="btn btn-danger"
-                  disabled={loading}
-                >
-                  {loading && (
-                    <Spinner
-                      as="span"
-                      animation="grow"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  )}{" "}
-                  Submit{loading ? "ing..., Please Wait" : ""}
-                </button>
+                {user ? (
+                  <button
+                    type="submit"
+                    className="btn btn-danger"
+                    disabled={loading}
+                  >
+                    {loading && (
+                      <Spinner
+                        as="span"
+                        animation="grow"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                    )}{" "}
+                    Submit{loading ? "ing..., Please Wait" : ""}
+                  </button>
+                ) : (
+                  <button disabled className="btn btn-danger">
+                    You Need To Login To be able To review Item
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -35,7 +35,7 @@ const About = () => {
                     WELCOME TO <span>eBazar</span>
                   </h2>
                   <p>
-                    iBazar provide how all this mistaken idea of denouncing
+                    eBazar provide how all this mistaken idea of denouncing
                     pleasure and sing pain was born an will give you a complete
                     account of the system, and expound the actual teachings of
                     the eat explorer.{" "}
@@ -44,7 +44,7 @@ const About = () => {
                 <div className="story-details-bottom">
                   <h4>WE START AT 2020</h4>
                   <p>
-                    iBazar provide how all this mistaken idea of denouncing
+                    eBazar provide how all this mistaken idea of denouncing
                     pleasure and sing pain was born an will give you a complete
                     account of the system, and expound the actual teachings of
                     the eat explorer.
@@ -53,7 +53,7 @@ const About = () => {
                 <div className="story-details-bottom">
                   <h4>WIN BEST ONLINE SHOP AT 2020</h4>
                   <p>
-                    iBazar provide how all this mistaken idea of denouncing
+                    eBazar provide how all this mistaken idea of denouncing
                     pleasure and sing pain was born an will give you a complete
                     account of the system, and expound the actual teachings of
                     the eat explorer.{" "}
