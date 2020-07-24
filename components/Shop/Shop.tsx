@@ -32,7 +32,7 @@ const Shop = () => {
       // if set OrderBy default`{ createdAt: "asc" }` then in PaginationHeader we can only use createdAt Sort
       // if set empty Object then apollo is sending orderBy:{} which causes error
     },
-    onCompleted: (data) => {
+    onCompleted: (data: any) => {
       // We need this in PaginationHeader after each query Completion to set Sort State
       setSendTrue(true);
     },

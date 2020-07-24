@@ -67,7 +67,7 @@ function MainSlider() {
                         <img
                           className="animated small-hero"
                           src="/static/img/slider/800-650.jpg"
-                          alt=""
+                          alt="Header Image"
                         />
                       </div>
                     </div>

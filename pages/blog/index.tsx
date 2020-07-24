@@ -34,8 +34,8 @@ const BlogPage = (props: Props) => {
               <div className="masthead-content text-white py-5 py-md-0">
                 <h1 className="mb-3">Coming Soon!</h1>
                 <p className="mb-5">
-                  We're working hard to finish the development of this site. Our
-                  target launch date is
+                  We're working hard to finish the development of Blogs. Our
+                  target launch date is close.
                 </p>
                 <div className="input-group input-group-newsletter">
                   <div className="input-group-append">

@@ -6,9 +6,9 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem,
 } from "mdbreact";
-import Spinner from "components/Utils/Spinner/Spinner";
 import { useTotalItemsCountQuery } from "generated/graphql";
 import { PaginationStyles } from "./PaginationStyles";
+import { LoopingRhombusesSpinner } from "react-epic-spinners";
 
 interface Props {
   orderBy: {}; // apply Filter
@@ -73,7 +73,13 @@ const PaginationHeader: React.FC<Props> = (props: Props) => {
     }
   }, ["orderBy", "setOrderBy"]);
 
-  if (itemCountLoading) return <Spinner />;
+  if (itemCountLoading)
+    return (
+      <LoopingRhombusesSpinner
+        style={{ width: "100px", margin: "0 auto" }}
+        color="#ff3535"
+      />
+    );
   if (ItemCountError) return <ErrorMessage error={ItemCountError} />;
 
   const TotalItems = data?.itemCount;
