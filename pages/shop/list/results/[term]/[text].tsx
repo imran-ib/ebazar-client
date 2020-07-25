@@ -87,7 +87,6 @@ const TagsSearch = () => {
           No Items Found for <b>{term} </b>: <b>{text}</b>
         </h3>
       )}
-      <button onClick={OnLoadMore}>Load More</button>
       {!data?.ItemConnections.pageInfo.hasNextPage && (
         <div className="alert alert-info text-center" role="alert">
           Page Ends Here!
@@ -150,7 +149,6 @@ const CategorySearch = () => {
           No Items Found for <b>{term} </b>: <b>{text}</b>
         </h3>
       )}
-      <button onClick={OnLoadMore}>Load More</button>
       {!data?.ItemConnections.pageInfo.hasNextPage && (
         <div className="alert alert-info text-center" role="alert">
           Page Ends Here!

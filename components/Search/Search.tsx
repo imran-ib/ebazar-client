@@ -6,7 +6,7 @@ import Downshift from "downshift";
 import { useRouter } from "next/router";
 import { ItemsDocument, Item } from "generated/graphql";
 
-const SearchInpuStyles = styled.div`
+const SearchInputStyles = styled.div`
   form > div {
     position: relative;
   }
@@ -50,7 +50,7 @@ const Search = () => {
   }, 350);
 
   return (
-    <SearchInpuStyles>
+    <SearchInputStyles>
       <Downshift
         id="lang-switcher"
         onChange={(item) => {
@@ -113,7 +113,7 @@ const Search = () => {
                     : null}
                   {loading && <li>Searching Please Wait....</li>}
                   {SearchItems.length === 0 && !loading && (
-                    <li>No Resust Found {inputValue}</li>
+                    <li>No Result Found {inputValue}</li>
                   )}
                 </ul>
               )}
@@ -121,7 +121,7 @@ const Search = () => {
           </div>
         )}
       </Downshift>
-    </SearchInpuStyles>
+    </SearchInputStyles>
   );
 };
 

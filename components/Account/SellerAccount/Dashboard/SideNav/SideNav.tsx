@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import SellerDashboard from "../DashboardPages/SellerDashboard/SellerDashboard";
 import SideNavMenus from "./SideNavMenus/SideNavMenus";
-// import SellerTopNavDashboard from "./SellerDashboardTopNav/SellerDashboardTopNav";
 import { useSeller } from "components/Utils/auth";
 import AllItems from "components/Account/SellerAccount/Dashboard/DashboardPages/AllItems/AllItems";
 import MyProfile from "../DashboardPages/Profile/MyProfile";
@@ -60,10 +59,6 @@ function SideNav() {
         {/* <!-- Main Content --> */}
 
         <div id="content">
-          {/* <SellerTopNavDashboard
-            Toggle_Nav={Toggle_Nav}
-            setToggle_Nav={setToggle_Nav}
-          /> */}
           <div className="container-fluid">
             {dashboardActive ? <SellerDashboard /> : null}
             {AllItem ? <AllItems /> : null}

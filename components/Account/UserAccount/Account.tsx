@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-interface Props {}
-
-const Account = (props: Props) => {
+const Account = () => {
   const [Login, setLogin] = useState(true);
   const [Register, setRegister] = useState(false);
 
@@ -40,7 +38,7 @@ const Account = (props: Props) => {
                 {Login && (
                   <div
                     id="lg1"
-                    className={`tab-pane ${ActivateLogin ? "active" : null}`}
+                    className={`tab-pane ${ActivateLogin && "active"}`}
                   >
                     <LoginForm />
                   </div>
@@ -49,7 +47,7 @@ const Account = (props: Props) => {
                 {Register && (
                   <div
                     id="lg2"
-                    className={`tab-pane ${ActivateRegister ? "active" : null}`}
+                    className={`tab-pane ${ActivateRegister && "active"}`}
                   >
                     <RegisterForm ActivateLogin={ActivateLogin} />
                   </div>

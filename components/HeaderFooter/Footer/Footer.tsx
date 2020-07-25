@@ -119,7 +119,7 @@ const Footer = () => {
             </div>
             <div className="col-lg-4 col-md-3 col-12">
               <div className="payment-mathod pb-20">
-                <a href="#">
+                <a>
                   <img
                     src="/static/img/icon-img/payment.png"
                     alt="Card Payments"

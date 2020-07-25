@@ -30,7 +30,7 @@ overflow-x: hidden;
 `;
 interface Props {}
 
-const SingleOrder: React.FC<Props> = (props) => {
+const SingleOrder: React.FC<Props> = () => {
   const Router = useRouter();
 
   const { data, loading, error } = useOrderQuery({

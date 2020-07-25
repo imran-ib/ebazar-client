@@ -10,6 +10,7 @@ import {
   useSingleAddressQuery,
 } from "generated/graphql";
 import { Alert } from "react-bootstrap";
+import Link from "next/link";
 
 interface Props {
   user: User;
@@ -86,7 +87,10 @@ const BillingDetails: React.FC<Props> = ({ user }) => {
               <p style={{ fontSize: "15px" }}>
                 This is Your Primary Address. You Can Make Changes to this
                 address Or You can Add Another Address. You can Also Change Your
-                Primary Address From Your Profile
+                Primary Address From
+                <Link href="/user/profile">
+                  <a style={{ borderBottom: "1px solid red" }}> Your Profile</a>
+                </Link>
               </p>
             </Alert>
           )}

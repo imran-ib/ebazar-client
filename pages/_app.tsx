@@ -6,7 +6,6 @@ import { ToastContainer } from "react-toastify";
 import withData from "components/lib/withData";
 import NProgress from "nprogress";
 import Meta from "components/Layout/Meta";
-//@ts-ignore
 import config from "react-reveal/globals";
 
 //css modules
@@ -19,7 +18,7 @@ config({ ssrFadeout: true });
 interface MyProps extends AppProps {
   apollo: any;
 }
-Router.events.on("routeChangeStart", (url) => {
+Router.events.on("routeChangeStart", () => {
   // console.log(`Loading: ${url}`);
   NProgress.start();
 });

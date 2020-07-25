@@ -5,7 +5,7 @@ interface Props {
   me: any;
 }
 
-const UserPaymentMethod = ({ Payment, me }: Props) => {
+const UserPaymentMethod = ({ Payment }: Props) => {
   return (
     <div
       className={`tab-pane fade show ${Payment ? "active" : ""}`}

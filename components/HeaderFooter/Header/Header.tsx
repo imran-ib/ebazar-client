@@ -21,7 +21,7 @@ const Header: React.FC<Props> = ({ user, seller }) => {
 
   function handleScroll() {
     const nav = document.querySelector("#Custom--Header--id");
-    if (window.scrollY > 200) {
+    if (window.scrollY > 400) {
       nav?.classList.add("stick");
     } else {
       nav?.classList.remove("stick");

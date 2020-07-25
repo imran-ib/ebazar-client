@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useUpdateItemMutation, ItemDocument } from "generated/graphql";
+import { useUpdateItemMutation } from "generated/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import formatMoney from "components/Utils/formatMoney";
@@ -40,13 +40,10 @@ const StepFive = (props: Props) => {
   const [reviews, setReviews] = useState(false);
   const { itemId } = Router.query;
 
-  const [index, setIndex] = useState(0);
   const [mainImage, setImage] = useState(props.data.images[1]);
 
-  const [UpdateItem, { loading, error }] = useUpdateItemMutation();
-  const handleSelect = (selectedIndex: number, e: any) => {
-    setIndex(selectedIndex);
-  };
+  const [UpdateItem, { loading }] = useUpdateItemMutation();
+
   const { data } = props;
   const item = data;
 
@@ -209,7 +206,7 @@ const StepFive = (props: Props) => {
                       <li key={i}>- {feature}</li>
                     ))}
                     <li>
-                      - Remainig Stock: <b> {item.Stock} </b>
+                      - Remaining Stock: <b> {item.Stock} </b>
                     </li>
                     <li>
                       - Sold By: <b> {item.Brand} </b>

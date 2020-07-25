@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Fade from "react-reveal/Fade";
+import Link from "next/link";
 
 const ReturningOrCoupon = () => {
   const [login, setLogin] = useState(false);
@@ -24,7 +25,7 @@ const ReturningOrCoupon = () => {
               the boxes below. If you are a new customer, please proceed to the
               Billing & Shipping section.
             </p>
-            <form method="POST" action="post">
+            <form>
               <div className="row">
                 <div className="col-lg-6 col-md-6">
                   <div className="sin-checkout-login">
@@ -44,7 +45,15 @@ const ReturningOrCoupon = () => {
                 </div>
               </div>
               <div className="button-remember-wrap">
-                <button className="button" type="submit">
+                <button
+                  disabled
+                  onClick={() =>
+                    toast.error(
+                      `Please Logout and log back in with these details `
+                    )
+                  }
+                  className="button"
+                >
                   Login
                 </button>
                 <div className="checkout-login-toggle-btn">
@@ -53,20 +62,43 @@ const ReturningOrCoupon = () => {
                 </div>
               </div>
               <div className="lost-password">
-                <a href="#">Lost your password?</a>
+                <Link href="/user/reset-password">
+                  <a>Lost your password?</a>
+                </Link>
               </div>
             </form>
             <div className="checkout-login-social">
               <span>Login with:</span>
               <ul>
                 <li>
-                  <a href="#">Facebook</a>
+                  <a
+                    onClick={() =>
+                      alert("This Feature is currently not available")
+                    }
+                    aria-disabled
+                  >
+                    Facebook
+                  </a>
                 </li>
                 <li>
-                  <a href="#">Twitter</a>
+                  <a
+                    onClick={() =>
+                      alert("This Feature is currently not available")
+                    }
+                    aria-disabled
+                  >
+                    Twitter
+                  </a>
                 </li>
                 <li>
-                  <a href="#">Google</a>
+                  <a
+                    onClick={() =>
+                      alert("This Feature is currently not available")
+                    }
+                    aria-disabled
+                  >
+                    Google
+                  </a>
                 </li>
               </ul>
             </div>

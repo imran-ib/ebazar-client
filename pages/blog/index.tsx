@@ -2,9 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-interface Props {}
-
-const BlogPage = (props: Props) => {
+const BlogPage = () => {
   const Router = useRouter();
   return (
     <>

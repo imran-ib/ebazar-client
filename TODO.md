@@ -10,10 +10,11 @@
 - [x] Fix Cursor
 - [x] Remove All unnecessary Images and files
 - [x] Remove All unused Packages
-- [ ] Remove All unused Imports and variables from all files
+- [x] change all iBazar to eBazar
+- [x] Remove All unused Imports and variables from all files
+- [ ] Style emails
 - [ ] performance
 - [ ] Fix For Small Screens
 - [ ] Fix console warnings and errors
 - [ ] write Tests
-- [ ] change all iBazar to eBazar
 - [ ] Add Blocked status for users and sellers

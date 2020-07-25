@@ -9,7 +9,7 @@ interface Props {
 
 const LikeButton: React.FC<Props> = ({ id }) => {
   const user = useUser();
-  const [ToggleLikeItem, { loading, error }] = useToggleLikeMutation({
+  const [ToggleLikeItem, { loading }] = useToggleLikeMutation({
     variables: { itemId: id },
     refetchQueries: [{ query: CurrentUserDocument }],
   });

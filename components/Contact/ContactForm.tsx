@@ -6,7 +6,6 @@ import { useContactUsMutation } from "generated/graphql";
 
 const ContactForm = () => {
   const [ContactUs, { loading }] = useContactUsMutation();
-
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data: any) => {

@@ -4,7 +4,7 @@ import BillingDetails from "./Billing/BillingDetails";
 import PlaceOrder from "./PlaceOrder";
 import { useUser } from "components/Utils/auth";
 
-// TODO Returrning customer redirect to contact
+// TODO Returning customer redirect to contact
 
 const Checkout = () => {
   const user = useUser();

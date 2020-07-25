@@ -5,12 +5,9 @@ import SubmitButton from "components/Utils/reuseable/SubmitButton";
 import { useUser_Login_MutationMutation } from "generated/graphql";
 import ErrorMessage from "../../Utils/ErrorMessage";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 import { CurrentUser, CurrentSeller } from "components/Resolvers/AuthResolvers";
 
-interface Props {}
-
-const LoginForm = (props: Props) => {
+const LoginForm = () => {
   const [UserLogin, { loading, error }] = useUser_Login_MutationMutation({
     refetchQueries: [
       {
@@ -22,7 +19,7 @@ const LoginForm = (props: Props) => {
     ],
   });
   const { register, handleSubmit, errors } = useForm();
-  const router = useRouter();
+
   const onSubmit = (data: { email: string; password: string } | any) => {
     UserLogin({
       variables: {

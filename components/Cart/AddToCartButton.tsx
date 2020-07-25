@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Styles from "styled-components";
 import Spinner from "react-bootstrap/Spinner";
-import { useUser } from "components/Utils/auth";
 import {
   useAddItemToCartMutation,
   CurrentUserDocument,

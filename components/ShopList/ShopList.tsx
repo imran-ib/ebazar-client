@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ShopListItem from "./ShopListItem";
-import Cursor from "../Pagination/Cursor";
 import PaginationHeader from "components/Pagination/PaginationHeader";
 import { ApolloError } from "apollo-client";
 
@@ -20,10 +19,6 @@ const ShopList: React.FC<Props> = (props) => {
   const {
     items,
     loading,
-    fetchMore,
-    error,
-    edges,
-    pagesInfo,
     text,
     term,
   } = props;

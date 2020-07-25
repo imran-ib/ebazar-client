@@ -23,7 +23,7 @@ function SellPage({}: Props): ReactElement {
 
   if (!item)
     return <h1 style={{ textAlign: "center" }}>Sorry! Item Not Found</h1>;
-  const { query } = Router;
+
   return (
     <Layout>
       <Head>

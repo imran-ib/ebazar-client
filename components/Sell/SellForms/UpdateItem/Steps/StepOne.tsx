@@ -14,7 +14,6 @@ interface Props {
   item: Item;
   hashKey?: any;
   nextStep?: any;
-
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setBrand: React.Dispatch<React.SetStateAction<string | null | undefined>>;
   setWeight: React.Dispatch<React.SetStateAction<string | null | undefined>>;

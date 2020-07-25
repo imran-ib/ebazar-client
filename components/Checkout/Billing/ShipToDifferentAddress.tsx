@@ -15,7 +15,7 @@ interface Props {
   userId: string;
 }
 
-const ShipToDifferentAddress: React.FC<Props> = ({ isNew, text, userId }) => {
+const ShipToDifferentAddress: React.FC<Props> = ({  text }) => {
   const [open, setOpen] = useState(false);
 
   const [CreateAddress, { loading }] = useCreateAddressMutation({

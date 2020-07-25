@@ -32,6 +32,7 @@ const SingleOrderItem: React.FC<Props> = ({ item }) => {
       <td className="product-quantity">
         <div className="cart-plus-minus">
           <input
+            disabled
             className="cart-plus-minus-box"
             type="text"
             name="qtybutton"

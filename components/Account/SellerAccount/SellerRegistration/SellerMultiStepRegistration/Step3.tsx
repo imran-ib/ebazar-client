@@ -1,5 +1,5 @@
 import React from "react";
-import { MDBInput, MDBIcon } from "mdbreact";
+import { MDBInput } from "mdbreact";
 import { toast } from "react-toastify";
 
 interface Props {

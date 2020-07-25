@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import PaginationHeader from "components/Pagination/PaginationHeader";
 import ShopListItem from "components/ShopList/ShopListItem";
 import { toast } from "react-toastify";
-import { Spinner } from "react-bootstrap";
 import Head from "next/head";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
 

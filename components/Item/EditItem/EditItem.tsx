@@ -1,8 +1,7 @@
 import React from "react";
 import Link from "next/link";
-
 import { useSeller } from "components/Utils/auth";
-
+//TODO Check if this component is being used because i moved edit item to seller dashboard
 interface Props {
   id: string;
 }

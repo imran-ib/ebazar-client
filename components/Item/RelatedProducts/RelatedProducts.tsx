@@ -19,7 +19,7 @@ const RelatedProduct = () => {
     <div className="product-area pb-70">
       <div className="container">
         <div className="section-title text-center pb-60">
-          <h2>People Also Viewes These Items</h2>
+          <h2>People Also Viewed These Items</h2>
           <p>
             {" "}
             Contrary to popular belief, Lorem Ipsum is not simply random text.

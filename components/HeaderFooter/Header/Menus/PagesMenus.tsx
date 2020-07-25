@@ -95,7 +95,7 @@ const UserLoggedInState = ({ showPagesLink }: any) => {
       {showPagesLink && (
         <div className="pro-details-compare">
           <a>
-            Pages{" "}
+            More{" "}
             <i
               style={{
                 fontSize: "10px",
@@ -150,7 +150,7 @@ const SellerLoggedInState = ({ showPagesLink }: any) => {
       {showPagesLink && (
         <div className="pro-details-compare">
           <a>
-            Pages{" "}
+            More{" "}
             <i
               style={{
                 fontSize: "10px",
