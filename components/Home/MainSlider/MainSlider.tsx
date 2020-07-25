@@ -1,5 +1,4 @@
 import React from "react";
-import Slider from "react-slick";
 import Fade from "react-reveal/Fade";
 import Link from "next/link";
 import Styles from "styled-components";
@@ -10,23 +9,16 @@ const MainSliderStyles = Styles.div`
   ${media.lessThan("medium")`
  width:100%
   `}
+  ${media.greaterThan("large")`
+  height: 700px;
+  width: 670px;
+  margin-Left:70px;
+  `}
 }
 
 `;
 
 function MainSlider() {
-  const settings = {
-    autoplay: true,
-    autoplaySpeed: 2000,
-    dots: true,
-    fade: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-  };
-
   return (
     <MainSliderStyles>
       <div className="slider-area">

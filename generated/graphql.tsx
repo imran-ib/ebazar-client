@@ -8892,7 +8892,7 @@ export type RemoveAllLikesMutationHookResult = ReturnType<typeof useRemoveAllLik
 export type RemoveAllLikesMutationResult = ApolloReactCommon.MutationResult<RemoveAllLikesMutation>;
 export type RemoveAllLikesMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>;
 export const ItemsConnectionsDocument = gql`
-    query ItemsConnections($first: Int! = 6, $after: String, $tag: String, $category: String) {
+    query ItemsConnections($first: Int! = 2, $after: String, $tag: String, $category: String) {
   ItemConnections(first: $first, after: $after, tag: $tag, category: $category) {
     edges {
       cursor

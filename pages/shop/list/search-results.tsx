@@ -7,6 +7,7 @@ import ShopListItem from "components/ShopList/ShopListItem";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import Head from "next/head";
+import { useBottomScrollListener } from "react-bottom-scroll-listener";
 
 interface Props {}
 
@@ -21,10 +22,32 @@ const ShopListPage: React.FC<Props> = () => {
     },
   });
 
-  const items = data?.SearchTermResults.edges;
   const edges = data?.SearchTermResults.pageInfo.endCursor;
   const pagesInfo = data?.SearchTermResults.pageInfo;
   const text = term;
+
+  const OnLoadMore = () => {
+    fetchMore({
+      variables: {
+        after: edges,
+      },
+      updateQuery: (previousResult: any, { fetchMoreResult }: any) => {
+        fetchMoreResult.SearchTermResults.edges = [
+          ...previousResult?.SearchTermResults.edges,
+          ...fetchMoreResult?.SearchTermResults.edges,
+        ];
+
+        return fetchMoreResult;
+      },
+    });
+    if (!pagesInfo?.hasNextPage) {
+      toast.info("No More Items To Show");
+    }
+  };
+  // calls function when hits bottom of the page
+  useBottomScrollListener(OnLoadMore);
+
+  const items = data?.SearchTermResults.edges;
 
   return (
     <Layout>
@@ -42,39 +65,12 @@ const ShopListPage: React.FC<Props> = () => {
             No Items Found for <b>{term} </b>: <b>{text}</b>
           </h3>
         )}
-        <button
-          disabled={loading}
-          className="btn btn-info btn-block"
-          onClick={() => {
-            fetchMore({
-              variables: {
-                after: edges,
-              },
-              updateQuery: (previousResult: any, { fetchMoreResult }: any) => {
-                fetchMoreResult.SearchTermResults.edges = [
-                  ...previousResult?.SearchTermResults.edges,
-                  ...fetchMoreResult?.SearchTermResults.edges,
-                ];
 
-                return fetchMoreResult;
-              },
-            });
-            if (!pagesInfo?.hasNextPage) {
-              toast.info("No More Items To Show");
-            }
-          }}
-        >
-          {loading && (
-            <Spinner
-              as="span"
-              animation="grow"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-          )}
-          {loading ? "Fetching... Please Wait" : "Load More"}
-        </button>
+        {!pagesInfo?.hasNextPage && (
+          <div className="alert alert-info text-center" role="alert">
+            Page Ends Here!
+          </div>
+        )}
       </div>
     </Layout>
   );

@@ -18,7 +18,16 @@ const ShopSideNav: React.FC<Props> = ({
   return (
     <div className="sidebar-style mr-30">
       <SideNavSearch />
+      <div className="sidebar-widget mt-4  mb-4">
+        <h4 className="pro-sidebar-title mb-5">Filter By Price </h4>
 
+        <PriceRange
+          setMinPrice={setMinPrice}
+          setMAxPrice={setMAxPrice}
+          MinPrice={MinPrice}
+          MAxPrice={MAxPrice}
+        />
+      </div>
       <div className="sidebar-widget">
         <div className="sidebar-widget-list mt-30">
           <ul>
@@ -49,19 +58,11 @@ const ShopSideNav: React.FC<Props> = ({
                 <span className="checkmark" />
               </div>
             </li>
+            <a className="btn btn-sm btn-primary btn-block">Apply Filter</a>
           </ul>
         </div>
       </div>
-      <div className="sidebar-widget mt-45">
-        <h4 className="pro-sidebar-title mb-5">Filter By Price </h4>
 
-        <PriceRange
-          setMinPrice={setMinPrice}
-          setMAxPrice={setMAxPrice}
-          MinPrice={MinPrice}
-          MAxPrice={MAxPrice}
-        />
-      </div>
       <div className="sidebar-widget mt-50">
         <h4 className="pro-sidebar-title">Colour </h4>
         <div className="sidebar-widget-list mt-20">
@@ -102,6 +103,8 @@ const ShopSideNav: React.FC<Props> = ({
                 <span className="checkmark" />
               </div>
             </li>
+
+            <a className="btn btn-sm btn-primary btn-block">Apply Filter</a>
           </ul>
         </div>
       </div>
@@ -145,6 +148,7 @@ const ShopSideNav: React.FC<Props> = ({
                 <span className="checkmark" />
               </div>
             </li>
+            <a className="btn btn-sm btn-primary btn-block">Apply Filter</a>
           </ul>
         </div>
       </div>

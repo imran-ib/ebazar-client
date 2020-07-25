@@ -40,14 +40,6 @@ const ShopList: React.FC<Props> = (props) => {
           No Items Found for <b>{term} </b>: <b>{text}</b>
         </h3>
       )}
-      <Cursor
-        items={items}
-        loading={loading}
-        error={error}
-        fetchMore={fetchMore}
-        edges={edges}
-        pagesInfo={pagesInfo}
-      />
     </div>
   );
 };

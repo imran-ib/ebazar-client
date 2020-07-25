@@ -37,6 +37,7 @@ const PriceRange: React.FC<Props> = ({
         onChange={(value: any) => setSliderValue(value)}
         onChangeComplete={OnComplete}
       />
+      
     </>
   );
 };

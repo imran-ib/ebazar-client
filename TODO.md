@@ -7,6 +7,7 @@
 - [x] Validate Seller Registration Account
 - [x] FIx Image Zoom On Hover in (both places)
 - [x] Fix Spinner
+- [x] Fix Cursor
 - [ ] performance
 - [ ] Fix For Small Screens
 - [ ] Fix console warnings and errors
