@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import ItemCard from "../ItemCard/ItemCard";
 import { useItemsQuery } from "generated/graphql";
+import shuffle from "lodash.shuffle";
 
 const RelatedProduct = () => {
   const { loading, error, data } = useItemsQuery({
@@ -13,6 +14,7 @@ const RelatedProduct = () => {
   if (loading) return <p>loading...</p>;
   if (error) return <p> {error.message} </p>;
   const items = data?.items;
+  const NewItems = shuffle(items);
   return (
     <div className="product-area pb-70">
       <div className="container">
@@ -30,7 +32,7 @@ const RelatedProduct = () => {
               <>
                 <Slider {...settings}>
                   {items &&
-                    items.map((item, i) => (
+                    NewItems.map((item, i) => (
                       <div key={item.id} className="item">
                         {/* 
                         // @ts-ignore */}

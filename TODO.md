@@ -8,6 +8,9 @@
 - [x] FIx Image Zoom On Hover in (both places)
 - [x] Fix Spinner
 - [x] Fix Cursor
+- [x] Remove All unnecessary Images and files
+- [x] Remove All unused Packages
+- [ ] Remove All unused Imports and variables from all files
 - [ ] performance
 - [ ] Fix For Small Screens
 - [ ] Fix console warnings and errors

@@ -16,11 +16,6 @@ const Meta = () => (
       href="/static/css/slick/slick-theme.css"
     />
 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/static/css/bootstrap.min.css"
-    />
     <link rel="stylesheet" type="text/css" href="/static/css/nprogress.css" />
     <link rel="stylesheet" href="/static/css/admin/sb-admin-2.min.css" />
     <link

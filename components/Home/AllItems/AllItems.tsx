@@ -1,6 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import ItemCard from "components/Item/ItemCard/ItemCard";
+import shuffle from "lodash.shuffle";
 
 import { Item } from "generated/graphql";
 
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const AllItems: React.FC<Props> = ({ items }) => {
+  const NewItems = shuffle(items);
+
   return (
     <div className="product-area pb-70">
       <div className="container">
@@ -33,7 +36,7 @@ const AllItems: React.FC<Props> = ({ items }) => {
         </div> */}
         <Slider {...settings}>
           {items &&
-            items.map((item) => (
+            NewItems.map((item) => (
               <ItemCard autoPlay={true} key={item.id} item={item} />
             ))}
         </Slider>

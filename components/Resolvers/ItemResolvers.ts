@@ -396,7 +396,7 @@ export const RemoveAllLikes = gql`
 `;
 export const ItemsConnections = gql`
   query ItemsConnections(
-    $first: Int! = 2
+    $first: Int! = 6
     $after: String
     $tag: String
     $category: String
