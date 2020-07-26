@@ -18,3 +18,4 @@
 - [ ] Fix console warnings and errors
 - [ ] write Tests
 - [ ] Add Blocked status for users and sellers
+- [ ] When updating item send seller id query pram in URL and in update page check if seller owns that item. Check all seller routes and see if any other route need that checking

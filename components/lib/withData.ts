@@ -5,7 +5,7 @@ import { createUploadLink } from "apollo-upload-client";
 import withApollo from "next-with-apollo";
 
 const endpoint = `http://localhost:4444`;
-const prodEndpoint = "";
+const prodEndpoint = "https://ebazar-server.herokuapp.com/";
 
 function createClient({ headers, initialState }: any) {
   const client = new ApolloClient({

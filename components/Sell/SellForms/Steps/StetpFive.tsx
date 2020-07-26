@@ -36,14 +36,9 @@ const StepFive = (props: Props) => {
   const [description, setDescription] = useState(true);
   const [information, setInformation] = useState(false);
   const [reviews, setReviews] = useState(false);
-
-  const [index, setIndex] = useState(0);
   const [mainImage, setImage] = useState(props.data.images[0]);
+  const [CreateItem, { loading }] = useCreateItemMutation();
 
-  const [CreateItem, { loading, error }] = useCreateItemMutation();
-  const handleSelect = (selectedIndex: number, e: any) => {
-    setIndex(selectedIndex);
-  };
   const { data } = props;
   const item = data;
 
@@ -74,8 +69,10 @@ const StepFive = (props: Props) => {
         otherFeature: data.Features,
         videoLink: data.Video,
       },
-    }).catch((err) => toast.error(err.message));
-    toast.success(`Success! Item Is Created`);
+    })
+      .then(() => toast.success(`Success! Item Is Created`))
+      .catch((err) => toast.error(err.message));
+
     Router.push({
       pathname: `/item`,
       //@ts-ignore

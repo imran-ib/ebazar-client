@@ -83,9 +83,9 @@ const StepFive = (props: Props) => {
           content: data,
         },
       },
-    }).catch((err) => toast.error(err.message));
-
-    toast.success(`Success! Item Updated`);
+    })
+      .then(() => toast.success(`Success! Item Updated`))
+      .catch((err) => toast.error(err.message));
 
     Router.push({
       pathname: `/item`,
