@@ -1,11 +1,9 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import Layout from "components/Layout/Layout";
 import ItemComponent from "../../components/Item/Item";
 
-interface Props {}
-
-function ItemPage({}: Props): ReactElement {
+function ItemPage() {
   const Router = useRouter();
 
   const { id } = Router.query;

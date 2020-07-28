@@ -3,8 +3,6 @@ import styled from "styled-components";
 import Link from "next/link";
 import Head from "next/head";
 
-interface Props {}
-
 function PageNotFound() {
   return (
     <ErrorPageStyles>

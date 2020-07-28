@@ -8,9 +8,7 @@ import { toast } from "react-toastify";
 import Head from "next/head";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
 
-interface Props {}
-
-const ShopListPage: React.FC<Props> = () => {
+const ShopListPage = () => {
   const [orderBy, setOrderBy] = useState({});
   const Router = useRouter();
   const { term }: any = Router.query;

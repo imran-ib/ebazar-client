@@ -4,9 +4,7 @@ import { toast } from "react-toastify";
 import InfoModel from "../../InfoModal";
 import { useSellerRequestPasswordResetMutation } from "generated/graphql";
 
-interface Props {}
-
-const SellerRequestRestPassword: React.FC<Props> = () => {
+const SellerRequestRestPassword = () => {
   const [email, setEmail] = useState("");
   const [
     SellerForgotPasswordRequest,

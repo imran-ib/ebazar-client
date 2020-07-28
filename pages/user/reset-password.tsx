@@ -4,9 +4,7 @@ import { useRouter } from "next/router";
 import UserResetPasswordForm from "components/Account/UserAccount/UserPasswordReset/UserResetPasswordForm";
 import Head from "next/head";
 
-interface Props {}
-
-const UserResetPasswordPage = (props: Props) => {
+const UserResetPasswordPage = () => {
   const router = useRouter();
   const { token } = router.query;
 

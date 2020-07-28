@@ -64,7 +64,8 @@ const Cart = () => {
         <CartItem user={user} />
 
         <div className="shopping-cart-bottom">
-          <SubTotal user={user} />
+          <SubTotal />
+          
 
           <div className="shopping-cart-btn btn-hover text-center">
             <Link href="/checkout">

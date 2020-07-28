@@ -3,9 +3,8 @@ import UserForgotPasswordInput from "components/Account/UserAccount/UserPassword
 import Layout from "components/Layout/Layout";
 import Head from "next/head";
 
-interface Props {}
 
-const ForgotPasswordPage = (props: Props) => {
+const ForgotPasswordPage = () => {
   return (
     <Layout>
       {" "}

@@ -20,7 +20,7 @@ interface Props {
 const StarRatingEditAble: React.FC<Props> = (props) => {
   const [localRating, setLocalRating] = useState(1);
 
-  const onStarClick = (nextValue: any, prevValue: any, name: any) => {
+  const onStarClick = (nextValue: any) => {
     setLocalRating(nextValue);
     props.setRating(nextValue);
   };
@@ -59,9 +59,7 @@ const StarRatingEditAble: React.FC<Props> = (props) => {
           starColor="#ffb400"
           emptyStarColor="#ffb400"
           value={localRating}
-          onStarClick={(nextValue, prevValue, name) =>
-            onStarClick(nextValue, prevValue, name)
-          }
+          onStarClick={(nextValue) => onStarClick(nextValue)}
           renderStarIcon={(index, value) => {
             return (
               <span>

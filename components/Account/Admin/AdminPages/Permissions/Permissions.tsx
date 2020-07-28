@@ -1,8 +1,6 @@
 import React from "react";
 
-interface Props {}
-
-const Permissions = (props: Props) => {
+const Permissions = () => {
   return (
     <div className="text-center">
       <h1>Sorry! Permissions Page is Under construction 🤕 </h1>

@@ -10,9 +10,7 @@ const SpinnerStyles = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-interface Props {}
-
-const Spinner = (props: Props) => {
+const Spinner = () => {
   return (
     <SpinnerStyles>
       <AtomSpinner

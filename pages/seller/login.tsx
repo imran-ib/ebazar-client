@@ -8,9 +8,7 @@ const PageStyles = styled.div`
   margin-top: 20vh;
 `;
 
-interface Props {}
-
-const SellerLoginPage = (props: Props) => {
+const SellerLoginPage = () => {
   return (
     <Layout>
       <Head>

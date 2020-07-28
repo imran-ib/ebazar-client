@@ -41,7 +41,7 @@ function Wishlist() {
   };
 
   return (
-    <div>
+    <OrderStyles>
       <Head>
         <title> {user?.name} | 💖 list </title>
       </Head>
@@ -137,7 +137,7 @@ function Wishlist() {
           </div>
         </div>
       </div>
-    </div>
+    </OrderStyles>
   );
 }
 

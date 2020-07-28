@@ -5,9 +5,7 @@ import Wishlist from "components/WishList/Wishlist";
 
 // using Head --> title in components/WishList/Wishlist
 
-interface Props {}
-
-const WishListPage = (props: Props) => {
+const WishListPage = () => {
   return (
     <Layout>
       <UserAuth>

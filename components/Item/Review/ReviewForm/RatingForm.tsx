@@ -26,7 +26,7 @@ const RatingForm: React.FC<Props> = ({ id }) => {
 
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: any) => {
-    const res = CreateItemReview({
+    CreateItemReview({
       variables: {
         itemId: id,
         text: data.text,

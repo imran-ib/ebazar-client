@@ -3,9 +3,7 @@ import Layout from "components/Layout/Layout";
 import SellerRequestRestPassword from "components/Account/SellerAccount/SellerPasswordReset/SellerRequestPasswordReset";
 import Head from "next/head";
 
-interface Props {}
-
-const SellerForgotPasswordPage = (props: Props) => {
+const SellerForgotPasswordPage = () => {
   return (
     <Layout>
       <Head>

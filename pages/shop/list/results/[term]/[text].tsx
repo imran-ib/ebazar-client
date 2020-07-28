@@ -8,11 +8,10 @@ import { useRouter } from "next/router";
 import PaginationHeader from "components/Pagination/PaginationHeader";
 import ShopListItem from "components/ShopList/ShopListItem";
 
-interface Props {}
 // This component is responsible for rendering dynamic query (search by tag or search by category)
 // search-results page is rendering result by any search term
 
-const ShopListTermPage = (props: Props) => {
+const ShopListTermPage = () => {
   const Router = useRouter();
   const { term }: any = Router.query;
   const { text }: any = Router.query;
@@ -42,7 +41,7 @@ const TagsSearch = () => {
   const { text }: any = Router.query;
 
   const TAGS = term === "tag";
-  const { data, fetchMore, loading, error } = useItemsConnectionsQuery({
+  const { data, fetchMore, loading } = useItemsConnectionsQuery({
     skip: !TAGS,
     variables: {
       tag: text,

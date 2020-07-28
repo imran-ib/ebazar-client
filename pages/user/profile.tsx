@@ -1,11 +1,9 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import MyAccount from "components/Account/UserAccount/MyAccount/MyAccount";
 import Layout from "components/Layout/Layout";
 import UserAuth from "components/Account/Auth/User/UserAuth";
 
-interface Props {}
-
-function accountPage({}: Props): ReactElement {
+function accountPage() {
   return (
     <Layout>
       <UserAuth>

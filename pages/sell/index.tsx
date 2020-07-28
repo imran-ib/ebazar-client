@@ -1,12 +1,10 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import Layout from "components/Layout/Layout";
 import SellerAuth from "components/Account/Auth/Seller/SellerAuth";
 import Sell from "components/Sell/Sell";
 import Head from "next/head";
 
-interface Props {}
-
-function SellPage({}: Props): ReactElement {
+function SellPage() {
   return (
     <Layout>
       <Head>

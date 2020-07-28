@@ -76,7 +76,7 @@ const CartItem: React.FC<Props> = ({ user }) => {
   );
 };
 
-const SubTotal: React.FC<Props> = (props: Props) => {
+const SubTotal = () => {
   return <div>Subtotal</div>;
 };
 

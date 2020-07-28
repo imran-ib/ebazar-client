@@ -25,7 +25,7 @@ const NewArrivals: React.FC<Props> = ({ items }) => {
           <div className="ht-products product-slider-active owl-carousel">
             <Slider {...settings}>
               {items &&
-                NewItems.map((item, i) => (
+                NewItems.map((item) => (
                   <ItemCard autoPlay={true} item={item} key={item.id} />
                 ))}
             </Slider>

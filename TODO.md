@@ -12,6 +12,7 @@
 - [x] Remove All unused Packages
 - [x] change all iBazar to eBazar
 - [x] Remove All unused Imports and variables from all files
+- [ ] Why SubTotal Component is empty in cartItem
 - [ ] Style emails
 - [ ] performance
 - [ ] Fix For Small Screens

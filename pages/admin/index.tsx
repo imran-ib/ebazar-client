@@ -3,9 +3,7 @@ import AdminAuth from "components/Account/Auth/Admin/AdminAuth";
 import Admin from "components/Account/Admin/Admin";
 import AdminLayout from "components/Layout/AdminLayout";
 
-interface Props {}
-
-const index = (props: Props) => {
+const index = () => {
   return (
     <AdminLayout>
       <AdminAuth>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { AuthProvider } from './AuthProvider';
+// import { AuthProvider } from './AuthProvider';
 
 const withAuth = (Component: React.FC) => () => {
   return (

@@ -9,7 +9,7 @@ import StarRatingFixed from "../Review/ReviewForm/StarRatingFixed";
 import AverageReviews from "../../Utils/AverageReviews";
 import { Item } from "generated/graphql";
 import Spinner from "react-bootstrap/Spinner";
-import { useUser } from "components/Utils/auth";
+
 import {
   useAddItemToCartMutation,
   CurrentUserDocument,

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import Layout from "components/Layout/Layout";
 import SellerAuth from "components/Account/Auth/Seller/SellerAuth";
 import UpdateItem from "components/Sell/SellForms/UpdateItem/UpdateItemForm";
@@ -8,9 +8,7 @@ import ErrorMessage from "components/Utils/ErrorMessage";
 import Spinner from "components/Utils/Spinner/Spinner";
 import Head from "next/head";
 
-interface Props {}
-
-function SellPage({}: Props): ReactElement {
+function SellPage() {
   const Router = useRouter();
   const { loading, error, data } = useItemQuery({
     //@ts-ignore

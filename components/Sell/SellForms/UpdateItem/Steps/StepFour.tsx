@@ -57,6 +57,7 @@ const StepFour = (props: Props) => {
         required={true}
         name="Overview"
         type="textarea"
+        //@ts-ignore
         value={Overview}
         label="Overview Of Item "
       />

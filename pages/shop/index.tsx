@@ -3,9 +3,7 @@ import Layout from "components/Layout/Layout";
 import Shop from "components/Shop/Shop";
 import Head from "next/head";
 
-interface props {}
-
-const ShopPage: React.FC<props> = (props) => {
+const ShopPage = () => {
   return (
     <Layout>
       <Head>

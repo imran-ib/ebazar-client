@@ -5,9 +5,7 @@ import { useUser } from "components/Utils/auth";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-interface Props {}
-
-const UserAccountPage = (props: Props) => {
+const UserAccountPage = () => {
   const router = useRouter();
   const user = useUser();
   if (user !== null) router.replace("/user/profile");

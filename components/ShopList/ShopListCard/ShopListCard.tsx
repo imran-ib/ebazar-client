@@ -138,7 +138,7 @@ const ShopListModal: React.FC<ModalProps> = ({ show, setShow, item }) => {
         </Modal.Header>
         <Modal.Body>
           <Carousel>
-            {item.images.map((img, i) => (
+            {item.images.map((img) => (
               <Carousel.Item>
                 <img
                   width="900px"

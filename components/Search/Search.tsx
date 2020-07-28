@@ -33,7 +33,7 @@ const SearchInputStyles = styled.div`
   }
 `;
 const Search = () => {
-  const [orderBy, setorderBy] = useState({ createdAt: "asc" });
+  // const [orderBy, setorderBy] = useState({ createdAt: "asc" });
   const [SearchItems, setSearchItems] = useState([]);
   const [loading, setloading] = useState(false);
   const Router = useRouter();
@@ -43,7 +43,7 @@ const Search = () => {
 
     const res = await client.query({
       query: ItemsDocument,
-      variables: { searchTerm: e.target.value, orderBy: orderBy },
+      variables: { searchTerm: e.target.value, orderBy: { createdAt: "asc" } },
     });
     setSearchItems(res.data.items);
     setloading(false);

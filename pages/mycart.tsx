@@ -3,9 +3,8 @@ import Cart from "components/Cart/MyCart";
 import Layout from "components/Layout/Layout";
 import UserAuth from "components/Account/Auth/User/UserAuth";
 // using Head --> title in components/Cart/MyCart
-interface Props {}
 
-const mycart = (props: Props) => {
+const mycart = () => {
   return (
     <Layout>
       <UserAuth>

@@ -19,8 +19,9 @@ interface Props {
 
 const StepThree = (props: Props) => {
   const [files, setFiles] = useState<File[]>([]);
-  const [LocalImage, setLocalImage] = useState([{ image: "", largeImage: "" }]);
+  // const [LocalImage, setLocalImage] = useState([{ image: "", largeImage: "" }]);
   const [loading, setLoading] = useState(false);
+  let LocalImage = [{ image: "", largeImage: "" }];
 
   const maxSize = 1048576;
 
@@ -33,7 +34,7 @@ const StepThree = (props: Props) => {
       )
     );
     setLoading(true);
-    const uploaders = acceptedFiles.map((file: any) => {
+    acceptedFiles.map((file: any) => {
       // Initial FormData
       const formData = new FormData();
       formData.append("file", file);

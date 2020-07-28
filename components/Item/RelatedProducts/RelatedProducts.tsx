@@ -1,16 +1,12 @@
 import React from "react";
-import styled from "styled-components";
 import Slider from "react-slick";
 import ItemCard from "../ItemCard/ItemCard";
 import { useItemsQuery } from "generated/graphql";
 import shuffle from "lodash.shuffle";
+// TODO Wen Don't need to fetch all item, come up with related items query
 
 const RelatedProduct = () => {
-  const { loading, error, data } = useItemsQuery({
-    variables: {
-      first: 15,
-    },
-  });
+  const { loading, error, data } = useItemsQuery();
   if (loading) return <p>loading...</p>;
   if (error) return <p> {error.message} </p>;
   const items = data?.items;
@@ -32,7 +28,7 @@ const RelatedProduct = () => {
               <>
                 <Slider {...settings}>
                   {items &&
-                    NewItems.map((item, i) => (
+                    NewItems.map((item) => (
                       <div key={item.id} className="item">
                         {/* 
                         // @ts-ignore */}
@@ -77,7 +73,4 @@ const settings = {
   ],
 };
 
-const CustumStyles = styled.div`
-  display: flex;
-`;
 export default RelatedProduct;

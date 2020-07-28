@@ -3,7 +3,6 @@ import { MDBInput } from "mdbreact";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Item } from "generated/graphql";
-import { features } from "process";
 
 const StepTwoStyles = styled.div`
   width: 80vw;
@@ -26,16 +25,16 @@ interface Props {
   setPrice: React.Dispatch<React.SetStateAction<number>>;
   setDefaultPrice: React.Dispatch<React.SetStateAction<number>>;
   setStock: React.Dispatch<React.SetStateAction<number | null | undefined>>;
-  Title: string | null | undefined;
-  Brand: string | null | undefined;
-  Weight: string | null | undefined;
-  Dimensions: string | null | undefined;
-  Materials: string | null | undefined;
-  Video: string | null | undefined;
-  Other: string | null | undefined;
-  Price: string | null | undefined | number;
-  DefaultPrice: string | null | undefined | number;
-  Stock: string | null | undefined | number;
+  Title?: string | null | any;
+  Brand?: string | null | any;
+  Weight?: string | null | any;
+  Dimensions?: string | null | any;
+  Materials?: string | null | any;
+  Video?: string | null | any;
+  Other?: string | null | any;
+  Price?: string | null | any | number;
+  DefaultPrice?: string | null | any | number;
+  Stock?: string | null | any | number;
   Disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }

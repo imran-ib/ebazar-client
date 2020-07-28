@@ -10,8 +10,8 @@ interface Props {
   me: any;
 }
 
-const UserOrders = ({ Orders, me }: Props) => {
-  const { data, loading, error } = useUsersOrdersQuery();
+const UserOrders = ({ Orders }: Props) => {
+  const { data, loading } = useUsersOrdersQuery();
   if (loading) return <Spinner />;
   if (!data?.UserOrder) return null;
   //@ts-ignore
