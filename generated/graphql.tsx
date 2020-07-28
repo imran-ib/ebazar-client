@@ -48,7 +48,9 @@ export type Query = {
 export type QueryAllAddressArgs = {
   where?: Maybe<AddressWhereInput>;
   orderBy?: Maybe<AddressOrderByInput>;
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<AddressWhereUniqueInput>;
 };
 
 
@@ -92,7 +94,9 @@ export type QueryItemArgs = {
 export type QueryItemsArgs = {
   where?: Maybe<ItemWhereInput>;
   orderBy?: Maybe<ItemOrderByInput>;
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ItemWhereUniqueInput>;
 };
 
 
@@ -615,6 +619,10 @@ export enum OrderByArg {
   Desc = 'desc'
 }
 
+export type AddressWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
 export type Address = {
   __typename?: 'Address';
   id: Scalars['String'];
@@ -656,27 +664,41 @@ export type User = {
 
 
 export type UserAddressArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<AddressWhereUniqueInput>;
 };
 
 
 export type UserOrderArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<OrderWhereUniqueInput>;
 };
 
 
 export type UserCartArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<CartItemWhereUniqueInput>;
 };
 
 
 export type UserLikesArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeWhereUniqueInput>;
 };
 
 
 export type UserItemReviewArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ReviewWhereUniqueInput>;
+};
+
+export type OrderWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type Order = {
@@ -695,7 +717,13 @@ export type Order = {
 
 
 export type OrderItemsArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<OrderItemWhereUniqueInput>;
+};
+
+export type OrderItemWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type OrderItem = {
@@ -724,17 +752,27 @@ export type OrderItem = {
 
 
 export type OrderItemLikesArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeWhereUniqueInput>;
 };
 
 
 export type OrderItemItemReviewArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ReviewWhereUniqueInput>;
 };
 
 
 export type OrderItemCatagoryArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<CatagoryWhereUniqueInput>;
+};
+
+export type LikeWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type Like = {
@@ -776,32 +814,48 @@ export type Item = {
 
 
 export type ItemLikesArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeWhereUniqueInput>;
 };
 
 
 export type ItemItemReviewArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ReviewWhereUniqueInput>;
 };
 
 
 export type ItemCatagoryArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<CatagoryWhereUniqueInput>;
 };
 
 
 export type ItemTagsArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<TagWhereUniqueInput>;
 };
 
 
 export type ItemColorsArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ColorWhereUniqueInput>;
 };
 
 
 export type ItemCartItemArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<CartItemWhereUniqueInput>;
+};
+
+export type ReviewWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type Review = {
@@ -821,12 +875,20 @@ export type Review = {
 
 
 export type ReviewUpVoteArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<UpReviewWhereUniqueInput>;
 };
 
 
 export type ReviewDownVoteArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<DownReviewWhereUniqueInput>;
+};
+
+export type UpReviewWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type UpReview = {
@@ -841,6 +903,10 @@ export type UpReview = {
   createdAt: Scalars['DateTime'];
 };
 
+export type DownReviewWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
 export type DownReview = {
   __typename?: 'DownReview';
   id: Scalars['String'];
@@ -853,12 +919,20 @@ export type DownReview = {
   createdAt: Scalars['DateTime'];
 };
 
+export type CatagoryWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
 export type Catagory = {
   __typename?: 'Catagory';
   id: Scalars['String'];
   text: Scalars['String'];
   item: Item;
   itemId: Scalars['String'];
+};
+
+export type TagWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type Tag = {
@@ -869,12 +943,20 @@ export type Tag = {
   itemId: Scalars['String'];
 };
 
+export type ColorWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
 export type Color = {
   __typename?: 'Color';
   id: Scalars['String'];
   text: Scalars['String'];
   item: Item;
   itemId: Scalars['String'];
+};
+
+export type CartItemWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type CartItem = {
@@ -885,10 +967,6 @@ export type CartItem = {
   itemId: Scalars['String'];
   user: User;
   userId: Scalars['String'];
-};
-
-export type AddressWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
 };
 
 export type Seller = {
@@ -911,12 +989,43 @@ export type Seller = {
 
 
 export type SellerPickupLocationsArgs = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<AddressWhereUniqueInput>;
 };
 
 
 export type SellerItemsArgs = {
+  where?: Maybe<ItemWhereInput>;
+  orderBy?: Maybe<ItemOrderByInput>;
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ItemWhereUniqueInput>;
+};
+
+export type ItemOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  title?: Maybe<OrderByArg>;
+  description?: Maybe<OrderByArg>;
+  overview?: Maybe<OrderByArg>;
+  brand?: Maybe<OrderByArg>;
+  weight?: Maybe<OrderByArg>;
+  dimensions?: Maybe<OrderByArg>;
+  materials?: Maybe<OrderByArg>;
+  otherInfo?: Maybe<OrderByArg>;
+  videoLink?: Maybe<OrderByArg>;
+  sellerId?: Maybe<OrderByArg>;
+  price?: Maybe<OrderByArg>;
+  beforeDiscountPrice?: Maybe<OrderByArg>;
+  stock?: Maybe<OrderByArg>;
+  likesCount?: Maybe<OrderByArg>;
+  reviewCount?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export type ItemWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type UserConnection = {
@@ -962,31 +1071,6 @@ export type SellerEdge = {
   cursor: Scalars['String'];
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: Seller;
-};
-
-export type ItemWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type ItemOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  title?: Maybe<OrderByArg>;
-  description?: Maybe<OrderByArg>;
-  overview?: Maybe<OrderByArg>;
-  brand?: Maybe<OrderByArg>;
-  weight?: Maybe<OrderByArg>;
-  dimensions?: Maybe<OrderByArg>;
-  materials?: Maybe<OrderByArg>;
-  otherInfo?: Maybe<OrderByArg>;
-  videoLink?: Maybe<OrderByArg>;
-  sellerId?: Maybe<OrderByArg>;
-  price?: Maybe<OrderByArg>;
-  beforeDiscountPrice?: Maybe<OrderByArg>;
-  stock?: Maybe<OrderByArg>;
-  likesCount?: Maybe<OrderByArg>;
-  reviewCount?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
 };
 
 export type ItemConnection = {
@@ -2515,10 +2599,6 @@ export type UserWhereUniqueInput = {
   email?: Maybe<Scalars['String']>;
 };
 
-export type DownReviewWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
 export type OrderItemCreateOneWithoutItemReviewInput = {
   create?: Maybe<OrderItemCreateWithoutItemReviewInput>;
   connect?: Maybe<OrderItemWhereUniqueInput>;
@@ -2635,42 +2715,6 @@ export type ReviewCreateWithoutDownVoteInput = {
   author: UserCreateOneWithoutItemReviewInput;
   upVote?: Maybe<UpReviewCreateManyWithoutReviewInput>;
   OrderItem?: Maybe<OrderItemCreateOneWithoutItemReviewInput>;
-};
-
-export type ReviewWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type OrderWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type OrderItemWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type UpReviewWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type CartItemWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type ColorWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type LikeWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type TagWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
-export type CatagoryWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
 };
 
 export type SellerUpdateWithoutPickupLocationsDataInput = {
@@ -5607,7 +5651,9 @@ export type TotalItemsCountQuery = (
 );
 
 export type ItemsQueryVariables = {
+  take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ItemWhereUniqueInput>;
   MinPrice?: Maybe<Scalars['Float']>;
   MaxPrice?: Maybe<Scalars['Float']>;
   orderBy?: Maybe<ItemOrderByInput>;
@@ -8027,8 +8073,8 @@ export type TotalItemsCountQueryHookResult = ReturnType<typeof useTotalItemsCoun
 export type TotalItemsCountLazyQueryHookResult = ReturnType<typeof useTotalItemsCountLazyQuery>;
 export type TotalItemsCountQueryResult = ApolloReactCommon.QueryResult<TotalItemsCountQuery, TotalItemsCountQueryVariables>;
 export const ItemsDocument = gql`
-    query Items($skip: Int, $MinPrice: Float, $MaxPrice: Float, $orderBy: ItemOrderByInput, $searchTerm: String, $tag: String, $catagory: String) {
-  items(skip: $skip, where: {AND: [{price: {gte: $MinPrice}}, {price: {lte: $MaxPrice}}], OR: [{title: {contains: $searchTerm}}, {tags: {some: {text: {contains: $searchTerm}}}}, {catagory: {some: {text: {contains: $searchTerm}}}}, {description: {contains: $searchTerm}}, {overview: {contains: $searchTerm}}, {brand: {contains: $searchTerm}}, {otherInfo: {contains: $searchTerm}}], tags: {some: {text: {contains: $tag}}}, catagory: {some: {text: {contains: $catagory}}}}, orderBy: $orderBy) {
+    query Items($take: Int, $skip: Int, $cursor: ItemWhereUniqueInput, $MinPrice: Float, $MaxPrice: Float, $orderBy: ItemOrderByInput, $searchTerm: String, $tag: String, $catagory: String) {
+  items(take: $take, skip: $skip, cursor: $cursor, where: {AND: [{price: {gte: $MinPrice}}, {price: {lte: $MaxPrice}}], OR: [{title: {contains: $searchTerm}}, {tags: {some: {text: {contains: $searchTerm}}}}, {catagory: {some: {text: {contains: $searchTerm}}}}, {description: {contains: $searchTerm}}, {overview: {contains: $searchTerm}}, {brand: {contains: $searchTerm}}, {otherInfo: {contains: $searchTerm}}], tags: {some: {text: {contains: $tag}}}, catagory: {some: {text: {contains: $catagory}}}}, orderBy: $orderBy) {
     id
     likes {
       id
@@ -8118,7 +8164,9 @@ export function withItems<TProps, TChildProps = {}, TDataName extends string = '
  * @example
  * const { data, loading, error } = useItemsQuery({
  *   variables: {
+ *      take: // value for 'take'
  *      skip: // value for 'skip'
+ *      cursor: // value for 'cursor'
  *      MinPrice: // value for 'MinPrice'
  *      MaxPrice: // value for 'MaxPrice'
  *      orderBy: // value for 'orderBy'

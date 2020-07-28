@@ -8,7 +8,7 @@ import Head from "next/head";
 const HomePage = () => {
   const { loading, error, data } = useItemsQuery({
     variables: {
-      first: 20,
+      take: 20,
       //@ts-ignore
       orderBy: { createdAt: "asc" },
     },

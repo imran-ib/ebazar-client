@@ -141,7 +141,7 @@ const SellerLoggedInState = ({ showPagesLink }: any) => {
     },
     {
       id: 5,
-      to: "/About Us",
+      to: "/About",
       text: "About Us",
     },
   ];

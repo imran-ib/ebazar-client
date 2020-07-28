@@ -174,8 +174,9 @@ export const TotalItemsCount = gql`
 `;
 export const Items = gql`
   query Items(
+    $take: Int
     $skip: Int
-    
+    $cursor: ItemWhereUniqueInput
     $MinPrice: Float
     $MaxPrice: Float
     $orderBy: ItemOrderByInput
@@ -184,8 +185,10 @@ export const Items = gql`
     $catagory: String
   ) {
     items(
+      take: $take
       skip: $skip
-     
+      cursor: $cursor
+
       where: {
         AND: [{ price: { gte: $MinPrice } }, { price: { lte: $MaxPrice } }]
         OR: [

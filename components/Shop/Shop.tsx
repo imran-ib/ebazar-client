@@ -23,7 +23,7 @@ const Shop = () => {
   const { loading, error, data } = useItemsQuery({
     variables: {
       skip: page * 6 - 6,
-      first: 6,
+      take: 6,
       MinPrice: MinPrice * 100, // convert cents to dollor
       MaxPrice: MAxPrice * 100,
       //@ts-ignore
