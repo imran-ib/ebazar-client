@@ -395,7 +395,7 @@ export const RemoveAllLikes = gql`
 `;
 export const ItemsConnections = gql`
   query ItemsConnections(
-    $first: Int! = 6
+    $first: Int! = 10
     $after: String
     $tag: String
     $category: String
@@ -476,7 +476,7 @@ export const ItemsConnections = gql`
   }
 `;
 export const SearchTermResults = gql`
-  query SearchTermResult($first: Int! = 6, $after: String, $term: String!) {
+  query SearchTermResult($first: Int! = 10, $after: String, $term: String!) {
     SearchTermResults(first: $first, term: $term, after: $after) {
       edges {
         cursor

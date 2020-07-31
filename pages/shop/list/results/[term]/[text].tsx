@@ -47,10 +47,11 @@ const TagsSearch = () => {
       tag: text,
     },
   });
+  const endCursor = data?.ItemConnections.pageInfo.endCursor;
   const OnLoadMore = () => {
     fetchMore({
       variables: {
-        after: data?.ItemConnections.pageInfo.endCursor,
+        after: endCursor,
       },
       updateQuery: (previousResult: any, { fetchMoreResult }: any) => {
         const newEdges = fetchMoreResult?.ItemConnections?.edges;
@@ -62,7 +63,6 @@ const TagsSearch = () => {
           edges: [...prevData, ...newEdges],
           pageInfo,
         };
-
         return newEdges.length ? { ItemConnections: data } : previousResult;
       },
     });

@@ -74,6 +74,7 @@ export type QueryItemsArgs = {
 
 
 export type QueryAllItemsArgs = {
+  skip?: Maybe<Scalars['Int']>;
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
 };
@@ -95,18 +96,21 @@ export type QueryUserLikesArgs = {
 
 
 export type QueryAllUsersArgs = {
+  skip?: Maybe<Scalars['Int']>;
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
 };
 
 
 export type QueryAllSellerArgs = {
+  skip?: Maybe<Scalars['Int']>;
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
 };
 
 
 export type QuerySearchTermResultsArgs = {
+  skip?: Maybe<Scalars['Int']>;
   term: Scalars['String'];
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
@@ -114,6 +118,7 @@ export type QuerySearchTermResultsArgs = {
 
 
 export type QueryItemConnectionsArgs = {
+  skip?: Maybe<Scalars['Int']>;
   tag?: Maybe<Scalars['String']>;
   category?: Maybe<Scalars['String']>;
   first: Scalars['Int'];
@@ -8839,7 +8844,7 @@ export type RemoveAllLikesMutationHookResult = ReturnType<typeof useRemoveAllLik
 export type RemoveAllLikesMutationResult = ApolloReactCommon.MutationResult<RemoveAllLikesMutation>;
 export type RemoveAllLikesMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveAllLikesMutation, RemoveAllLikesMutationVariables>;
 export const ItemsConnectionsDocument = gql`
-    query ItemsConnections($first: Int! = 6, $after: String, $tag: String, $category: String) {
+    query ItemsConnections($first: Int! = 10, $after: String, $tag: String, $category: String) {
   ItemConnections(first: $first, after: $after, tag: $tag, category: $category) {
     edges {
       cursor
@@ -8959,7 +8964,7 @@ export type ItemsConnectionsQueryHookResult = ReturnType<typeof useItemsConnecti
 export type ItemsConnectionsLazyQueryHookResult = ReturnType<typeof useItemsConnectionsLazyQuery>;
 export type ItemsConnectionsQueryResult = ApolloReactCommon.QueryResult<ItemsConnectionsQuery, ItemsConnectionsQueryVariables>;
 export const SearchTermResultDocument = gql`
-    query SearchTermResult($first: Int! = 6, $after: String, $term: String!) {
+    query SearchTermResult($first: Int! = 10, $after: String, $term: String!) {
   SearchTermResults(first: $first, term: $term, after: $after) {
     edges {
       cursor
