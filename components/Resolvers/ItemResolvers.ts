@@ -188,7 +188,6 @@ export const Items = gql`
       take: $take
       skip: $skip
       cursor: $cursor
-
       where: {
         AND: [{ price: { gte: $MinPrice } }, { price: { lte: $MaxPrice } }]
         OR: [

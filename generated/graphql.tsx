@@ -20,6 +20,10 @@ export type Query = {
   __typename?: 'Query';
   AllAddress: Array<Address>;
   SingleAddress?: Maybe<Address>;
+  item?: Maybe<Item>;
+  items: Array<Item>;
+  itemCount: Scalars['Int'];
+  AllItems: ItemConnection;
   /** Currently Logged in User */
   CurrentUser?: Maybe<User>;
   /** Currently Logged in Seller */
@@ -36,12 +40,8 @@ export type Query = {
   isAdmin: Scalars['Boolean'];
   AllUsers: UserConnection;
   AllSeller: SellerConnection;
-  item?: Maybe<Item>;
-  items: Array<Item>;
-  itemCount: Scalars['Int'];
-  AllItems: ItemConnection;
-  ItemConnections: ItemConnection;
   SearchTermResults: ItemConnection;
+  ItemConnections: ItemConnection;
 };
 
 
@@ -56,6 +56,26 @@ export type QueryAllAddressArgs = {
 
 export type QuerySingleAddressArgs = {
   where: AddressWhereUniqueInput;
+};
+
+
+export type QueryItemArgs = {
+  where: ItemWhereUniqueInput;
+};
+
+
+export type QueryItemsArgs = {
+  where?: Maybe<ItemWhereInput>;
+  orderBy?: Maybe<ItemOrderByInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<ItemWhereUniqueInput>;
+};
+
+
+export type QueryAllItemsArgs = {
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
 };
 
 
@@ -86,21 +106,8 @@ export type QueryAllSellerArgs = {
 };
 
 
-export type QueryItemArgs = {
-  where: ItemWhereUniqueInput;
-};
-
-
-export type QueryItemsArgs = {
-  where?: Maybe<ItemWhereInput>;
-  orderBy?: Maybe<ItemOrderByInput>;
-  take?: Maybe<Scalars['Int']>;
-  skip?: Maybe<Scalars['Int']>;
-  cursor?: Maybe<ItemWhereUniqueInput>;
-};
-
-
-export type QueryAllItemsArgs = {
+export type QuerySearchTermResultsArgs = {
+  term: Scalars['String'];
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
 };
@@ -109,13 +116,6 @@ export type QueryAllItemsArgs = {
 export type QueryItemConnectionsArgs = {
   tag?: Maybe<Scalars['String']>;
   category?: Maybe<Scalars['String']>;
-  first: Scalars['Int'];
-  after?: Maybe<Scalars['String']>;
-};
-
-
-export type QuerySearchTermResultsArgs = {
-  term: Scalars['String'];
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
 };
@@ -969,6 +969,60 @@ export type CartItem = {
   userId: Scalars['String'];
 };
 
+export type ItemWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
+export type ItemOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  title?: Maybe<OrderByArg>;
+  description?: Maybe<OrderByArg>;
+  overview?: Maybe<OrderByArg>;
+  brand?: Maybe<OrderByArg>;
+  weight?: Maybe<OrderByArg>;
+  dimensions?: Maybe<OrderByArg>;
+  materials?: Maybe<OrderByArg>;
+  otherInfo?: Maybe<OrderByArg>;
+  videoLink?: Maybe<OrderByArg>;
+  sellerId?: Maybe<OrderByArg>;
+  price?: Maybe<OrderByArg>;
+  beforeDiscountPrice?: Maybe<OrderByArg>;
+  stock?: Maybe<OrderByArg>;
+  likesCount?: Maybe<OrderByArg>;
+  reviewCount?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export type ItemConnection = {
+  __typename?: 'ItemConnection';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges?: Maybe<Array<Maybe<ItemEdge>>>;
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo;
+};
+
+export type ItemEdge = {
+  __typename?: 'ItemEdge';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String'];
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: Item;
+};
+
+/** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** Used to indicate whether more edges exist following the set defined by the clients arguments. */
+  hasNextPage: Scalars['Boolean'];
+  /** Used to indicate whether more edges exist prior to the set defined by the clients arguments. */
+  hasPreviousPage: Scalars['Boolean'];
+  /** The cursor corresponding to the first nodes in edges. Null if the connection is empty. */
+  startCursor?: Maybe<Scalars['String']>;
+  /** The cursor corresponding to the last nodes in edges. Null if the connection is empty. */
+  endCursor?: Maybe<Scalars['String']>;
+};
+
 export type Seller = {
   __typename?: 'Seller';
   id: Scalars['String'];
@@ -1003,31 +1057,6 @@ export type SellerItemsArgs = {
   cursor?: Maybe<ItemWhereUniqueInput>;
 };
 
-export type ItemOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  title?: Maybe<OrderByArg>;
-  description?: Maybe<OrderByArg>;
-  overview?: Maybe<OrderByArg>;
-  brand?: Maybe<OrderByArg>;
-  weight?: Maybe<OrderByArg>;
-  dimensions?: Maybe<OrderByArg>;
-  materials?: Maybe<OrderByArg>;
-  otherInfo?: Maybe<OrderByArg>;
-  videoLink?: Maybe<OrderByArg>;
-  sellerId?: Maybe<OrderByArg>;
-  price?: Maybe<OrderByArg>;
-  beforeDiscountPrice?: Maybe<OrderByArg>;
-  stock?: Maybe<OrderByArg>;
-  likesCount?: Maybe<OrderByArg>;
-  reviewCount?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type ItemWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-};
-
 export type UserConnection = {
   __typename?: 'UserConnection';
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
@@ -1042,19 +1071,6 @@ export type UserEdge = {
   cursor: Scalars['String'];
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: User;
-};
-
-/** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** Used to indicate whether more edges exist following the set defined by the clients arguments. */
-  hasNextPage: Scalars['Boolean'];
-  /** Used to indicate whether more edges exist prior to the set defined by the clients arguments. */
-  hasPreviousPage: Scalars['Boolean'];
-  /** The cursor corresponding to the first nodes in edges. Null if the connection is empty. */
-  startCursor?: Maybe<Scalars['String']>;
-  /** The cursor corresponding to the last nodes in edges. Null if the connection is empty. */
-  endCursor?: Maybe<Scalars['String']>;
 };
 
 export type SellerConnection = {
@@ -1073,27 +1089,11 @@ export type SellerEdge = {
   node: Seller;
 };
 
-export type ItemConnection = {
-  __typename?: 'ItemConnection';
-  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
-  edges?: Maybe<Array<Maybe<ItemEdge>>>;
-  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
-  pageInfo: PageInfo;
-};
-
-export type ItemEdge = {
-  __typename?: 'ItemEdge';
-  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
-  cursor: Scalars['String'];
-  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
-  node: Item;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create New User */
-  CreateUser: Scalars['String'];
-  UserLogin: Scalars['String'];
+  CreateUser: AuthPayload;
+  UserLogin: AuthPayload;
   /** Log User Out */
   UserLogout: Scalars['String'];
   /** User Request A Password Reset */
@@ -1103,17 +1103,8 @@ export type Mutation = {
   /** User Reset Password */
   ResetUsersPasswordFromProfile: Scalars['String'];
   DeleteUserAccount: Scalars['String'];
-  updateOneAddress?: Maybe<Address>;
-  deleteOneAddress?: Maybe<Address>;
-  deleteUserAddresses: BatchPayload;
-  /** Create Users Address */
-  CreateAddress: Address;
-  /** Toggle Primary Address */
-  TogglePrimaryAddress: Address;
-  /** Contact Form */
-  ContactUs: Scalars['String'];
   /** Create New Seller Account */
-  CreateSeller: Seller;
+  CreateSeller: Scalars['String'];
   /** Verify Seller Account */
   VerifySeller: Scalars['String'];
   /** Seller Request Email verification */
@@ -1146,6 +1137,15 @@ export type Mutation = {
   DeleteCartItem: CartItem;
   EmptyUserCart: Scalars['String'];
   CreateOrder: Order;
+  updateOneAddress?: Maybe<Address>;
+  deleteOneAddress?: Maybe<Address>;
+  deleteUserAddresses: BatchPayload;
+  /** Create Users Address */
+  CreateAddress: Address;
+  /** Toggle Primary Address */
+  TogglePrimaryAddress: Address;
+  /** Contact Form */
+  ContactUs: Scalars['String'];
   /** Update User Or Seller's Roles */
   UpdateRole: Scalars['String'];
 };
@@ -1186,53 +1186,6 @@ export type MutationResetUsersPasswordFromProfileArgs = {
 
 export type MutationDeleteUserAccountArgs = {
   userId: Scalars['String'];
-};
-
-
-export type MutationUpdateOneAddressArgs = {
-  data: AddressUpdateInput;
-  where: AddressWhereUniqueInput;
-};
-
-
-export type MutationDeleteOneAddressArgs = {
-  where: AddressWhereUniqueInput;
-};
-
-
-export type MutationDeleteUserAddressesArgs = {
-  where?: Maybe<AddressWhereInput>;
-};
-
-
-export type MutationCreateAddressArgs = {
-  name: Scalars['String'];
-  address: Scalars['String'];
-  MaincontactNubmer: Scalars['String'];
-  country: Scalars['String'];
-  state: Scalars['String'];
-  city: Scalars['String'];
-  streetAddress1?: Maybe<Scalars['String']>;
-  streetAddress2?: Maybe<Scalars['String']>;
-  zipCode?: Maybe<Scalars['String']>;
-  company?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  additionalInfo?: Maybe<Scalars['String']>;
-  OthercontactNubmers?: Maybe<Array<Scalars['String']>>;
-  Lat?: Maybe<Scalars['Float']>;
-  Lng?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationTogglePrimaryAddressArgs = {
-  addressId: Scalars['String'];
-};
-
-
-export type MutationContactUsArgs = {
-  email: Scalars['String'];
-  subject: Scalars['String'];
-  message: Scalars['String'];
 };
 
 
@@ -1391,10 +1344,64 @@ export type MutationCreateOrderArgs = {
 };
 
 
+export type MutationUpdateOneAddressArgs = {
+  data: AddressUpdateInput;
+  where: AddressWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneAddressArgs = {
+  where: AddressWhereUniqueInput;
+};
+
+
+export type MutationDeleteUserAddressesArgs = {
+  where?: Maybe<AddressWhereInput>;
+};
+
+
+export type MutationCreateAddressArgs = {
+  name: Scalars['String'];
+  address: Scalars['String'];
+  MaincontactNubmer: Scalars['String'];
+  country: Scalars['String'];
+  state: Scalars['String'];
+  city: Scalars['String'];
+  streetAddress1?: Maybe<Scalars['String']>;
+  streetAddress2?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  company?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  additionalInfo?: Maybe<Scalars['String']>;
+  OthercontactNubmers?: Maybe<Array<Scalars['String']>>;
+  Lat?: Maybe<Scalars['Float']>;
+  Lng?: Maybe<Scalars['Float']>;
+};
+
+
+export type MutationTogglePrimaryAddressArgs = {
+  addressId: Scalars['String'];
+};
+
+
+export type MutationContactUsArgs = {
+  email: Scalars['String'];
+  subject: Scalars['String'];
+  message: Scalars['String'];
+};
+
+
 export type MutationUpdateRoleArgs = {
   userId?: Maybe<Scalars['String']>;
   sellerId?: Maybe<Scalars['String']>;
   role?: Maybe<Role>;
+};
+
+export type AuthPayload = {
+  __typename?: 'AuthPayload';
+  token: Scalars['String'];
+  user?: Maybe<User>;
+  seller?: Maybe<Seller>;
 };
 
 export type AddressUpdateInput = {
@@ -5344,7 +5351,10 @@ export type User_Login_MutationMutationVariables = {
 
 export type User_Login_MutationMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'UserLogin'>
+  & { UserLogin: (
+    { __typename?: 'AuthPayload' }
+    & Pick<AuthPayload, 'token'>
+  ) }
 );
 
 export type Register_UserMutationVariables = {
@@ -5356,7 +5366,10 @@ export type Register_UserMutationVariables = {
 
 export type Register_UserMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'CreateUser'>
+  & { CreateUser: (
+    { __typename?: 'AuthPayload' }
+    & Pick<AuthPayload, 'token'>
+  ) }
 );
 
 export type UserLogoutMutationVariables = {};
@@ -5452,17 +5465,7 @@ export type CreateSellerMutationVariables = {
 
 export type CreateSellerMutation = (
   { __typename?: 'Mutation' }
-  & { CreateSeller: (
-    { __typename?: 'Seller' }
-    & Pick<Seller, 'id' | 'name' | 'email' | 'storeName' | 'sellerNationality' | 'EmailIsVerified' | 'SellerItemsCout' | 'role' | 'phone' | 'Brand' | 'permissions'>
-    & { items: Array<(
-      { __typename?: 'Item' }
-      & Pick<Item, 'title' | 'images'>
-    )>, PickupLocations: Array<(
-      { __typename?: 'Address' }
-      & Pick<Address, 'name' | 'address'>
-    )> }
-  ) }
+  & Pick<Mutation, 'CreateSeller'>
 );
 
 export type VerifySellerMutationVariables = {
@@ -6923,7 +6926,9 @@ export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLaz
 export type CurrentUserQueryResult = ApolloReactCommon.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
 export const User_Login_MutationDocument = gql`
     mutation USER_LOGIN_MUTATION($email: String!, $password: String!) {
-  UserLogin(email: $email, password: $password)
+  UserLogin(email: $email, password: $password) {
+    token
+  }
 }
     `;
 export type User_Login_MutationMutationFn = ApolloReactCommon.MutationFunction<User_Login_MutationMutation, User_Login_MutationMutationVariables>;
@@ -6973,7 +6978,9 @@ export type User_Login_MutationMutationResult = ApolloReactCommon.MutationResult
 export type User_Login_MutationMutationOptions = ApolloReactCommon.BaseMutationOptions<User_Login_MutationMutation, User_Login_MutationMutationVariables>;
 export const Register_UserDocument = gql`
     mutation REGISTER_USER($name: String!, $email: String!, $password: String!) {
-  CreateUser(name: $name, email: $email, password: $password)
+  CreateUser(name: $name, email: $email, password: $password) {
+    token
+  }
 }
     `;
 export type Register_UserMutationFn = ApolloReactCommon.MutationFunction<Register_UserMutation, Register_UserMutationVariables>;
@@ -7338,27 +7345,7 @@ export type CurrentSellerLazyQueryHookResult = ReturnType<typeof useCurrentSelle
 export type CurrentSellerQueryResult = ApolloReactCommon.QueryResult<CurrentSellerQuery, CurrentSellerQueryVariables>;
 export const CreateSellerDocument = gql`
     mutation CreateSeller($name: String!, $email: String!, $password: String!, $confirmPassword: String!, $storeName: String!, $sellerNationality: String!, $sellerIdentification: String!, $Brand: [String!], $AddressName: String!, $AddressAddress: String!, $AddressCountry: String, $AddressState: String, $AddressCity: String, $AddressZipCode: String, $AddressMaincontactNubmer: String!, $AddressStreetAddress1: String, $AddressStreetAddress2: String, $AddressCompany: String) {
-  CreateSeller(name: $name, email: $email, password: $password, confirmPassword: $confirmPassword, storeName: $storeName, sellerNationality: $sellerNationality, sellerIdentification: $sellerIdentification, Brand: $Brand, AddressName: $AddressName, AddressAddress: $AddressAddress, AddressCountry: $AddressCountry, AddressState: $AddressState, AddressCity: $AddressCity, AddressZipCode: $AddressZipCode, AddressMaincontactNubmer: $AddressMaincontactNubmer, AddressStreetAddress1: $AddressStreetAddress1, AddressStreetAddress2: $AddressStreetAddress2, AddressCompany: $AddressCompany) {
-    id
-    name
-    email
-    storeName
-    sellerNationality
-    EmailIsVerified
-    SellerItemsCout
-    role
-    phone
-    Brand
-    items {
-      title
-      images
-    }
-    PickupLocations {
-      name
-      address
-    }
-    permissions
-  }
+  CreateSeller(name: $name, email: $email, password: $password, confirmPassword: $confirmPassword, storeName: $storeName, sellerNationality: $sellerNationality, sellerIdentification: $sellerIdentification, Brand: $Brand, AddressName: $AddressName, AddressAddress: $AddressAddress, AddressCountry: $AddressCountry, AddressState: $AddressState, AddressCity: $AddressCity, AddressZipCode: $AddressZipCode, AddressMaincontactNubmer: $AddressMaincontactNubmer, AddressStreetAddress1: $AddressStreetAddress1, AddressStreetAddress2: $AddressStreetAddress2, AddressCompany: $AddressCompany)
 }
     `;
 export type CreateSellerMutationFn = ApolloReactCommon.MutationFunction<CreateSellerMutation, CreateSellerMutationVariables>;

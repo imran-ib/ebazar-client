@@ -63,13 +63,17 @@ export const CurrentUser = gql`
 `;
 export const USER_LOGIN_MUTATION = gql`
   mutation USER_LOGIN_MUTATION($email: String!, $password: String!) {
-    UserLogin(email: $email, password: $password)
+    UserLogin(email: $email, password: $password) {
+      token
+    }
   }
 `;
 
 export const REGISTER_USER_MUTATION = gql`
   mutation REGISTER_USER($name: String!, $email: String!, $password: String!) {
-    CreateUser(name: $name, email: $email, password: $password)
+    CreateUser(name: $name, email: $email, password: $password) {
+      token
+    }
   }
 `;
 
@@ -175,27 +179,7 @@ export const CreateSeller = gql`
       AddressStreetAddress1: $AddressStreetAddress1
       AddressStreetAddress2: $AddressStreetAddress2
       AddressCompany: $AddressCompany
-    ) {
-      id
-      name
-      email
-      storeName
-      sellerNationality
-      EmailIsVerified
-      SellerItemsCout
-      role
-      phone
-      Brand
-      items {
-        title
-        images
-      }
-      PickupLocations {
-        name
-        address
-      }
-      permissions
-    }
+    )
   }
 `;
 
