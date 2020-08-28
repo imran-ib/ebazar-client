@@ -5,6 +5,33 @@ const Meta = () => (
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charSet="utf-8" />
     <link rel="shortcut icon" href="/static/img/favicon/favicon-16x16.png" />
+
+    <meta name="description" content="" />
+
+    {/*<!-- Google / Search Engine Tags -->*/}
+    <meta property="name" content="eBazar" />
+    <meta
+      property="description"
+      content="A Fullstack e-commerce Project Build For Demonstration My Skills"
+    />
+    <meta
+      property="image"
+      content="https://res.cloudinary.com/iib-webdevs/image/upload/v1598638814/DontDeleteMe/ebazar-1.png"
+    />
+
+    {/*<!-- Facebook Meta Tags -->*/}
+    <meta property="og:title" content="eBazar" />
+    <meta
+      property="og:description"
+      content="A Fullstack e-commerce Project Build For Demonstration My Skills"
+    />
+    <meta
+      property="og:image"
+      content="https://res.cloudinary.com/iib-webdevs/image/upload/v1598638814/DontDeleteMe/ebazar-1.png"
+    />
+    <meta property="og:url" content="https://demoebazar.com/" />
+    <meta property="og:type" content="website" />
+
     {/* Twitter Card */}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@_imran_ib" />
