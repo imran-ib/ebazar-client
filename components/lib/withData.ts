@@ -4,8 +4,8 @@ import { getDataFromTree } from "@apollo/react-ssr";
 import { createUploadLink } from "apollo-upload-client";
 import withApollo from "next-with-apollo";
 
-const endpoint = `http://localhost:4444`;
-const prodEndpoint = "https://ebazar-server.herokuapp.com/";
+// const endpoint = `http://localhost:4444`;
+// const prodEndpoint = "https://ebazar-server.herokuapp.com/";
 
 function createClient({ headers, initialState }: any) {
   const client = new ApolloClient({
@@ -24,8 +24,8 @@ function createClient({ headers, initialState }: any) {
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
-        uri: process.env.NODE_ENV === "development" ? endpoint : endpoint,
-        // uri: "https://ebazar-server.herokuapp.com/",
+        // uri: process.env.NODE_ENV === "development" ? endpoint : endpoint,
+        uri: "https://ebazar-server.herokuapp.com/",
         fetchOptions: {
           credentials: "include",
         },
