@@ -24,7 +24,7 @@ function createClient({ headers, initialState }: any) {
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
-        uri: process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
+        uri: process.env.NODE_ENV === "development" ? endpoint : endpoint,
         // uri: "https://ebazar-server.herokuapp.com/",
         fetchOptions: {
           credentials: "include",

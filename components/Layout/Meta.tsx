@@ -5,6 +5,16 @@ const Meta = () => (
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charSet="utf-8" />
     <link rel="shortcut icon" href="/static/img/favicon/favicon-16x16.png" />
+    {/* Twitter Card */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@_imran_ib" />
+    <meta name="twitter:title" content="eBazar" />
+    <meta
+      name="twitter:description"
+      content="A Fullstack e-commerce Project Build For Demonstration My Skills"
+    />
+    <meta name="twitter:image" content="/static/card.png" />
+
     <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/icons.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/plugins.css" />

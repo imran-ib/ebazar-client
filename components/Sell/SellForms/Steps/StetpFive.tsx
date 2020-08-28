@@ -70,14 +70,15 @@ const StepFive = (props: Props) => {
         videoLink: data.Video,
       },
     })
-      .then(() => toast.success(`Success! Item Is Created`))
+      .then(() => {
+        toast.success(`Success! Item Is Created`);
+        Router.push({
+          pathname: `/item`,
+          //@ts-ignore
+          query: { id: item?.data.CreateItem.id },
+        });
+      })
       .catch((err) => toast.error(err.message));
-
-    Router.push({
-      pathname: `/item`,
-      //@ts-ignore
-      query: { id: item?.data.CreateItem.id },
-    });
   };
   const DescriptionActive = () => {
     setInformation(false);

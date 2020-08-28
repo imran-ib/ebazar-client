@@ -15,6 +15,7 @@
 - [ ] Why SubTotal Component is empty in cartItem
 - [ ] Style emails
 - [ ] performance
+      [Finish This course](https://devcourses.net/en/course/modern-devtools)
 - [ ] Fix For Small Screens
 - [ ] Fix console warnings and errors
 - [ ] write Tests

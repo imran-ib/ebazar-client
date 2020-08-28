@@ -7,8 +7,10 @@ const Account = () => {
   const [Register, setRegister] = useState(false);
 
   const ActivateLogin = () => {
-    setLogin(true), setRegister(false);
+    setLogin(true);
+    setRegister(false);
   };
+
   const ActivateRegister = () => {
     setRegister(true);
     setLogin(false);
