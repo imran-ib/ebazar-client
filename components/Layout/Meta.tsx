@@ -13,7 +13,10 @@ const Meta = () => (
       name="twitter:description"
       content="A Fullstack e-commerce Project Build For Demonstration My Skills"
     />
-    <meta name="twitter:image" content="/static/card.png" />
+    <meta
+      name="twitter:image"
+      content="https://res.cloudinary.com/iib-webdevs/image/upload/v1598638814/DontDeleteMe/ebazar-1.png"
+    />
 
     <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/icons.min.css" />
